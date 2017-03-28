@@ -1,5 +1,5 @@
 //==================================================================================================
-// This is the Jenkins pipeline script for building the OMAR OMS plugin
+// This is the Jenkins pipeline script for building the OMAR oms plugin.
 // Environment varialbes that MUST be passed in by Jenkins:
 //    OSSIM_GIT_BRANCH: The tag of the branch to be built. Typically dev or master.
 //
@@ -13,8 +13,9 @@
 // TODO: get to run on any node
 node("master"){
     def workspaceDir = pwd()
-    def appName = "omar-oms"
+    def appName = "omar-core"
     def omarCommonProjName = "omar-common"
+    env.OMAR_COMMON_PROPERTIES="${workspaceDir}/${omarCommonProjName}/omar-common-properties.gradle"
 
     stage("Checkout"){
         dir("ossim-ci") {
@@ -28,21 +29,15 @@ node("master"){
             git branch: "${OSSIM_GIT_BRANCH}", url: "https://github.com/ossimlabs/${omarCommonProjName}.git"
         }
 
-        // Set the environment variable for the gradle build
-        // env.OMAR_COMMON_PROPERTIES="${workspaceDir}/${omarCommonProjName}/omar-common-properties.gradle"
-
         notifyObj = load "${workspaceDir}/ossim-ci/jenkins/pipeline/notify.groovy"
     }
 
     try {
-      stage("Build"){
-        env.OMAR_COMMON_PROPERTIES="${workspaceDir}/${omarCommonProjName}/omar-common-properties.gradle"
-
-        // cd into the code directory to pick up the local build.gradle when building
-        // build the plugin
+     stage ("Publish Plugin Artifactory")
+      {
         sh """
         pushd ${workspaceDir}/${appName}/plugins/${appName}-plugin
-        ./gradlew install
+        ./gradlew artifactoryPublish
         popd
         """
       }
@@ -55,4 +50,3 @@ node("master"){
   stage("Clean Workspace"){
      step([$class: 'WsCleanup'])
   }
-}
