@@ -13,7 +13,7 @@
 // TODO: get to run on any node
 node("master"){
     def workspaceDir = pwd()
-    def appName = "omar-core"
+    def appName = "omar-oms"
     def omarCommonProjName = "omar-common"
     env.OMAR_COMMON_PROPERTIES="${workspaceDir}/${omarCommonProjName}/omar-common-properties.gradle"
 
