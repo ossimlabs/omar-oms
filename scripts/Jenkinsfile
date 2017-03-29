@@ -11,7 +11,7 @@
 //==================================================================================================
 
 // TODO: get to run on any node
-node("master"){
+node(""){
     def workspaceDir = pwd()
     def appName = "omar-oms"
     def omarCommonProjName = "omar-common"
@@ -35,9 +35,9 @@ node("master"){
     try {
       stage ("Publish Plugin Artifactory")
       {
-          withCredentials([[$class: 'UsernamePasswordMultiBinding', 
+          withCredentials([[$class: 'UsernamePasswordMultiBinding',
                             credentialsId: 'artifactoryCredentials',
-                            usernameVariable: 'ARTIFACTORY_USER', 
+                            usernameVariable: 'ARTIFACTORY_USER',
                             passwordVariable: 'ARTIFACTORY_PASSWORD']])
             {
                     sh """
