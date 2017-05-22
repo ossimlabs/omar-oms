@@ -8,6 +8,11 @@ import joms.oms.Keywordlist
  */
 class ImageInfoUtil
 {
+  static Map<String, String> getImageInfoAsMap(File file)
+  {
+	getImageInfoAsMap(file.absolutePath)	
+  }
+
   static Map<String, String> getImageInfoAsMap(String file)
   {
     def kwl = new Keywordlist()
