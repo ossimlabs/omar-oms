@@ -20,6 +20,10 @@ import joms.oms.Keywordlist
  */
 class OmsImage
 {
+//  def getOrtho(OrthoCommand cmd)
+//  {
+
+//  }
   def getTile(GetTileCommand cmd)
   {
     def imageInfo = readImageInfo( cmd.filename as File )

@@ -173,7 +173,7 @@ class ChipperUtil
       }
       else
       {
-        // println 'initialize: bad'
+         println 'initialize: bad'
       }
 
     }
@@ -192,7 +192,36 @@ class ChipperUtil
 
     result
   }
+  static def chipperResultToImage(HashMap chipperResult, HashMap hints = [:])
+  {
+    def image
 
+    if ( chipperResult.raster )
+    {
+      if ( chipperResult.raster.numBands > 3 )
+      {
+        def planarImage = JaiImage.bufferedToPlanar( new BufferedImage( chipperResult.colorModel, chipperResult.raster, true, null ) )
+        planarImage.data
+        def modifiedImage = JaiImage.selectBandsForRendering( planarImage )
+
+        if ( modifiedImage )
+        {
+          chipperResult.raster = modifiedImage.data
+          chipperResult.colorModel = modifiedImage.colorModel
+        }
+      }
+
+      try
+      {
+        image = ChipperUtil.optimizeRaster( chipperResult.raster, chipperResult.colorModel, hints )
+      }
+      catch ( e )
+      {
+        e.printStackTrace()
+      }
+    }
+    image 
+  }
   static def convertToColorIndexModel( def dataBuffer, def width, def height, def transparentFlag )
   {
     ImageTypeSpecifier isp = ImageTypeSpecifier.createGrayscale( 8, DataBuffer.TYPE_BYTE, false );
