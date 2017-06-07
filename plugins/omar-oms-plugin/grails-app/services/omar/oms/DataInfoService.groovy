@@ -10,7 +10,7 @@ class DataInfoService
   {
     getInfo(cmd.filename, cmd.entry)
   }
-  String  ( String filename, Integer entryId = null )
+  String  getInfo( String filename, Integer entryId = null )
   {
     def infoGetter = infoGetterPool.borrowObject()
     def xml

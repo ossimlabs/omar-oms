@@ -59,7 +59,7 @@ class ChipperCommand implements Validateable
    Boolean     upIsUp
    String      combinerType
 
-   String format
+   String outputFormat
    Boolean transparent
 
    HashMap toChipperOptions()

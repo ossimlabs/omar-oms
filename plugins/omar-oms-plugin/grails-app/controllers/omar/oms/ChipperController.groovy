@@ -77,6 +77,7 @@ class ChipperController {
       }
    }
    def ortho(){
+      println params
       ChipperCommand command = new ChipperCommand()
       def json = request.JSON
       if(json)
