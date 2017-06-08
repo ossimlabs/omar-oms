@@ -47,6 +47,36 @@ node(""){
                     """
               }
       }
+      stage ("Publish App Artifactory")
+      {
+           withCredentials([[$class: 'UsernamePasswordMultiBinding', 
+                            credentialsId: 'artifactoryCredentials',
+                            usernameVariable: 'ARTIFACTORY_USER', 
+                            passwordVariable: 'ARTIFACTORY_PASSWORD']])
+            {
+               sh """
+                pushd ${workspaceDir}/${appName}/apps/${appName}-app
+                ./gradlew artifactoryPublish
+                popd
+                """
+            }
+       } 
+
+      stage ("Publish Docker App") 
+      {      
+        withCredentials([[$class: 'UsernamePasswordMultiBinding', 
+                        credentialsId: 'dockerCredentials',
+                        usernameVariable: 'OPENSHIFT_USERNAME', 
+                        passwordVariable: 'OPENSHIFT_PASSWORD']])
+        {
+            // Run all tasks on the app. This includes pushing to OpenShift and S3.
+            sh """
+            pushd ${workspaceDir}/${appName}/apps/${appName}-app
+            ./gradlew ${GRADLE_TASK}
+            popd
+            """
+        }
+      }
     }
     catch(e){
         echo e.toString()
