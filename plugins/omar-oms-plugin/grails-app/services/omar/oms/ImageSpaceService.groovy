@@ -31,20 +31,19 @@ import java.awt.image.RenderedImage
 class ImageSpaceService
 {
   static transactional = false
+  def chipperService
 
   def getTileOverlay(GetTileCommand cmd)
   {
-    //println cmd
-
     def text = "${cmd.z}/${cmd.x}/${cmd.y}"
 
     BufferedImage image = new BufferedImage( cmd.tileSize, cmd.tileSize, BufferedImage.TYPE_INT_ARGB )
     ByteArrayOutputStream ostream = new ByteArrayOutputStream()
-
     def g2d = image.createGraphics()
     def font = new Font( "TimesRoman", Font.PLAIN, 18 )
     def bounds = new TextLayout( text, font, g2d.fontRenderContext ).bounds
-
+    String format = cmd.outputFormat
+    if(!format) format = "image/png"
     g2d.color = Color.red
     g2d.font = font
     g2d.drawRect( 0, 0, cmd.tileSize, cmd.tileSize )
@@ -56,9 +55,10 @@ class ImageSpaceService
 
     g2d.dispose()
 
-    ImageIO.write( image, cmd.format, ostream )
+    
+    ImageIO.write( image, format.split("/")[-1], ostream )
 
-    [contentType: "image/${cmd.format}", buffer: ostream.toByteArray()]
+    [contentType: format, buffer: ostream.toByteArray()]
   }
 
 
@@ -152,131 +152,59 @@ class ImageSpaceService
       ]
     }
 
-      def imageInfo = readImageInfo(cmd.filename)
-      def result = [status     : HttpStatus.NOT_FOUND,
-                    contentType: "plane/text",
-                    buffer     : "Unable to service tile".bytes]
-      def imageEntry = imageInfo.images[cmd.entry]
-      def indexOffset = findIndexOffset(imageEntry)
+    def imageInfo = readImageInfo(cmd.filename)
+    def result = [status     : HttpStatus.NOT_FOUND,
+                  contentType: "plane/text",
+                  buffer     : "Unable to service tile".bytes]
+    def imageEntry = imageInfo.images[cmd.entry]
+    def indexOffset = findIndexOffset(imageEntry)
 
-      if (cmd.z < imageEntry.numResLevels)
-      {
-        def rrds = indexOffset - cmd.z
-        def opts = [
-                cut_bbox_xywh     : [cmd.x * cmd.tileSize, cmd.y * cmd.tileSize, cmd.tileSize, cmd.tileSize].join(','),
-                'image0.file'     : cmd.filename,
-                'image0.entry'    : cmd.entry as String,
-                "operation"       : "chip",
-                "scale_2_8_bit"   : "true",
-                "rrds"            : "${rrds}".toString(),
-                'hist_op'         : cmd.histOp ?: 'auto-minmax',
-                'brightness'      : cmd.brightness ? cmd.brightness.toString() : "0.0",
-                'contrast'        : cmd.contrast ? cmd.contrast.toString() : "1.0",
-                'sharpen_mode'    : cmd.sharpenMode ?: "none",
-                "resampler_filter": cmd.resamplerFilter ?: "nearest"
-                //three_band_out: "true"
-        ]
-
-        if (cmd.bands)
-        {
-          opts.bands = cmd.bands
-        }
-
-        if ( cmd.histCenterTile ) {
-          opts.hist_center = cmd.histCenterTile?.toString()
-        }
-
-        def hints = [
-                transparent: cmd.format == 'png',
-                width      : cmd.tileSize,
-                height     : cmd.tileSize,
-                type       : cmd.format,
-                ostream    : new ByteArrayOutputStream()
-        ]
-
-        //println opts
-        def chipperResults = runChipper(opts, hints)
-        if (chipperResults.status == HttpStatus.OK)
-        {
-          result = [status     : HttpStatus.OK,
-                    contentType: "image/${hints.type}",
-                    buffer     : hints.ostream.toByteArray()]
-        } else
-        {
-          result = chipperResults
-        }
-      }
-    result
-  }
-
-  def runChipper(def opts, def hints)
-  {
-    HashMap result = [status:HttpStatus.NOT_FOUND,
-                      contentType: "plane/text",
-                      buffer: "Unable to service tile".bytes]
-
-
-    if(!opts.bands)
+    if (cmd.z < imageEntry.numResLevels)
     {
-      opts.three_band_out="true"
-    }
-    HashMap chipperResult = ChipperUtil.runChipper(opts)
-    if(chipperResult.raster)
-    {
-      if (chipperResult.raster.numBands > 3)
+      def rrds = indexOffset - cmd.z
+      ChipperCommand chipperCommand = new ChipperCommand()
+
+      chipperCommand.cutBboxXywh = [cmd.x * cmd.tileSize, cmd.y * cmd.tileSize, cmd.tileSize, cmd.tileSize].join(',')
+      chipperCommand.images = [ [file: cmd.filename, entry: cmd.entry]]
+      chipperCommand.operation = "chip"
+      chipperCommand.scale_2_8_bit = cmd.scale_2_8_bit
+      chipperCommand.rrds = rrds.toString()
+      chipperCommand.histOp = cmd.histOp
+      chipperCommand.brightness = cmd.brightness
+      chipperCommand.contrast = cmd.contrast
+      chipperCommand.sharpenMode = cmd.sharpenMode
+      chipperCommand.resamplerFilter = cmd.resamplerFilter
+
+      if(cmd.outputFormat) chipperCommand.outputFormat = cmd.outputFormat
+      if (cmd.bands)
       {
-        try
-        {
-          def planarImage = JaiImage.bufferedToPlanar(new BufferedImage(chipperResult.colorModel, chipperResult.raster, true, null))
-          planarImage.data
-          def modifiedImage = JaiImage.selectBandsForRendering(planarImage)
-//          if (chipperResult.raster.numBands >= 3)
-//          {
-//            modifiedImage = JAI.create("BandSelect", planarImage, [0, 1, 2] as int[])
-//          } else
-//          {
-//            modifiedImage = JAI.create("BandSelect", planarImage, [0, 0, 0] as int[])
-//          }
-
-          if (modifiedImage)
-          {
-            chipperResult.raster = modifiedImage.data
-            chipperResult.colorModel = modifiedImage.colorModel
-          }
-//           def planarImage = PlanarImage.wrapRenderedImage(chipperResult.renderedImage)
-//           planarImage = JAI.create("NULL", planarImage)
-//           planarImage.data
-
-          // def modifedImage = JAI.create("BandSelect", PlanarImage.wrapRenderedImage(chipperResult.renderedImage), [0, 1, 2] as int[])
-//            println "MODIFIED IMAGE!!!!!!!!!!!!!${modifedImage}"
-
-        }
-        catch (e)
-        {
-          log.error(e.toString())
-        }
-
+        chipperCommand.bands = cmd.bands
       }
 
-      try
-      {
-      def image = ChipperUtil.optimizeRaster(chipperResult.raster, chipperResult.colorModel, hints)
-//hints.type, hints.transparent) //new BufferedImage( chipperResult.colorModel, chipperResult.raster, false, null )
-      result.status = HttpStatus.OK
-      result.buffer = null
-      result.contentType = null
-
-        ImageIO.write(image, hints.type, hints.ostream)
-
+      if ( cmd.histCenterTile ) {
+        chipperCommand.histCenter = cmd.histCenterTile
+        //opts.hist_center = cmd.histCenterTile?.toString()
       }
-      catch (e)
+      try{
+        result = chipperService.getTile(chipperCommand)
+      }
+      catch(e)
       {
-        log.error(e.toString())
+        result = [status     : HttpStatus.INTERNAL_SERVER_ERROR,
+                  contentType: "image/${hints.type}",
+                  buffer     : "${e}".bytes
+                 ]
       }
     }
+    else
+    {
+        result = [status     : HttpStatus.INTERNAL_SERVER_ERROR,
+                  contentType: "plain/text",
+                  buffer     : "Not Enough resolution levels to satisfy request".bytes
+                 ]
+    }
     result
-  }
-
+  }   
 
   def findIndexOffset(def image, def tileSize = 256)
   {
@@ -349,6 +277,7 @@ class ImageSpaceService
 
   def getThumbnail(GetThumbnailCommand cmd)
   {
+    def result = [status:HttpStatus.OK, buffer:null]
     // Check to see if file exists
     if ( ! new File(cmd.filename).exists() )
     {
@@ -356,32 +285,30 @@ class ImageSpaceService
       def ostream = new ByteArrayOutputStream()
       ImageIO.write(image, cmd.format, ostream)
 
-      return [contentType: "image/${cmd.format}", buffer: ostream.toByteArray()]
+      result = [status:HttpStatus.OK, contentType: "image/${cmd.format}", buffer: ostream.toByteArray()]
     }
-
-    def opts = [
-        hist_op: 'auto-minmax',
-        'image0.file': cmd.filename,
-        'image0.entry': cmd.entry as String,
-        operation: 'chip',
-        output_radiometry: 'U8',
-        pad_thumbnail: 'true',
-        three_band_out: 'true',
-        thumbnail_resolution: cmd.size as String
-    ]
-
-    def hints = [
-        transparent: cmd.format == 'png',
-        width: cmd.size,
-        height: cmd.size,
-        type: cmd.format,
-        ostream: new ByteArrayOutputStream()
-    ]
-
-    //println opts
-    runChipper( opts, hints )
-
-    [contentType: "image/${hints.type}", buffer: hints.ostream.toByteArray()]
+    else
+    {
+      ChipperCommand chipperCommand = new ChipperCommand()
+      chipperCommand.histOp = cmd.histOp
+      chipperCommand.images = [ [file:cmd.filename, entry:cmd.entry?:0]]
+      chipperCommand.operation = "chip"
+      chipperCommand.outputRadiometry = "ossim_uint8"
+      chipperCommand.padThumbnail = true
+      chipperCommand.threeBandOut = true
+      chipperCommand.thumbnailResolution = cmd.size
+      try{
+        result = chipperService.getTile(chipperCommand)
+      }
+      catch(e)
+      {
+        result = [status     : HttpStatus.INTERNAL_SERVER_ERROR,
+                  contentType: "image/${hints.type}",
+                  buffer     : "${e}".bytes
+                 ]
+      }
+    }
+    result
   }
 
 //  def getThumbnail(GetThumbnailCommand cmd)

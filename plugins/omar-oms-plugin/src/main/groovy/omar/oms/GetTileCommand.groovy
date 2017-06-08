@@ -13,15 +13,29 @@ class GetTileCommand implements Validateable
   int y
   int z
   int tileSize = 256
-  String format
+  String outputFormat
   String filename
   int entry = 0
   String bands
-  String histOp
+  String histOp = "auto-minmax"
   Double brightness = 0.0
   Double contrast  = 1.0
   String sharpenMode = "none"
   String resamplerFilter = "nearest"
-//  String styles
+  Boolean scale_2_8_bit = true
   Boolean histCenterTile = false
+
+
+   void setOutputFormat(String format)
+   {
+      if(format.split("/").size() == 1)
+      {
+         this.outputFormat = "image/${format.toLowerCase()}"
+      }
+      else
+      {
+         this.outputFormat = format
+      }
+   }
+  
 }

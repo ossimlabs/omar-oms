@@ -169,11 +169,10 @@ class ChipperUtil
           result.raster = renderedImage.data
           renderedImage=null
         }
-
       }
       else
       {
-         println 'initialize: bad'
+         log.info 'chipper.initialize( opts ): ${opts} was unsuccessful'
       }
 
     }
@@ -192,13 +191,39 @@ class ChipperUtil
 
     result
   }
+  /**
+    *chipperResult will expect input as a HashMap with contents:
+    *   [colorModel:some java color model, Be of type ColorModel
+    *    sampleModel:some java sample model, Be of type SampleModel
+    *    raster: java raster image
+    *    ]
+    *
+    * hints can have values:
+    *     [ keepBands: true|false if output is tiff you can ask not to modify the band count and will 
+    *                             output 10 bands if the raster has 10 bands.
+    *        type: should be the output type and should contain a string that has 'jpeg' | 'gif' | 'tiff' or jpeg
+    *        transparent: Will enable a transparent output.  If not supported by the format it is ignored
+    *     ]
+  *  
+  **/
   static def chipperResultToImage(HashMap chipperResult, HashMap hints = [:])
   {
     def image
+    Boolean keepBands = hints?.keepBands
 
+    if(hints.keepBands)
+    {
+      if(!hints.type.contains("tiff"))
+      {
+        // The only type we will support raw band output is TIFF.
+        // this way we can send back the raw tiff without modification
+        //
+        keepBands = false;
+      }
+    }
     if ( chipperResult.raster )
     {
-      if ( chipperResult.raster.numBands > 3 )
+      if ( (!hints.keepBands) && (chipperResult.raster.numBands > 3 ))
       {
         def planarImage = JaiImage.bufferedToPlanar( new BufferedImage( chipperResult.colorModel, chipperResult.raster, true, null ) )
         planarImage.data

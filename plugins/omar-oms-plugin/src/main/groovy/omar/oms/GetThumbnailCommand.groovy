@@ -9,8 +9,18 @@ import groovy.transform.ToString
 @ToString( includeNames = true )
 class GetThumbnailCommand implements Validateable
 {
-  String filename
-  Integer entry=0
-  Integer size=128
-  String format="jpeg"
+   String filename
+   Integer entry=0
+   Integer size=128
+   String outputFormat="image/jpeg"
+   String histOp = "auto-minmax"
+   void setOutputFormat(String value)
+   {
+      outputFormat = value
+      if(value.split("/").size() == 1)
+      {
+         this.outputFormat = "image/${value}"
+      }
+      if(!value) outputFormat = "image/jpeg"
+   }
 }
