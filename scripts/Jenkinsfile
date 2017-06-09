@@ -16,7 +16,7 @@ node(""){
     def appName = "omar-oms"
     def omarCommonProjName = "omar-common"
     env.OMAR_COMMON_PROPERTIES="${workspaceDir}/${omarCommonProjName}/omar-common-properties.gradle"
-    env.O2_DEV_HOME=workspaceDir
+    env.O2_DEV_HOME=pwd()
     stage("Checkout"){
         dir("ossim-ci") {
             git branch: "${OSSIM_GIT_BRANCH}", url: "https://github.com/ossimlabs/ossim-ci.git"
