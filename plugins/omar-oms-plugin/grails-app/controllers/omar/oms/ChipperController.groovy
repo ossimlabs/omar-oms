@@ -11,15 +11,14 @@ class ChipperController {
    def chipperService
    def index()
    {
-      def wmsParams = params - params.subMap( [ 'controller', 'format' ] )
+      def chipperParams = params - params.subMap( [ 'controller', 'format' ] )
       def json = request.JSON
-      def operation = wmsParams.find { it.key.equalsIgnoreCase( 'operation' ) }
+      String operation = chipperParams.find { it.key.equalsIgnoreCase( 'operation' ) }?.value
 
       if(!operation && json)
       {
          operation = json.operation
       }
-      //println wmsParams
 
       switch ( operation?.toLowerCase() )
       {
@@ -157,6 +156,7 @@ class ChipperController {
          bindData(command, BindUtil.fixParamNames(ChipperCommand, params))
       }
       def result = chipperService.getTile(command)
+
       response.contentType = result.contentType
       if(result.status != null) response.status        = result.status
       if(result.contentType) response.contentType      = result.contentType
