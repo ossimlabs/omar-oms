@@ -24,7 +24,7 @@ class GetTileCommand implements Validateable
   String resamplerFilter = "nearest"
   Boolean scale_2_8_bit = true
   Boolean histCenterTile = false
-
+  Boolean transparent
 
    void setOutputFormat(String format)
    {
