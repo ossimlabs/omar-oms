@@ -42,7 +42,7 @@ class ImageSpaceController
 
   @ApiOperation(value = "Get a tile from the passed in image file", produces="image/jpeg,image/png,image/gif")
   @ApiImplicitParams([
-          @ApiImplicitParam(name = 'x', value = 'Tile in x direciton', defaultValue = '0', paramType = 'query', dataType = 'string', required=true),
+          @ApiImplicitParam(name = 'x', value = 'Tile in x direction', defaultValue = '0', paramType = 'query', dataType = 'string', required=true),
           @ApiImplicitParam(name = 'y', value = 'Tile in y direction', defaultValue = '0', paramType = 'query', dataType = 'int', required=true),
           @ApiImplicitParam(name = 'z', value = 'Resolution level (0 full resolution)', defaultValue = '0', paramType = 'query', dataType = 'string', required=true),
           @ApiImplicitParam(name = 'tileSize', value = 'Tile size', allowableValues="[512,256]", defaultValue="256", paramType = 'query', dataType = 'int', required=false),
@@ -105,6 +105,7 @@ class ImageSpaceController
           @ApiImplicitParam(name = 'z', value = 'Resolution level (0 full resolution)', defaultValue = '0', paramType = 'query', dataType = 'string', required=true),
           @ApiImplicitParam(name = 'tileSize', value = 'Tile size', allowableValues="[512,256]", defaultValue="256", paramType = 'query', dataType = 'int', required=true),
           @ApiImplicitParam(name = 'outputFormat', value = 'Output image format', allowableValues="[png,jpeg,gif,tiff]", defaultValue="png", paramType = 'query', dataType = 'string', required=true),
+          @ApiImplicitParam(name = 'transparent', value = 'Enable transparent if the outputFormat supports it', defaultValue="true",  paramType = 'query', dataType = 'Boolean', required=false)
   ])
   def getTileOverlay(/*GetTileCommand cmd*/)
   {

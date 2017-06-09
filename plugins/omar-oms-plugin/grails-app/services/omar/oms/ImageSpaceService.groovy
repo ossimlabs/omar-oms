@@ -298,6 +298,7 @@ class ImageSpaceService
       chipperCommand.padThumbnail = true
       chipperCommand.threeBandOut = true
       chipperCommand.thumbnailResolution = cmd.size
+      if(cmd.transparent!=null) chipperCommand.cmd.transparent
       try{
         result = chipperService.getTile(chipperCommand)
       }
