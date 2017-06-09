@@ -174,7 +174,8 @@ class ImageSpaceService
       chipperCommand.contrast = cmd.contrast
       chipperCommand.sharpenMode = cmd.sharpenMode
       chipperCommand.resamplerFilter = cmd.resamplerFilter
-
+      if(cmd.transparent == null) chipperCommand.transparent = true
+      else chipperCommand.transparent = cmd.transparent
       if(cmd.outputFormat) chipperCommand.outputFormat = cmd.outputFormat
       if (cmd.bands)
       {

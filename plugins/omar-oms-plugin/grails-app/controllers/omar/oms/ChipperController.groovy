@@ -112,6 +112,16 @@ class ChipperController {
         the <b>keepBands</b> to true and then specify the <b>outputFormat</b> to be image/tiff
         </li>
         <br>
+       <li>
+        <b>padThumbnail</b><p/>
+        Allows one to enable padding of thumbnail products so it matches the size.
+        </li>
+        <br>
+        <li>
+        <b>transparent</b><p/>
+        Enables transparent output if the <b>outputFormat</b> supports it
+        </li>
+        <br>
         </ul>
     """)
    @ApiImplicitParams([
@@ -130,6 +140,7 @@ class ChipperController {
           @ApiImplicitParam(name = 'outputFormat', value = 'Output format', defaultValue = '',  allowableValues= "[image/jpeg,image/png,image/gif,image/tiff]", paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'keepBands', value = 'Determine if we auto adjust bands or not', defaultValue = "false", paramType = 'query', dataType = 'boolean', required=false),
           @ApiImplicitParam(name = 'padThumbnail', value = 'Add padding to the output to make it square', defaultValue = "false", paramType = 'query', dataType = 'boolean', required=false),
+          @ApiImplicitParam(name = 'transparent', value = 'Enable transparent if the outputFormat supports it', defaultValue = "true", paramType = 'query', dataType = 'boolean', required=false),
    ])
    def chip(){
       ChipperCommand command = new ChipperCommand()
@@ -269,6 +280,16 @@ class ChipperController {
         the <b>keepBands</b> to true and then specify the <b>outputFormat</b> to be image/tiff
         </li>
         <br>
+        <li>
+        <b>padThumbnail</b><p/>
+        Allows one to enable padding of thumbnail products so it matches the size.
+        </li>
+        <br>
+        <li>
+        <b>transparent</b><p/>
+        Enables transparent output if the <b>outputFormat</b> supports it
+        </li>
+        <br>
         </ul>
     """)
    @ApiImplicitParams([
@@ -290,6 +311,7 @@ class ChipperController {
           @ApiImplicitParam(name = 'outputFormat', value = 'Output format', defaultValue = '',  allowableValues= "[image/jpeg,image/png,image/gif,image/tiff]", paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'keepBands', value = 'Determine if we auto adjust bands or not', defaultValue = "false", paramType = 'query', dataType = 'boolean', required=false),
           @ApiImplicitParam(name = 'padThumbnail', value = 'Add padding to the output to make it square', defaultValue = "false", paramType = 'query', dataType = 'boolean', required=false),
+          @ApiImplicitParam(name = 'transparent', value = 'Enable transparent if the outputFormat supports it', defaultValue = "true", paramType = 'query', dataType = 'boolean', required=false),
    ])
    def ortho(){
       ChipperCommand command = new ChipperCommand()
