@@ -126,7 +126,7 @@ class ChipperController {
    @ApiImplicitParams([
           @ApiImplicitParam(name = 'images[0].file', value = 'filename', defaultValue = '', paramType = 'query', dataType = 'string', required=true),
           @ApiImplicitParam(name = 'images[0].entry', value = 'Image entry in the file', defaultValue = '', paramType = 'query', dataType = 'int', required=false),
-          @ApiImplicitParam(name = 'operation', value = '', defaultValue = 'none', allowableValues= "[ortho]", paramType = 'query', dataType = 'string', required=false),
+          @ApiImplicitParam(name = 'operation', value = '', defaultValue = 'none', allowableValues= "[chip]", paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'brightness', value = 'Brightness Operation',defaultValue="0.0", paramType = 'query', dataType = 'float', required=false),
           @ApiImplicitParam(name = 'contrast', value = 'Contrast Operation',defaultValue="1.0",  paramType = 'query', dataType = 'float', required=false),
           @ApiImplicitParam(name = 'sharpenMode', value = '', defaultValue = '', allowableValues="[light,heavy]",paramType = 'query', dataType = 'string', required=false),
