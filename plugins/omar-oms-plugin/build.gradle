@@ -9,9 +9,7 @@ buildscript {
   }
   repositories {
     mavenLocal()
-    if ( ! System.getenv('O2_DEV_HOME') ) {
-      maven { url "${ossimMavenProxy}" }
-    }
+    maven { url "${ossimMavenProxy}" }
     maven { url "https://repo.grails.org/grails/core" }
   }
   dependencies {
@@ -43,9 +41,7 @@ ext {
 
 repositories {
   mavenLocal()
-  if ( ! System.getenv('O2_DEV_HOME') ) {
-    maven { url "${ossimMavenProxy}" }
-  }
+  maven { url "${ossimMavenProxy}" }
   // this is for JAI.  Must be before the mavenCentral and stuff.
   mavenCentral()
   maven { url "https://repo.grails.org/grails/core" }
