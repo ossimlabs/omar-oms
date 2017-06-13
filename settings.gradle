@@ -1,5 +1,5 @@
 def final O2_DEV_HOME = System.getenv('O2_DEV_HOME')
-
+println "O2_DEV_HOME==============================${O2_DEV_HOME}"
 if ( O2_DEV_HOME ) {
 
 include 'omar-oms-app',
