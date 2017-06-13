@@ -54,7 +54,7 @@ class ChipperCommand implements Validateable
    String      snapTieToOrigin
    String      srs
    Boolean     threeBandOut
-   String      thumbnailResolution
+   Integer      thumbnailResolution
    String      tileSize
    Boolean     upIsUp
    String      combinerType
@@ -146,7 +146,7 @@ class ChipperCommand implements Validateable
       HashMap result = [:]
       ArrayList props = this.properties.collect{k,v->k}
 
-      props = props - ["errors", "class", "constraintsMap", "transparent", "outputFormat", "keepBands" ]
+      props = props - ["errors", "class","constraints", "constraintsMap", "transparent", "outputFormat", "keepBands" ]
 
       props.each{k->
          if(k != "images")

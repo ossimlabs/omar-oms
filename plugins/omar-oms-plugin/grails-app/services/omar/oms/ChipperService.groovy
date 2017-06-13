@@ -27,6 +27,7 @@ class ChipperService {
          try{
             chipperResult             = ChipperUtil.runChipper( chipperOptions )
             chipperResult.image       = ChipperUtil.chipperResultToImage(chipperResult, hints)
+
             chipperResult.status      = HttpStatus.OK
             chipperResult.message     = ""
             chipperResult.contentType = "image/${outputFormat?.split("/")[-1]}"

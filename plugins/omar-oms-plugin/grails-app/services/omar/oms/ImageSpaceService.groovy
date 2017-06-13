@@ -297,8 +297,9 @@ class ImageSpaceService
       chipperCommand.outputRadiometry = "ossim_uint8"
       chipperCommand.padThumbnail = true
       chipperCommand.threeBandOut = true
-      chipperCommand.thumbnailResolution = cmd.size
-      if(cmd.transparent!=null) chipperCommand.cmd.transparent
+      chipperCommand.thumbnailResolution = cmd.size?:64
+      chipperCommand.outputFormat = cmd.outputFormat?:"image/jpeg"
+      if(cmd.transparent!=null) chipperCommand.transparent = cmd.transparent
       try{
         result = chipperService.getTile(chipperCommand)
       }

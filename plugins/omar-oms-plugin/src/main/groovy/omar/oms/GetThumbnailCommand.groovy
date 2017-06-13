@@ -14,7 +14,7 @@ class GetThumbnailCommand implements Validateable
    Integer size=128
    String outputFormat="image/jpeg"
    String histOp = "auto-minmax"
-   Boolean transparent=true
+   Boolean transparent=false
    void setOutputFormat(String value)
    {
       outputFormat = value

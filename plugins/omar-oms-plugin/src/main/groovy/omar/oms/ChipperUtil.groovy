@@ -158,7 +158,10 @@ class ChipperUtil
       log.trace "runChipper options: ${opts}"
       if ( chipper.initialize( opts ) )
       {
+        println "INITIALIZED!!!!!!!!!!!!!!!!!! ${opts}"
         imageData = chipper.getChip(opts);
+
+        println imageData
         if((imageData != null ) && (imageData.get() != null))
         {
           cacheSource = new ossimMemoryImageSource();
@@ -172,13 +175,15 @@ class ChipperUtil
       }
       else
       {
+        println "UNABLE TO INITIALIZE!!!!!!!!!!!!"
          log.info 'chipper.initialize( opts ): ${opts} was unsuccessful'
       }
 
     }
     catch(e)
     {
-        e.printStackTrace()
+      println e
+       // e.printStackTrace()
     }
     finally{
       cacheSource?.delete();cacheSource=null
@@ -221,6 +226,7 @@ class ChipperUtil
         keepBands = false;
       }
     }
+    println "RASTER ====================== ${chipperResult.raster}"
     if ( chipperResult.raster )
     {
       if ( (!hints.keepBands) && (chipperResult.raster.numBands > 3 ))
