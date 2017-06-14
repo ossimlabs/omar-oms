@@ -100,9 +100,10 @@ class ChipperUtil
     log.trace "runChipper: Entered.................."
     def chipper = new Chipper()
 
-    log.trace "runChipper options: ${opts}"
+    log.debug "runChipper options: ${opts}"
     if ( chipper.initialize( opts ) )
     {
+      log.debug "initialize: good"
       //println 'initialize: good'
       if ( chipper.getChip( buffer, buffer.length, hints.transparent ) > 1 )
       {
@@ -146,6 +147,7 @@ class ChipperUtil
   }
   static HashMap runChipper(Map<String,String> opts)
   {
+    log.trace "runChipper: Entered.................."
     HashMap result = [colorModel:null,
                      sampleModel:null,
                      raster:null
@@ -153,15 +155,12 @@ class ChipperUtil
     def chipper = new Chipper()
     def imageData
     def cacheSource
-    log.trace "runChipper: Entered.................."
     try{
-      log.trace "runChipper options: ${opts}"
+      log.debug "runChipper options: ${opts}"
       if ( chipper.initialize( opts ) )
       {
-        println "INITIALIZED!!!!!!!!!!!!!!!!!! ${opts}"
         imageData = chipper.getChip(opts);
 
-        println imageData
         if((imageData != null ) && (imageData.get() != null))
         {
           cacheSource = new ossimMemoryImageSource();
@@ -175,14 +174,13 @@ class ChipperUtil
       }
       else
       {
-        println "UNABLE TO INITIALIZE!!!!!!!!!!!!"
-         log.info 'chipper.initialize( opts ): ${opts} was unsuccessful'
+         log.error 'chipper.initialize( opts ): ${opts} was unsuccessful'
       }
 
     }
     catch(e)
     {
-      println e
+      log.error e.toString()
        // e.printStackTrace()
     }
     finally{
@@ -226,7 +224,6 @@ class ChipperUtil
         keepBands = false;
       }
     }
-    println "RASTER ====================== ${chipperResult.raster}"
     if ( chipperResult.raster )
     {
       if ( (!hints.keepBands) && (chipperResult.raster.numBands > 3 ))
