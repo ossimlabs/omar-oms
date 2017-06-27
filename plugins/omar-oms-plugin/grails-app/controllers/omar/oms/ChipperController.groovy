@@ -82,6 +82,11 @@ class ChipperController {
         </li>
         <br>
         <li>
+        <b>histCenter</b><p/>
+          Histogram should be calculated based on the center of the request
+        </li>
+        <br>
+        <li>
         <b>outputRadiometry</b><p/>
         Defines the output radiometry.
         </li>
@@ -133,6 +138,7 @@ class ChipperController {
           @ApiImplicitParam(name = 'thumbnailResolution', value = '', defaultValue = '',  paramType = 'query', dataType = 'int', required=false),
           @ApiImplicitParam(name = 'cutBboxXywh', value = 'Cut image box separated by commas: <x>,<y>,<width>,<height>', defaultValue = '',  paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'histOp', value = 'Histogram Operation',defaultValue = '',allowableValues="[none,auto-minmax,auto-percentile,std-stretch-1,std-stretch-2,std-stretch-3]", paramType = 'query', dataType = 'string', required=false),
+          @ApiImplicitParam(name = 'histCenter', value = 'Histogram Center Calculation',defaultValue = '',allowableValues="[true,false]", paramType = 'query', dataType = 'boolean', required=false),
           @ApiImplicitParam(name = 'outputRadiometry', value = 'Output radiometry', defaultValue = '', allowableValues="[ossim_uint8,ossim_uint11,ossim_uint16,ossim_sint16,ossim_float32,ossim_float64]", paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'bands', value = 'Bands', defaultValue = '',  paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'resamplerFilter', value = 'Which resampling engine to use', defaultValue = '',  allowableValues= "[nearest-neighbor, bilinear, cubic, gaussian, blackman, bspline, hanning, hamming, hermite, mitchell, quadratic, sinc, magic]", paramType = 'query', dataType = 'string', required=false),
