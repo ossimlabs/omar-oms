@@ -252,6 +252,11 @@ class ChipperController {
         </li>
         <br>
         <li>
+        <b>histCenter</b><p/>
+          Histogram should be calculated based on the center of the request
+        </li>
+        <br>
+        <li>
         <b>srs</b><p/>
         This is the SRS code.  This can be EPSG:4326 (Geographic) EPSG:3857 (Global Mercator/Google mercator)
         </li>
@@ -310,6 +315,7 @@ class ChipperController {
           @ApiImplicitParam(name = 'cutHeight', value = 'Cut height in pixels', defaultValue = '',  paramType = 'query', dataType = 'int', required=false),
           @ApiImplicitParam(name = 'cutWmsBbox', value = 'Cut wms bbox format', defaultValue = '',  paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'histOp', value = 'Histogram Operation',defaultValue = '',allowableValues="[none,auto-minmax,auto-percentile,std-stretch-1,std-stretch-2,std-stretch-3]", paramType = 'query', dataType = 'string', required=false),
+          @ApiImplicitParam(name = 'histCenter', value = 'Histogram Center Calculation',defaultValue = '',allowableValues="[true,false]", paramType = 'query', dataType = 'boolean', required=false),
           @ApiImplicitParam(name = 'srs', value = 'srs', defaultValue = '',  allowableValues="[EPSG:4326, EPSG:3857]", paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'outputRadiometry', value = 'Output radiometry', defaultValue = '', allowableValues="[ossim_uint8,ossim_uint11,ossim_uint16,ossim_sint16,ossim_float32,ossim_float64]", paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'bands', value = 'Bands', defaultValue = '',  paramType = 'query', dataType = 'string', required=false),
