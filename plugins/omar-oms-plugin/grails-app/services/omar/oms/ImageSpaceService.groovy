@@ -55,7 +55,7 @@ class ImageSpaceService
 
     g2d.dispose()
 
-    
+
     ImageIO.write( image, format.split("/")[-1], ostream )
 
     [contentType: format, buffer: ostream.toByteArray()]
@@ -144,7 +144,7 @@ class ImageSpaceService
     {
       def image = getDefaultImage(cmd.size, cmd.size)
       def ostream = new ByteArrayOutputStream()
-      ImageIO.write(image, cmd.format, ostream)
+      ImageIO.write(image, cmd.outputFormat, ostream)
 
       return [ status     : HttpStatus.OK,
                contentType: "image/${hints.type}",
@@ -205,7 +205,7 @@ class ImageSpaceService
                  ]
     }
     result
-  }   
+  }
 
   def findIndexOffset(def image, def tileSize = 256)
   {
@@ -284,9 +284,11 @@ class ImageSpaceService
     {
       def image = getDefaultImage(cmd.size, cmd.size)
       def ostream = new ByteArrayOutputStream()
-      ImageIO.write(image, cmd.format, ostream)
+      def format = cmd?.outputFormat?.split('/')?.last()
 
-      result = [status:HttpStatus.OK, contentType: "image/${cmd.format}", buffer: ostream.toByteArray()]
+      ImageIO.write(image, format, ostream)
+
+      result = [status:HttpStatus.OK, contentType: "image/${format}", buffer: ostream.toByteArray()]
     }
     else
     {
