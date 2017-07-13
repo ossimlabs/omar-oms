@@ -149,6 +149,7 @@ class ImageSpaceService
       File testFile = new File(connectionString)
       result = testFile.exists(); 
     }
+    
     result
   }
   def getTile(GetTileCommand cmd)
