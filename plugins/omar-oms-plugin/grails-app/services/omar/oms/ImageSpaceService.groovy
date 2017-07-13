@@ -149,7 +149,20 @@ class ImageSpaceService
       File testFile = new File(connectionString)
       result = testFile.exists(); 
     }
-    
+
+    result
+  }
+  Boolean isLocalFile(String connectionString)
+  {
+    Boolean result = false
+    URI uri = new URI(connectionString)
+    String scheme = uri.scheme?.toLowerCase()
+
+    if(!scheme || (scheme=="file"))
+    {
+      result = true
+    }
+
     result
   }
   def getTile(GetTileCommand cmd)
@@ -169,14 +182,21 @@ class ImageSpaceService
       ]
     }
 
-    def imageInfo = readImageInfo(cmd.filename)
+    def imageInfo
+    Integer imageEntry = 0
+    Boolean canChip = true
+    if(isLocalFile(cmd.filename))
+    {
+      imageInfo = readImageInfo(cmd.filename)
+      imageEntry = imageInfo.images[cmd.entry]
+      canChip = cmd.z < imageEntry.numResLevels
+    }
     def result = [status     : HttpStatus.NOT_FOUND,
                   contentType: "plane/text",
                   buffer     : "Unable to service tile".bytes]
-    def imageEntry = imageInfo.images[cmd.entry]
     def indexOffset = findIndexOffset(imageEntry)
 
-    if (cmd.z < imageEntry.numResLevels)
+    if (canChip)
     {
       def rrds = indexOffset - cmd.z
       ChipperCommand chipperCommand = new ChipperCommand()
@@ -332,43 +352,6 @@ class ImageSpaceService
     }
     result
   }
-
-//  def getThumbnail(GetThumbnailCommand cmd)
-//  {
-//    def output = File.createTempFile( 'chipper', ".${cmd.format}", '/tmp' as File )
-//
-//    def exe = [
-//        "ossim-chipper",
-//        "--op",
-//        "chip",
-//        "--thumbnail",
-//        cmd.size,
-//        "--entry",
-//        cmd.entry,
-//        "--pad-thumbnail",
-//        "true",
-//        "--histogram-op",
-//        "auto-minmax",
-//        "--output-radiometry",
-//        "U8",
-//        cmd.filename,
-//        output
-//    ]
-//
-//    println exe.join( ' ' )
-//
-//    def proc = exe.execute()
-//
-////      proc.consumeProcessOutput(System.out, System.err)
-//    proc.consumeProcessOutput()
-//    proc.waitFor()
-//
-//    def buffer = output.bytes
-//
-//    output.delete()
-//
-//    [contentType: "image/${cmd.format}", buffer: buffer]
-//  }
 
   def getDefaultImage(int width, int height)
   {
