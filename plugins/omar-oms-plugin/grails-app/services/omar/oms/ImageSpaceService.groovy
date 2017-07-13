@@ -136,11 +136,25 @@ class ImageSpaceService
 
     return data
   }
+  Boolean fileExists(String connectionString)
+  {
+    Boolean result = false
+    URI uri = new URI(connectionString)
+    String scheme = uri.scheme?.toLowerCase()
 
+    if(!scheme || (scheme=="file"))
+    {
+      File testFile = new File(connectionString)
+      result = testFile.exists(); 
+    }
+    result
+  }
   def getTile(GetTileCommand cmd)
   {
+    // for now we will do a quick hack so we can test
+    // S3 access.  We will do an exists somehwere else
     // Check to see if file exists
-    if ( ! new File(cmd.filename).exists() )
+    if ( ! fileExists(cmd.filename?.toString()) )
     {
       def image = getDefaultImage(cmd.size, cmd.size)
       def ostream = new ByteArrayOutputStream()
@@ -280,7 +294,7 @@ class ImageSpaceService
   {
     def result = [status:HttpStatus.OK, buffer:null]
     // Check to see if file exists
-    if ( ! new File(cmd.filename).exists() )
+    if ( ! fileExists(cmd.filename?.toString() )
     {
       def image = getDefaultImage(cmd.size, cmd.size)
       def ostream = new ByteArrayOutputStream()
