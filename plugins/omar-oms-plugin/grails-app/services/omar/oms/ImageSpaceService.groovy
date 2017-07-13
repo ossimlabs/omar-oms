@@ -138,7 +138,9 @@ class ImageSpaceService
   }
   Boolean fileExists(String connectionString)
   {
-    Boolean result = false
+    // default to true for protocols other than file and
+    // empty
+    Boolean result = true
     URI uri = new URI(connectionString)
     String scheme = uri.scheme?.toLowerCase()
 
