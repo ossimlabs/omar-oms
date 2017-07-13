@@ -181,15 +181,14 @@ class ImageSpaceService
                buffer     : ostream.toByteArray()
       ]
     }
-
     def imageInfo
-    Integer imageEntry = 0
+    def imageEntry
     Boolean canChip = true
     if(isLocalFile(cmd.filename))
     {
       imageInfo = readImageInfo(cmd.filename)
       imageEntry = imageInfo.images[cmd.entry]
-      canChip = cmd.z < imageEntry.numResLevels
+      canChip = cmd.z < imageEntry?.numResLevels
     }
     def result = [status     : HttpStatus.NOT_FOUND,
                   contentType: "plane/text",
