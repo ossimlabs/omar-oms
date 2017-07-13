@@ -294,7 +294,7 @@ class ImageSpaceService
   {
     def result = [status:HttpStatus.OK, buffer:null]
     // Check to see if file exists
-    if ( ! fileExists(cmd.filename?.toString() )
+    if ( ! fileExists(cmd.filename?.toString() ) )
     {
       def image = getDefaultImage(cmd.size, cmd.size)
       def ostream = new ByteArrayOutputStream()
