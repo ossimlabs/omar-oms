@@ -2,6 +2,7 @@ buildscript {
     ext {
         grailsVersion = project.grailsVersion
         baseImage = "omar-ossim-base"
+/*
      dockerStatementsOverride = {
        [
           "FROM ${project.dockerNamespaceUrl}${project.ext.baseImage}:${project.dockerAppTag}",
@@ -34,6 +35,7 @@ buildscript {
           "CMD java -server -Xms256m -Xmx1024m -Djava.awt.headless=true -XX:+CMSClassUnloadingEnabled -XX:+UseGCOverheadLimit -Djava.security.egd=file:/dev/./urandom -jar /usr/share/omar/${project.name}-${buildVersion}-${buildVersionTag}.jar"
        ]
      }
+     */
     }
     if(System.env.OMAR_COMMON_PROPERTIES)
     {
