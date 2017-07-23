@@ -7,7 +7,7 @@ buildscript {
           "FROM ${project.dockerNamespaceUrl}${project.ext.baseImage}:${project.dockerAppTag}",
 
           "MAINTAINER RadiantBlue Technologies radiantblue.com",
-          """RUN groupapp fuse &&\
+          """RUN groupadd fuse &&\
                  useradd -u 1001 -r -g 0 -d \$HOME -s /sbin/nologin \
                       -c 'Default Application User' omar && \
                  usermod -a -G fuse,wheel omar && \
