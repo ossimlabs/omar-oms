@@ -26,9 +26,9 @@ buildscript {
                  chmod -R g+rw /usr/share/omar &&\
                  chmod +x /usr/share/omar/run.sh &&\
                  find \$HOME -type d -exec chmod g+x {} +""",
-          "USER 1001", 
           "COPY ${project.name}-${buildVersion}-${buildVersionTag}.jar /usr/share/omar",
           """RUN chown -R 1001:0 /usr/share/omar""",
+          "USER 1001", 
           "WORKDIR /usr/share/omar",
           "expose 8080",
           "CMD /usr/share/omar/run.sh"
