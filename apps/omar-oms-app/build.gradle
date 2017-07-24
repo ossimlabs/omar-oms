@@ -10,7 +10,7 @@ buildscript {
           "MAINTAINER RadiantBlue Technologies radiantblue.com",
           "ENV HOME /usr/share/omar",
           "COPY run.sh /usr/share/omar/run.sh",
-          "COPY rios.conf.xml /usr/share/omar/rios.conf.xml",
+          "COPY riofs.conf.xml /usr/share/omar/riofs.conf.xml",
           """RUN useradd -u 1001 -r -g 0 -d \$HOME -s /sbin/nologin \
                       -c 'Default Application User' omar && \
                  yum -y install fuse fuse-libs libevent curl ossim ossim-kakadu-plugin \
