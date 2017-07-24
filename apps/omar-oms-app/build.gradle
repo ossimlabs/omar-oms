@@ -12,7 +12,7 @@ buildscript {
           "COPY run.sh /usr/share/omar/run.sh",
           """RUN useradd -u 1001 -r -g 0 -d \$HOME -s /sbin/nologin \
                       -c 'Default Application User' omar && \
-                 yum -y install fuse curl ossim ossim-kakadu-plugin \
+                 yum -y install fuse fuse-libs curl ossim ossim-kakadu-plugin \
                         ossim-web-plugin ossim-jpeg12-plugin ossim-sqlite-plugin \
                         ossim-geopdf-plugin ossim-png-plugin ossim-gdal-plugin \
                         ossim-aws-plugin&& \
