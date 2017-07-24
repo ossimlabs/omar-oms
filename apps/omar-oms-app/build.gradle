@@ -8,7 +8,7 @@ buildscript {
 
           "MAINTAINER RadiantBlue Technologies radiantblue.com",
           "ENV HOME /usr/share/omar",
-          "ADD run.sh /usr/share/omar/",
+          "COPY run.sh /usr/share/omar/run.sh",
           """RUN useradd -u 1001 -r -g 0 -d \$HOME -s /sbin/nologin \
                       -c 'Default Application User' omar && \
                  yum -y install fuse curl ossim ossim-kakadu-plugin \
