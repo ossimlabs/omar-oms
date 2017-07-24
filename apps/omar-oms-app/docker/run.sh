@@ -7,4 +7,4 @@ mkdir -p /mnt/s3/$BUCKET
 echo "BUCKET = ${BUCKET}"
 riofs -o allow_other -c /usr/share/omar/riofs.conf.xml  $BUCKET /mnt/s3/$BUCKET
 
-java -server -Xms256m -Xmx1024m -Djava.awt.headless=true -XX:+CMSClassUnloadingEnabled -XX:+UseGCOverheadLimit -Djava.security.egd=file:/dev/./urandom -jar /usr/share/omar/omar-oms-app.jar"
+java -server -Xms256m -Xmx1024m -Djava.awt.headless=true -XX:+CMSClassUnloadingEnabled -XX:+UseGCOverheadLimit -Djava.security.egd=file:/dev/./urandom -jar /usr/share/omar/omar-oms-app.jar
