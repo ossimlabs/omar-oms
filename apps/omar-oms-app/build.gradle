@@ -2,6 +2,42 @@ buildscript {
     ext {
         grailsVersion = project.grailsVersion
         baseImage = "omar-ossim-base"
+    dockerFile ="docker/Dockerfile"
+     dockerStatementsOverride = {
+       [
+          "FROM ${project.dockerNamespaceUrl}${project.ext.baseImage}:${project.dockerAppTag}",
+
+          "MAINTAINER RadiantBlue Technologies radiantblue.com",
+          """ENV SPRING_CLOUD_CONFIG_ENABLED=true \\
+                       SPRING_CLOUD_DISCOVERY_ENABLED=true \\
+                       HOME=/usr/share/omar""",
+          "COPY run.sh /usr/share/omar/run.sh",
+          """RUN useradd -u 1001 -r -g 0 -d \$HOME -s /sbin/nologin \
+                      -c 'Default Application User' omar && \
+                 yum -y install nss_wrapper gfuse fuse-libs libevent curl ossim ossim-kakadu-plugin \
+                        ossim-web-plugin ossim-jpeg12-plugin ossim-sqlite-plugin \
+                        ossim-geopdf-plugin ossim-png-plugin ossim-gdal-plugin \
+                        ossim-aws-plugin&& \
+                 yum clean all&& \
+                 curl -k -s "https://s3.amazonaws.com/ossimlabs/dependencies/riofs/riofs" -o /usr/bin/riofs && \
+                 curl -k -s "https://s3.amazonaws.com/ossimlabs/dependencies/goofys/goofys" -o /usr/bin/goofys && \
+                 chmod +x /usr/bin/goofys && \
+                 mkdir -p /s3 && chown -R 1001:0 /s3 && chmod 777 /s3 && \
+                 chmod ugo+x /usr/bin/riofs && \
+                 echo "user_allow_other" > /etc/fuse.conf && \
+                 chown -R 1001:0 /usr/share/omar &&\
+                 chown 1001:0 /usr/share/omar &&\
+                 chmod -R g+rw /usr/share/omar &&\
+                 chmod +x /usr/share/omar/run.sh &&\
+                 find \$HOME -type d -exec chmod g+x {} +""",
+          "COPY ${project.name}-${buildVersion}-${buildVersionTag}.jar /usr/share/omar",
+          """RUN chown -R 1001:0 /usr/share/omar""",
+          "USER 1001", 
+          "WORKDIR /usr/share/omar",
+          "expose 8080",
+          "CMD /usr/share/omar/run.sh"
+       ]
+     }
     }
     if(System.env.OMAR_COMMON_PROPERTIES)
     {
