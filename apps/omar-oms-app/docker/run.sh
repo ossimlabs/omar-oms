@@ -12,7 +12,7 @@ fi
 #export LD_PRELOAD=/usr/lib64/libnss_wrapper.so
 #export NSS_WRAPPER_PASSWD=/tmp/passwd
 #export NSS_WRAPPER_GROUP=/etc/group
-if [ -z MOUNT_POINT ] ; then
+if [ -z $MOUNT_POINT ] ; then
   export MOUNT_POINT=/s3
 fi
 
@@ -22,7 +22,7 @@ if [ ! -z $BUCKETS ] ; then
 
    for BUCKET in $SPLIT_BUCKET ; do
       mkdir -p /s3/$BUCKET
-      goofys -f -o allow_other $BUCKET /$MOUNT_POINT/$BUCKET &
+      goofys -f -o allow_other $BUCKET $MOUNT_POINT/$BUCKET &
    done
 fi
 
