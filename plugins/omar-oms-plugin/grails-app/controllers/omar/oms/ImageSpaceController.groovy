@@ -44,7 +44,7 @@ class ImageSpaceController
   @ApiImplicitParams([
           @ApiImplicitParam(name = 'x', value = 'Tile in x direction', defaultValue = '0', paramType = 'query', dataType = 'string', required=true),
           @ApiImplicitParam(name = 'y', value = 'Tile in y direction', defaultValue = '0', paramType = 'query', dataType = 'int', required=true),
-          @ApiImplicitParam(name = 'z', value = 'Resolution level (0 full resolution)', defaultValue = '0', paramType = 'query', dataType = 'string', required=true),
+          @ApiImplicitParam(name = 'z', value = 'Resolution level (0 lowest resolution)', defaultValue = '0', paramType = 'query', dataType = 'string', required=true),
           @ApiImplicitParam(name = 'tileSize', value = 'Tile size', allowableValues="[512,256]", defaultValue="256", paramType = 'query', dataType = 'int', required=false),
           @ApiImplicitParam(name = 'outputFormat', value = 'Output image format', allowableValues="[png,jpeg,gif,tiff]", defaultValue="png", paramType = 'query', dataType = 'string', required=true),
           @ApiImplicitParam(name = 'filename', value = 'Filename', paramType = 'query', dataType = 'string', required=true),
