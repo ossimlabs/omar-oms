@@ -48,7 +48,7 @@ class ChipperCommand implements Validateable
    Boolean     padThumbnail
    String      resamplerFilter
    Double      rotation
-   String      rrds
+   Integer      rrds
    Boolean     scale_2_8_bit
    String      sharpenMode
    String      snapTieToOrigin

@@ -77,6 +77,11 @@ class ChipperController {
         </li>
         <br>
         <li>
+        <b>rrds</b><p/>
+        This is the reduced resolution dataset.  Starts from 0 to number of res levels -1.
+        </li>
+        <br>
+        <li>
         <b>histOp</b><p/>
         Histogram operations used can be none, auto-minmax, auto-percentile, std-stretch-1, std-stretch-2, std-stretch-3 
         </li>
@@ -137,6 +142,7 @@ class ChipperController {
           @ApiImplicitParam(name = 'sharpenMode', value = '', defaultValue = '', allowableValues="[light,heavy]",paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'thumbnailResolution', value = '', defaultValue = '',  paramType = 'query', dataType = 'int', required=false),
           @ApiImplicitParam(name = 'cutBboxXywh', value = 'Cut image box separated by commas: <x>,<y>,<width>,<height>', defaultValue = '',  paramType = 'query', dataType = 'string', required=false),
+          @ApiImplicitParam(name = 'rrds', value = 'Reduced resolution', defaultValue = '0',  paramType = 'query', dataType = 'integer', required=false),
           @ApiImplicitParam(name = 'histOp', value = 'Histogram Operation',defaultValue = '',allowableValues="[none,auto-minmax,auto-percentile,std-stretch-1,std-stretch-2,std-stretch-3]", paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'histCenter', value = 'Histogram Center Calculation',defaultValue = '',allowableValues="[true,false]", paramType = 'query', dataType = 'boolean', required=false),
           @ApiImplicitParam(name = 'outputRadiometry', value = 'Output radiometry', defaultValue = '', allowableValues="[ossim_uint8,ossim_uint11,ossim_uint16,ossim_sint16,ossim_float32,ossim_float64]", paramType = 'query', dataType = 'string', required=false),
