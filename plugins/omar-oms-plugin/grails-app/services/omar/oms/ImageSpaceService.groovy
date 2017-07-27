@@ -204,7 +204,7 @@ class ImageSpaceService
       chipperCommand.images = [ [file: cmd.filename, entry: cmd.entry]]
       chipperCommand.operation = "chip"
       chipperCommand.scale_2_8_bit = cmd.scale_2_8_bit
-      chipperCommand.rrds = rrds.toString()
+      chipperCommand.rrds = rrds
       chipperCommand.histOp = cmd.histOp
       chipperCommand.brightness = cmd.brightness
       chipperCommand.contrast = cmd.contrast
