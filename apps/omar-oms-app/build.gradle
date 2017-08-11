@@ -12,13 +12,11 @@ buildscript {
                        SPRING_CLOUD_DISCOVERY_ENABLED=true \\
                        HOME=/usr/share/omar""",
           "COPY run.sh /usr/share/omar/run.sh",
-          """RUN useradd -u 1001 -r -g 0 -d \$HOME -s /sbin/nologin \
-                      -c 'Default Application User' omar && \
-                 yum -y install nss_wrapper gfuse fuse-libs libevent curl ossim ossim-kakadu-plugin \
-                        ossim-web-plugin ossim-jpeg12-plugin ossim-sqlite-plugin \
-                        ossim-geopdf-plugin ossim-png-plugin ossim-gdal-plugin \
-                        ossim-aws-plugin&& \
-                 yum clean all&& \
+          """RUN yum -y install nss_wrapper gfuse fuse-libs libevent curl ossim ossim-kakadu-plugin \
+                 ossim-web-plugin ossim-jpeg12-plugin ossim-sqlite-plugin \
+                 ossim-geopdf-plugin ossim-png-plugin ossim-gdal-plugin \
+                 ossim-aws-plugin && \
+                 yum clean all && \
                  curl -k -s "https://s3.amazonaws.com/ossimlabs/dependencies/riofs/riofs" -o /usr/bin/riofs && \
                  curl -k -s "https://s3.amazonaws.com/ossimlabs/dependencies/goofys/goofys" -o /usr/bin/goofys && \
                  chmod +x /usr/bin/goofys && \
