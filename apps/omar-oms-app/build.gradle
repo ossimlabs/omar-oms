@@ -14,7 +14,7 @@ buildscript {
           "COPY run.sh \$HOME/run.sh",
           "COPY ${project.name}-${buildVersion}-${buildVersionTag}.jar \$HOME",
           "USER root",
-          """RUN yum -y install nss_wrapper gfuse fuse-libs libevent curl &&\
+          """RUN yum -y install nss_wrapper fuse fuse-libs libevent curl &&\
                  yum clean all&& \
                  curl -k -s "https://s3.amazonaws.com/ossimlabs/dependencies/riofs/riofs" -o /usr/bin/riofs && \
                  curl -k -s "https://s3.amazonaws.com/ossimlabs/dependencies/goofys/goofys" -o /usr/bin/goofys && \
