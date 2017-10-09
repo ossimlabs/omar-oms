@@ -1,22 +1,22 @@
 package omar.oms
-import omar.core.BindUtil
-import com.github.rahulsom.swaggydoc.*
-import com.wordnik.swagger.annotations.*
 
-@Api(value = "Chipper",
-        description = "API operations in image space."
+import omar.core.BindUtil
+import io.swagger.annotations.*
+
+@Api(value = "/dataInfo",
+     description = "API operations in image space."
 )
 class DataInfoController {
    def dataInfoService
    static allowedMethods = [index: ["GET"],
                             getInfo: ["GET"]]
 
-   def index() 
-   { 
+   def index()
+   {
          forward action: 'getInfo'
    }
-   
-  @ApiOperation(value = "Get information from the passed in image file name", 
+
+  @ApiOperation(value = "Get information from the passed in image file name",
                 produces="application/xml",
                 httpMethod="GET")
   @ApiImplicitParams([
