@@ -2,10 +2,11 @@ package omar.oms
 
 import omar.core.BindUtil
 import omar.core.HttpStatus
-import com.github.rahulsom.swaggydoc.*
-import com.wordnik.swagger.annotations.*
-@Api(value = "Chipper",
-        description = "API operations for Chipper"
+
+import io.swagger.annotations.*
+
+@Api( value = "/chipper",
+      description = "API operations for Chipper"
 )
 class ChipperController {
    def chipperService
@@ -34,7 +35,7 @@ class ChipperController {
       }
    }
 
-  @ApiOperation(value = "Get image space chip from the passed in image file name", 
+  @ApiOperation(value = "Get image space chip from the passed in image file name",
                 produces="image/png,image/jpeg,image/gif,image/tiff,text/plain",
                 httpMethod="GET",
                 notes = """
@@ -51,7 +52,7 @@ class ChipperController {
         <br>
         <li>
         <b>brightness</b><p/>
-             Allows one to control the brightness of the image. This is expressed as a normalized value between -1 and 1. 
+             Allows one to control the brightness of the image. This is expressed as a normalized value between -1 and 1.
         </li>
         <br>
         <li>
@@ -73,7 +74,7 @@ class ChipperController {
         <li>
         <b>cutBboxXywh</b><p/>
         This is used to cut in image space.  It takes values <b>x</b>,<b>y</b>,<b>width</b>,<b>height</b> where x and y
-        are defined as the upper left corner and the width extends positive x to the right and height extends positive y down. 
+        are defined as the upper left corner and the width extends positive x to the right and height extends positive y down.
         </li>
         <br>
         <li>
@@ -83,7 +84,7 @@ class ChipperController {
         <br>
         <li>
         <b>histOp</b><p/>
-        Histogram operations used can be none, auto-minmax, auto-percentile, std-stretch-1, std-stretch-2, std-stretch-3 
+        Histogram operations used can be none, auto-minmax, auto-percentile, std-stretch-1, std-stretch-2, std-stretch-3
         </li>
         <br>
         <li>
@@ -98,15 +99,15 @@ class ChipperController {
         <br>
         <li>
         <b>bands</b><p/>
-        This defines an output band list that is a comma separated value of integers with band index 1's based.  So a value of 
-        1,1,1 will output three bands with all being the first band of the input image.  If you have a 3 band input image you can reverse them by doing 3,2,1.  
+        This defines an output band list that is a comma separated value of integers with band index 1's based.  So a value of
+        1,1,1 will output three bands with all being the first band of the input image.  If you have a 3 band input image you can reverse them by doing 3,2,1.
         Commas are required.
         </li>
         <br>
         <li>
         <b>resamplerFilter</b><p/>
         We have exposed different filtering capabilities.  Values can be any of the following
-        nearest-neighbor, bilinear, cubic, gaussian, blackman, 
+        nearest-neighbor, bilinear, cubic, gaussian, blackman,
         bspline, hanning, hamming, hermite, mitchell, quadratic, sinc, magic
         </li>
         <br>
@@ -117,7 +118,7 @@ class ChipperController {
         <br>
         <li>
         <b>keepBands</b><p/>
-        This is a flag that will allow the bands to be kept as specified.  So if you wnat a 10 band output then you must void setUp() 
+        This is a flag that will allow the bands to be kept as specified.  So if you wnat a 10 band output then you must void setUp()
         the <b>keepBands</b> to true and then specify the <b>outputFormat</b> to be image/tiff
         </li>
         <br>
@@ -197,7 +198,7 @@ class ChipperController {
        }
    }
 
-  @ApiOperation(value = "Get ortho chip from the passed in image file name", 
+  @ApiOperation(value = "Get ortho chip from the passed in image file name",
                 produces="image/png,image/jpeg,image/gif,image/tiff,text/plain",
                 httpMethod="GET",
                 notes = """
@@ -214,7 +215,7 @@ class ChipperController {
         <br>
         <li>
         <b>brightness</b><p/>
-             Allows one to control the brightness of the image. This is expressed as a normalized value between -1 and 1. 
+             Allows one to control the brightness of the image. This is expressed as a normalized value between -1 and 1.
         </li>
         <br>
         <li>
@@ -235,13 +236,13 @@ class ChipperController {
         <br>
         <li>
         <b>cutWidth</b><p/>
-        This is usually specified in conjuction with a geo spatial cut bos such as <b>cutWmsBbox</b> 
+        This is usually specified in conjuction with a geo spatial cut bos such as <b>cutWmsBbox</b>
         where the cutWidth is specified in pixels
         </li>
         <br>
         <li>
         <b>cutHeight</b><p/>
-        This is usually specified in conjuction with a geo spatial cut bos such as <b>cutWmsBbox</b> 
+        This is usually specified in conjuction with a geo spatial cut bos such as <b>cutWmsBbox</b>
         where the cutHeight is specified in pixels
         </li>
         <br>
@@ -254,7 +255,7 @@ class ChipperController {
         <br>
         <li>
         <b>histOp</b><p/>
-        Histogram operations used can be none, auto-minmax, auto-percentile, std-stretch-1, std-stretch-2, or std-stretch-3 
+        Histogram operations used can be none, auto-minmax, auto-percentile, std-stretch-1, std-stretch-2, or std-stretch-3
         </li>
         <br>
         <li>
@@ -274,15 +275,15 @@ class ChipperController {
         <br>
         <li>
         <b>bands</b><p/>
-        This defines an output band list that is a comma separated value of integers with band index 1's based.  So a value of 
-        1,1,1 will output three bands with all being the first band of the input image.  If you have a 3 band input image you can reverse them by doing 3,2,1.  
+        This defines an output band list that is a comma separated value of integers with band index 1's based.  So a value of
+        1,1,1 will output three bands with all being the first band of the input image.  If you have a 3 band input image you can reverse them by doing 3,2,1.
         Commas are required.
         </li>
         <br>
         <li>
         <b>resamplerFilter</b><p/>
         We have exposed different filtering capabilities.  Values can be any of the following
-        nearest-neighbor, bilinear, cubic, gaussian, blackman, 
+        nearest-neighbor, bilinear, cubic, gaussian, blackman,
         bspline, hanning, hamming, hermite, mitchell, quadratic, sinc, magic
         </li>
         <br>
@@ -293,7 +294,7 @@ class ChipperController {
         <br>
         <li>
         <b>keepBands</b><p/>
-        This is a flag that will allow the bands to be kept as specified.  So if you wnat a 10 band output then you must void setUp() 
+        This is a flag that will allow the bands to be kept as specified.  So if you wnat a 10 band output then you must void setUp()
         the <b>keepBands</b> to true and then specify the <b>outputFormat</b> to be image/tiff
         </li>
         <br>

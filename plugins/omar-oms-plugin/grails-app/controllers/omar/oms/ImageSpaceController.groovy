@@ -1,14 +1,14 @@
 package omar.oms
 
 import grails.converters.JSON
-import com.github.rahulsom.swaggydoc.*
-import com.wordnik.swagger.annotations.*
 import omar.core.BindUtil
 import omar.core.HttpStatus
 import omar.core.IpUtil
 
-@Api(value = "imageSpace",
-        description = "API operations in image space."
+import io.swagger.annotations.*
+
+@Api(value = "/imageSpace",
+     description = "API operations in image space."
 )
 class ImageSpaceController
 {
