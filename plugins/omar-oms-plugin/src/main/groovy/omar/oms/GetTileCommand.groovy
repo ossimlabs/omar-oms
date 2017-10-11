@@ -25,6 +25,9 @@ class GetTileCommand implements Validateable
   Boolean scale_2_8_bit = true
   Boolean histCenterTile = false
   Boolean transparent=true
+  Integer numResLevels = 1
+  Integer width = 0
+  Integer height = 0
 
    void setOutputFormat(String format)
    {
@@ -37,5 +40,5 @@ class GetTileCommand implements Validateable
          this.outputFormat = format
       }
    }
-  
+
 }

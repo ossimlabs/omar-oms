@@ -147,7 +147,7 @@ class ImageSpaceService
     if(!scheme || (scheme=="file"))
     {
       File testFile = new File(connectionString)
-      result = testFile.exists(); 
+      result = testFile.exists();
     }
 
     result
@@ -167,37 +167,19 @@ class ImageSpaceService
   }
   def getTile(GetTileCommand cmd)
   {
-    // for now we will do a quick hack so we can test
-    // S3 access.  We will do an exists somehwere else
-    // Check to see if file exists
-    if ( ! fileExists(cmd.filename?.toString()) )
-    {
-      def image = getDefaultImage(cmd.size, cmd.size)
-      def ostream = new ByteArrayOutputStream()
-      ImageIO.write(image, cmd.outputFormat, ostream)
 
-      return [ status     : HttpStatus.OK,
-               contentType: "image/${hints.type}",
-               buffer     : ostream.toByteArray()
-      ]
-    }
     def imageInfo
     def imageEntry
-    Boolean canChip = true
-    if(isLocalFile(cmd.filename))
-    {
-      imageInfo = readImageInfo(cmd.filename)
-      imageEntry = imageInfo.images[cmd.entry]
-      canChip = cmd.z < imageEntry?.numResLevels
-    }
+
     def result = [status     : HttpStatus.NOT_FOUND,
                   contentType: "plane/text",
                   buffer     : "Unable to service tile".bytes]
-    def indexOffset = findIndexOffset(imageEntry)
+    def indexOffset = findIndexOffset(cmd)
+    Boolean canChip = cmd.z < cmd.numResLevels
 
     if (canChip)
     {
-      def rrds = indexOffset - cmd.z
+      Integer rrds = indexOffset - cmd.z
       ChipperCommand chipperCommand = new ChipperCommand()
 
       chipperCommand.cutBboxXywh = [cmd.x * cmd.tileSize, cmd.y * cmd.tileSize, cmd.tileSize, cmd.tileSize].join(',')
@@ -220,7 +202,6 @@ class ImageSpaceService
 
       if ( cmd.histCenterTile ) {
         chipperCommand.histCenter = cmd.histCenterTile
-        //opts.hist_center = cmd.histCenterTile?.toString()
       }
       try{
         result = chipperService.getTile(chipperCommand)
@@ -243,7 +224,7 @@ class ImageSpaceService
     result
   }
 
-  def findIndexOffset(def image, def tileSize = 256)
+  def findIndexOffset(def cmd)
   {
     // GP: Currently this will not work correctly because the calling GUI
     // has no way of knowing the R-Levels to use.  It currently assumes that
@@ -254,11 +235,11 @@ class ImageSpaceService
     // predefined by the image
     //
     Integer index = 0;
-    Integer maxValue = Math.max(image.width, image.height)
+    Integer maxValue = Math.max(cmd.width, cmd.height)
 
-    if((maxValue > 0)&&(tileSize > 0))
+    if((maxValue > 0)&&(cmd.tileSize > 0))
     {
-      while(maxValue > tileSize)
+      while(maxValue > cmd.tileSize)
       {
         maxValue /= 2
 
