@@ -18,7 +18,7 @@ class DataInfoController {
 
   @ApiOperation(value = "Get information from the passed in image file name",
                 produces="application/xml",
-                httpMethod="GET")
+                httpMethod="POST,GET")
   @ApiImplicitParams([
           @ApiImplicitParam(name = 'filename', value = 'filename', defaultValue = '', paramType = 'query', dataType = 'string', required=true),
           @ApiImplicitParam(name = 'entry', value = 'Entry', defaultValue = '0', paramType = 'query', dataType = 'int', required=false)

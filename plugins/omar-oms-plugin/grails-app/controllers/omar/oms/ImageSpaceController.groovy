@@ -45,14 +45,14 @@ class ImageSpaceController
           @ApiImplicitParam(name = 'x', value = 'Tile in x direction', defaultValue = '0', paramType = 'query', dataType = 'string', required=true),
           @ApiImplicitParam(name = 'y', value = 'Tile in y direction', defaultValue = '0', paramType = 'query', dataType = 'int', required=true),
           @ApiImplicitParam(name = 'z', value = 'Resolution level (0 lowest resolution)', defaultValue = '0', paramType = 'query', dataType = 'string', required=true),
-          @ApiImplicitParam(name = 'tileSize', value = 'Tile size', allowableValues="[512,256]", defaultValue="256", paramType = 'query', dataType = 'int', required=false),
-          @ApiImplicitParam(name = 'outputFormat', value = 'Output image format', allowableValues="[png,jpeg,gif,tiff]", defaultValue="png", paramType = 'query', dataType = 'string', required=true),
+          @ApiImplicitParam(name = 'tileSize', value = 'Tile size', allowableValues="512,256", defaultValue="256", paramType = 'query', dataType = 'int', required=false),
+          @ApiImplicitParam(name = 'outputFormat', value = 'Output image format', allowableValues="png,jpeg,gif,tiff", defaultValue="png", paramType = 'query', dataType = 'string', required=true),
           @ApiImplicitParam(name = 'filename', value = 'Filename', paramType = 'query', dataType = 'string', required=true),
           @ApiImplicitParam(name = 'entry', value = 'Image entry id(typically 0)', defaultValue="0", paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'bands', value = 'Bands', defaultValue="", paramType = 'query', dataType = 'string', required=false),
-          @ApiImplicitParam(name = 'histOp', value = 'Histogram Operation',defaultValue = '',allowableValues="[none,auto-minmax,auto-percentile,std-stretch-1,std-stretch-2,std-stretch-3]", paramType = 'query', dataType = 'string', required=false),
+          @ApiImplicitParam(name = 'histOp', value = 'Histogram Operation',defaultValue = '',allowableValues="none,auto-minmax,auto-percentile,std-stretch-1,std-stretch-2,std-stretch-3", paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'sharpenMode', value = 'Sharpen Operation',allowableValues="[none,light,heavy]", defaultValue="none", paramType = 'query', dataType = 'string', required=false),
-          @ApiImplicitParam(name = 'resamplerFilter', value = 'Which resampling engine to use', defaultValue = '',  allowableValues= "[nearest-neighbor, bilinear, cubic, gaussian, blackman, bspline, hanning, hamming, hermite, mitchell, quadratic, sinc, magic]", paramType = 'query', dataType = 'string', required=false),
+          @ApiImplicitParam(name = 'resamplerFilter', value = 'Which resampling engine to use', defaultValue = '',  allowableValues= "nearest-neighbor, bilinear, cubic, gaussian, blackman, bspline, hanning, hamming, hermite, mitchell, quadratic, sinc, magic", paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'brightness', value = 'Brightness Operation',defaultValue="0.0", paramType = 'query', dataType = 'float', required=false),
           @ApiImplicitParam(name = 'contrast', value = 'Contrast Operation',defaultValue="1.0",  paramType = 'query', dataType = 'float', required=false),
           @ApiImplicitParam(name = 'histCenterTile', value = 'Use Center File for Histogram', defaultValue="false",  paramType = 'query', dataType = 'Boolean', required=false),
@@ -103,8 +103,8 @@ class ImageSpaceController
           @ApiImplicitParam(name = 'x', value = 'Tile in x direciton', defaultValue = '0', paramType = 'query', dataType = 'string', required=true),
           @ApiImplicitParam(name = 'y', value = 'Tile in y direction', defaultValue = '0', paramType = 'query', dataType = 'int', required=true),
           @ApiImplicitParam(name = 'z', value = 'Resolution level (0 full resolution)', defaultValue = '0', paramType = 'query', dataType = 'string', required=true),
-          @ApiImplicitParam(name = 'tileSize', value = 'Tile size', allowableValues="[512,256]", defaultValue="256", paramType = 'query', dataType = 'int', required=true),
-          @ApiImplicitParam(name = 'outputFormat', value = 'Output image format', allowableValues="[png,jpeg,gif,tiff]", defaultValue="png", paramType = 'query', dataType = 'string', required=true),
+          @ApiImplicitParam(name = 'tileSize', value = 'Tile size', allowableValues="512,256", defaultValue="256", paramType = 'query', dataType = 'int', required=true),
+          @ApiImplicitParam(name = 'outputFormat', value = 'Output image format', allowableValues="png,jpeg,gif,tiff", defaultValue="png", paramType = 'query', dataType = 'string', required=true),
           @ApiImplicitParam(name = 'transparent', value = 'Enable transparent if the outputFormat supports it', defaultValue="true",  paramType = 'query', dataType = 'Boolean', required=false)
   ])
   def getTileOverlay(/*GetTileCommand cmd*/)
@@ -171,10 +171,10 @@ class ImageSpaceController
 
   @ApiOperation(value = "Get the thumbnail of the passed in file name", produces="image/jpeg,image/png,image/gif")
   @ApiImplicitParams([
-          @ApiImplicitParam(name = 'size', value = 'Overview image size', allowableValues="[64,128,256]", defaultValue="256", paramType = 'query', dataType = 'int', required=true),
-          @ApiImplicitParam(name = 'outputFormat', value = 'Output image format', allowableValues="[png,jpeg,gif,tiff]", defaultValue="png", paramType = 'query', dataType = 'string', required=true),
+          @ApiImplicitParam(name = 'size', value = 'Overview image size', allowableValues="64,128,256,512,1024", defaultValue="256", paramType = 'query', dataType = 'int', required=true),
+          @ApiImplicitParam(name = 'outputFormat', value = 'Output image format', allowableValues="png,jpeg,gif,tiff", defaultValue="png", paramType = 'query', dataType = 'string', required=true),
           @ApiImplicitParam(name = 'filename', value = 'Filename', paramType = 'query', dataType = 'string', required=true),
-          @ApiImplicitParam(name = 'histOp', value = 'Histogram Operation',defaultValue = '',allowableValues="[none,auto-minmax,auto-percentile,std-stretch-1,std-stretch-2,std-stretch-3]", paramType = 'query', dataType = 'string', required=false),
+          @ApiImplicitParam(name = 'histOp', value = 'Histogram Operation',defaultValue = '',allowableValues="none,auto-minmax,auto-percentile,std-stretch-1,std-stretch-2,std-stretch-3", paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'entry', value = 'Image entry id(typically 0)', defaultValue="0", paramType = 'query', dataType = 'string', required=true),
   ])
   def getThumbnail(/*GetThumbnailCommand cmd*/)
