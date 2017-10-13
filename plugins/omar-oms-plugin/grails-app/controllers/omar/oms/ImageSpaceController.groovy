@@ -40,7 +40,9 @@ class ImageSpaceController
     [initParams: initParams]
   }
 
-  @ApiOperation(value = "Get a tile from the passed in image file", produces="image/jpeg,image/png,image/gif")
+  @ApiOperation(value = "Get a tile from the passed in image file", 
+                produces="image/jpeg,image/png,image/gif",
+                httpMethod="GET")
   @ApiImplicitParams([
           @ApiImplicitParam(name = 'x', value = 'Tile in x direction', defaultValue = '0', paramType = 'query', dataType = 'string', required=true),
           @ApiImplicitParam(name = 'y', value = 'Tile in y direction', defaultValue = '0', paramType = 'query', dataType = 'int', required=true),
@@ -98,7 +100,9 @@ class ImageSpaceController
   }
 
 
-  @ApiOperation(value = "Get the footprint of  tile and its name", produces="image/jpeg,image/png,image/gif")
+  @ApiOperation(value = "Get the footprint of  tile and its name", 
+                produces="image/jpeg,image/png,image/gif",
+                httpMethod="GET")
   @ApiImplicitParams([
           @ApiImplicitParam(name = 'x', value = 'Tile in x direciton', defaultValue = '0', paramType = 'query', dataType = 'string', required=true),
           @ApiImplicitParam(name = 'y', value = 'Tile in y direction', defaultValue = '0', paramType = 'query', dataType = 'int', required=true),
@@ -169,7 +173,9 @@ class ImageSpaceController
     render contentType: 'application/json', text: results as JSON
   }
 
-  @ApiOperation(value = "Get the thumbnail of the passed in file name", produces="image/jpeg,image/png,image/gif")
+  @ApiOperation(value = "Get the thumbnail of the passed in file name", 
+                produces="image/jpeg,image/png,image/gif",
+                httpMethod="GET")
   @ApiImplicitParams([
           @ApiImplicitParam(name = 'size', value = 'Overview image size', allowableValues="64,128,256,512,1024", defaultValue="256", paramType = 'query', dataType = 'int', required=true),
           @ApiImplicitParam(name = 'outputFormat', value = 'Output image format', allowableValues="png,jpeg,gif,tiff", defaultValue="png", paramType = 'query', dataType = 'string', required=true),
