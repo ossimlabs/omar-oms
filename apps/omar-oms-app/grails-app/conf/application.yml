@@ -149,7 +149,8 @@ environments:
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
 
 
+---
 swagger:
-  info:
-    title: ${info.app.name} API
-    version: ${info.app.version}
+  schemes:
+    - HTTPS
+    - HTTP
