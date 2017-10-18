@@ -1,6 +1,7 @@
 package omar.oms
 
 import groovy.json.JsonSlurper
+import groovy.json.JsonBuilder
 import omar.core.HttpStatus
 import sun.awt.image.ToolkitImage
 
@@ -174,6 +175,20 @@ class ImageSpaceService
     def result = [status     : HttpStatus.NOT_FOUND,
                   contentType: "plane/text",
                   buffer     : "Unable to service tile".bytes]
+
+
+    def startTime = new Date()
+    def internalTime = new Date()
+    def processingTime
+    def timestamp
+    JsonBuilder log_getTile
+    def status = "chipper service returned successfully"
+
+    startTime = System.currentTimeMillis()
+    internalTime = startTime
+
+    timestamp = new Date().format("YYYY-MM-DD HH:mm:ss.Ms")
+
     def indexOffset = findIndexOffset(cmd)
     Boolean canChip = cmd.z < cmd.numResLevels
 
@@ -183,6 +198,7 @@ class ImageSpaceService
       ChipperCommand chipperCommand = new ChipperCommand()
 
       chipperCommand.cutBboxXywh = [cmd.x * cmd.tileSize, cmd.y * cmd.tileSize, cmd.tileSize, cmd.tileSize].join(',')
+      bbox_midpoint = [ lat: (cmd.y + cmd.tileSize) / 2, lon: (cmd.x + cmd.tileSize) / 2 ]
       chipperCommand.images = [ [file: cmd.filename, entry: cmd.entry]]
       chipperCommand.operation = "chip"
       chipperCommand.scale_2_8_bit = cmd.scale_2_8_bit
@@ -212,6 +228,7 @@ class ImageSpaceService
                   contentType: "image/${hints.type}",
                   buffer     : "${e}".bytes
                  ]
+        status = "internal server error"
       }
     }
     else
@@ -220,7 +237,17 @@ class ImageSpaceService
                   contentType: "plain/text",
                   buffer     : "Not Enough resolution levels to satisfy request".bytes
                  ]
+        status = "not enough resolution levels to satisfy request"
     }
+
+    processingTime = internalTime - startTime
+
+    sizeof(result)
+
+    logOutput = new JsonBuilder(timestamp: timestamp, status: status, processingTime: processingTime,
+            location: bbox_midpoint, resultsize: result.size())
+
+
     result
   }
 
