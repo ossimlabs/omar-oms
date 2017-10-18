@@ -176,18 +176,20 @@ class ImageSpaceService
                   contentType: "plane/text",
                   buffer     : "Unable to service tile".bytes]
 
+    println "got to getTile"
+    logger("logger got to getTile")
 
-    def startTime = new Date()
+/*    def startTime = new Date()
     def internalTime = new Date()
     def processingTime
     def timestamp
-    JsonBuilder log_getTile
+    JsonBuilder logOutput
     def status = "chipper service returned successfully"
 
     startTime = System.currentTimeMillis()
     internalTime = startTime
 
-    timestamp = new Date().format("YYYY-MM-DD HH:mm:ss.Ms")
+    timestamp = new Date().format("YYYY-MM-DD HH:mm:ss.Ms") */
 
     def indexOffset = findIndexOffset(cmd)
     Boolean canChip = cmd.z < cmd.numResLevels
@@ -198,7 +200,7 @@ class ImageSpaceService
       ChipperCommand chipperCommand = new ChipperCommand()
 
       chipperCommand.cutBboxXywh = [cmd.x * cmd.tileSize, cmd.y * cmd.tileSize, cmd.tileSize, cmd.tileSize].join(',')
-      bbox_midpoint = [ lat: (cmd.y + cmd.tileSize) / 2, lon: (cmd.x + cmd.tileSize) / 2 ]
+      //bbox_midpoint = [ lat: (cmd.y + cmd.tileSize) / 2, lon: (cmd.x + cmd.tileSize) / 2 ]
       chipperCommand.images = [ [file: cmd.filename, entry: cmd.entry]]
       chipperCommand.operation = "chip"
       chipperCommand.scale_2_8_bit = cmd.scale_2_8_bit
@@ -240,14 +242,16 @@ class ImageSpaceService
         status = "not enough resolution levels to satisfy request"
     }
 
-    processingTime = internalTime - startTime
+   /* processingTime = internalTime - startTime
 
     sizeof(result)
 
     logOutput = new JsonBuilder(timestamp: timestamp, status: status, processingTime: processingTime,
             location: bbox_midpoint, resultsize: result.size())
 
+    logger(logOutput)
 
+*/
     result
   }
 
