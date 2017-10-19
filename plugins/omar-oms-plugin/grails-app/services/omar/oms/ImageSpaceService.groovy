@@ -187,7 +187,9 @@ class ImageSpaceService
     def status = "chipper service returned successfully"
 
     startTime = System.currentTimeMillis()
+    log.info "startTime" + startTime
     internalTime = startTime
+    log.info "internalTime" + internalTime
 
     timestamp = new Date().format("YYYY-MM-DD HH:mm:ss.Ms")
 
@@ -196,6 +198,7 @@ class ImageSpaceService
 
     if (canChip)
     {
+      log.info "timestamp" + timestamp
       Integer rrds = indexOffset - cmd.z
       ChipperCommand chipperCommand = new ChipperCommand()
 
@@ -231,6 +234,8 @@ class ImageSpaceService
                   buffer     : "${e}".bytes
                  ]
         status = "internal server error"
+        log.info "status" + status
+
       }
     }
     else
@@ -240,11 +245,13 @@ class ImageSpaceService
                   buffer     : "Not Enough resolution levels to satisfy request".bytes
                  ]
         status = "not enough resolution levels to satisfy request"
+      log.info "status" + status
+
     }
 
     processingTime = internalTime - startTime
 
-    println "before json"
+    log.info "before json"
 
     logOutput = new JsonBuilder(timestamp: timestamp, status: status, processingTime: processingTime,
             location: bbox_midpoint, resultsize: result.size())
