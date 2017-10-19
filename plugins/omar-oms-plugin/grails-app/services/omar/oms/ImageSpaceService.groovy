@@ -176,8 +176,8 @@ class ImageSpaceService
                   contentType: "plane/text",
                   buffer     : "Unable to service tile".bytes]
 
-    println "got to getTile AGAIN"
-    logger("logger got to getTile")
+    log.info "got to getTile"
+    println "getTile"
 
     def startTime = new Date()
     def internalTime = new Date()
@@ -249,7 +249,7 @@ class ImageSpaceService
     logOutput = new JsonBuilder(timestamp: timestamp, status: status, processingTime: processingTime,
             location: bbox_midpoint, resultsize: result.size())
 
-    logger(logOutput)
+    log.info logOutput.toString()
 
     result
   }
