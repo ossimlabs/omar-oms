@@ -235,6 +235,10 @@ class ImageSpaceService
                  ]
         status = "internal server error"
         log.info "status" + status
+        logOutput = new JsonBuilder(timestamp: timestamp, status: status, processingTime: processingTime,
+                location: bbox_midpoint, resultsize: result.size())
+
+        log.info logOutput.toString()
 
       }
     }
@@ -246,6 +250,10 @@ class ImageSpaceService
                  ]
         status = "not enough resolution levels to satisfy request"
       log.info "status" + status
+      logOutput = new JsonBuilder(timestamp: timestamp, status: status, processingTime: processingTime,
+              location: bbox_midpoint, resultsize: result.size())
+
+      log.info logOutput.toString()
 
     }
 
