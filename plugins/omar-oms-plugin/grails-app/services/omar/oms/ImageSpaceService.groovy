@@ -176,7 +176,6 @@ class ImageSpaceService
                   contentType: "plane/text",
                   buffer     : "Unable to service tile".bytes]
 
-    log.info "got to getTile"
     println "getTile"
 
     def startTime = new Date()
