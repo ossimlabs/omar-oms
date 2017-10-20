@@ -179,6 +179,7 @@ class ImageSpaceService
     def startTime = new Date()
     def internalTime = new Date()
     def processingTime
+    def bbox_midpoint
     def timestamp
     JsonBuilder logOutput
     def status = "chipper service returned successfully"
@@ -199,8 +200,6 @@ class ImageSpaceService
       ChipperCommand chipperCommand = new ChipperCommand()
 
       chipperCommand.cutBboxXywh = [cmd.x * cmd.tileSize, cmd.y * cmd.tileSize, cmd.tileSize, cmd.tileSize].join(',')
-      log.info "chipperCommand.cutBboxXywh" + chipperCommand.cutBboxXywh
-      log.info "cmd.x" + cmd.x + "cmd.y" + cmd.y + "cmd.tileSize" + cmd.tileSize
       bbox_midpoint = [ lat: (cmd.y + cmd.tileSize) / 2, lon: (cmd.x + cmd.tileSize) / 2 ]
       log.info "bbox_midpoint" + bbox_midpoint
       chipperCommand.images = [ [file: cmd.filename, entry: cmd.entry]]
