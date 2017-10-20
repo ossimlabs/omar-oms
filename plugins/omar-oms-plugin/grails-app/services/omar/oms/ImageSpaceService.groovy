@@ -176,9 +176,6 @@ class ImageSpaceService
                   contentType: "plane/text",
                   buffer     : "Unable to service tile".bytes]
 
-    println "getTile"
-    log.info "getTile"
-
     def startTime = new Date()
     def internalTime = new Date()
     def processingTime
@@ -198,9 +195,9 @@ class ImageSpaceService
 
     if (canChip)
     {
-      log.info "timestamp" + timestamp
       Integer rrds = indexOffset - cmd.z
       ChipperCommand chipperCommand = new ChipperCommand()
+      log.info "before cut"
 
       chipperCommand.cutBboxXywh = [cmd.x * cmd.tileSize, cmd.y * cmd.tileSize, cmd.tileSize, cmd.tileSize].join(',')
       bbox_midpoint = [ lat: (cmd.y + cmd.tileSize) / 2, lon: (cmd.x + cmd.tileSize) / 2 ]
@@ -213,6 +210,7 @@ class ImageSpaceService
       chipperCommand.contrast = cmd.contrast
       chipperCommand.sharpenMode = cmd.sharpenMode
       chipperCommand.resamplerFilter = cmd.resamplerFilter
+      log.info "before if"
       if(cmd.transparent == null) chipperCommand.transparent = true
       else chipperCommand.transparent = cmd.transparent
       if(cmd.outputFormat) chipperCommand.outputFormat = cmd.outputFormat
@@ -256,6 +254,9 @@ class ImageSpaceService
       log.info logOutput.toString()
 
     }
+
+    log.info "before json"
+
 
     processingTime = internalTime - startTime
 
