@@ -235,7 +235,7 @@ class ImageSpaceService
 
         processingTime = internalTime - startTime
 
-        logOutput = new JsonBuilder(timestamp: timestamp, status: result.get(buffer), processingTime: processingTime,
+        logOutput = new JsonBuilder(timestamp: timestamp, status: status, processingTime: processingTime,
                 location: bbox_midpoint, resultsize: result.size())
 
         log.info logOutput.toString()
@@ -254,7 +254,7 @@ class ImageSpaceService
 
       processingTime = internalTime - startTime
 
-      logOutput = new JsonBuilder(timestamp: timestamp, status: result.get(buffer), processingTime: processingTime,
+      logOutput = new JsonBuilder(timestamp: timestamp, status: status, processingTime: processingTime,
               location: bbox_midpoint, resultsize: result.size())
 
       log.info logOutput.toString()
@@ -265,7 +265,7 @@ class ImageSpaceService
 
     processingTime = internalTime - startTime
 
-    logOutput = new JsonBuilder(timestamp: timestamp, status: result.get(buffer), processingTime: processingTime,
+    logOutput = new JsonBuilder(timestamp: timestamp, status: status, processingTime: processingTime,
             location: bbox_midpoint, resultsize: result.size())
 
     log.info logOutput.toString()
