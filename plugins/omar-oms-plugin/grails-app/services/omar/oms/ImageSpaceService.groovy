@@ -197,14 +197,13 @@ class ImageSpaceService
     {
       Integer rrds = indexOffset - cmd.z
       ChipperCommand chipperCommand = new ChipperCommand()
-      log.info "before cut"
 
       chipperCommand.cutBboxXywh = [cmd.x * cmd.tileSize, cmd.y * cmd.tileSize, cmd.tileSize, cmd.tileSize].join(',')
       log.info "chipperCommand.cutBboxXywh" + chipperCommand.cutBboxXywh
+      log.info "cmd.x" + cmd.x + "cmd.y" + cmd.y + "cmd.tileSize" + cmd.tileSize
       bbox_midpoint = [ lat: (cmd.y + cmd.tileSize) / 2, lon: (cmd.x + cmd.tileSize) / 2 ]
       log.info "bbox_midpoint" + bbox_midpoint
       chipperCommand.images = [ [file: cmd.filename, entry: cmd.entry]]
-      log.info "chipperCommand.images" +chipperCommand.images
       chipperCommand.operation = "chip"
       chipperCommand.scale_2_8_bit = cmd.scale_2_8_bit
       chipperCommand.rrds = rrds
@@ -213,7 +212,6 @@ class ImageSpaceService
       chipperCommand.contrast = cmd.contrast
       chipperCommand.sharpenMode = cmd.sharpenMode
       chipperCommand.resamplerFilter = cmd.resamplerFilter
-      log.info "before if"
       if(cmd.transparent == null) chipperCommand.transparent = true
       else chipperCommand.transparent = cmd.transparent
       if(cmd.outputFormat) chipperCommand.outputFormat = cmd.outputFormat
