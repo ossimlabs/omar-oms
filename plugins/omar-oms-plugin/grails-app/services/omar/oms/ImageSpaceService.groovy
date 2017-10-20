@@ -200,8 +200,11 @@ class ImageSpaceService
       log.info "before cut"
 
       chipperCommand.cutBboxXywh = [cmd.x * cmd.tileSize, cmd.y * cmd.tileSize, cmd.tileSize, cmd.tileSize].join(',')
+      log.info "chipperCommand.cutBboxXywh" + chipperCommand.cutBboxXywh
       bbox_midpoint = [ lat: (cmd.y + cmd.tileSize) / 2, lon: (cmd.x + cmd.tileSize) / 2 ]
+      log.info "bbox_midpoint" + bbox_midpoint
       chipperCommand.images = [ [file: cmd.filename, entry: cmd.entry]]
+      log.info "chipperCommand.images" +chipperCommand.images
       chipperCommand.operation = "chip"
       chipperCommand.scale_2_8_bit = cmd.scale_2_8_bit
       chipperCommand.rrds = rrds
