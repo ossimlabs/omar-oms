@@ -182,7 +182,7 @@ class ImageSpaceService
     def bbox_midpoint
     def timestamp
     JsonBuilder logOutput
-    def status = "chipper service returned successfully"
+    def status = "chipper services returned successfully"
 
     startTime = System.currentTimeMillis()
     internalTime = startTime
