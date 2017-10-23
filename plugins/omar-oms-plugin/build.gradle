@@ -41,7 +41,7 @@ ext {
 
 repositories {
   mavenLocal()
-//  maven { url "${ossimMavenProxy}" }
+  maven { url "${ossimMavenProxy}" }
   // this is for JAI.  Must be before the mavenCentral and stuff.
   mavenCentral()
   maven { url "https://dl.bintray.com/ajay-kumar/plugins" }
