@@ -85,7 +85,6 @@ repositories {
 
 dependencyManagement {
     imports {
-        // mavenBom "org.grails:grails-bom:$grailsVersion"
         mavenBom "org.springframework.cloud:spring-cloud-starter-parent:Dalston.SR4"
     }
     applyMavenExclusions false
@@ -108,6 +107,7 @@ dependencies {
 */
     compile "org.springframework.cloud:spring-cloud-starter-config"
     compile "org.springframework.cloud:spring-cloud-starter-eureka"
+    compile "org.springframework.cloud:spring-cloud-starter-zipkin"
 
     compile "org.springframework.boot:spring-boot-starter-logging"
     compile "org.springframework.boot:spring-boot-autoconfigure"
@@ -139,7 +139,7 @@ dependencies {
     testCompile "org.grails.plugins:geb"
     testCompile "org.grails:grails-web-testing-support"
     testRuntime "org.seleniumhq.selenium:selenium-htmlunit-driver:2.47.1"
-    testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"    
+    testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"
 }
 
 publishing {
