@@ -26,12 +26,10 @@ import joms.oms.Chipper
 import joms.oms.ImageModel
 import joms.oms.Info
 import joms.oms.Keywordlist
-import org.springframework.stereotype.Service
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand
 
 import java.awt.image.RenderedImage
 
-@Service
 class ImageSpaceService
 {
   static transactional = false
