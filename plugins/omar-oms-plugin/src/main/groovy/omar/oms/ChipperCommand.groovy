@@ -160,7 +160,7 @@ class ChipperCommand implements Validateable
       images.eachWithIndex{v,i ->
          result."image${i}.file" = v.file?:""
          if(v.entry == null) result."image${i}.entry" = "0"
-         else v.entry = v.entry.toString()
+         else result."image${i}.entry" = v.entry.toString()
       }
 
       result
