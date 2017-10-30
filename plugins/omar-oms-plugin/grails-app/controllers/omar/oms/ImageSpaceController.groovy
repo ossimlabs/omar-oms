@@ -44,10 +44,10 @@ class ImageSpaceController
                 produces="image/jpeg,image/png,image/gif",
                 httpMethod="GET")
   @ApiImplicitParams([
-          @ApiImplicitParam(name = 'x', value = 'Tile in x direction', defaultValue = '0', paramType = 'query', dataType = 'string', required=true),
-          @ApiImplicitParam(name = 'y', value = 'Tile in y direction', defaultValue = '0', paramType = 'query', dataType = 'string', required=true),
+          @ApiImplicitParam(name = 'x', value = 'Tile in x direction', defaultValue = '0', paramType = 'query', dataType = 'integer', required=true),
+          @ApiImplicitParam(name = 'y', value = 'Tile in y direction', defaultValue = '0', paramType = 'query', dataType = 'integer', required=true),
           @ApiImplicitParam(name = 'z', value = 'Resolution level (0 lowest resolution)', defaultValue = '0', paramType = 'query', dataType = 'string', required=true),
-          @ApiImplicitParam(name = 'tileSize', value = 'Tile size', allowableValues="512,256", defaultValue="256", paramType = 'query', dataType = 'int', required=false),
+          @ApiImplicitParam(name = 'tileSize', value = 'Tile size', allowableValues="512,256", defaultValue="256", paramType = 'query', dataType = 'integer', required=false),
           @ApiImplicitParam(name = 'outputFormat', value = 'Output image format', allowableValues="png,jpeg,gif,tiff", defaultValue="png", paramType = 'query', dataType = 'string', required=true),
           @ApiImplicitParam(name = 'filename', value = 'Filename', paramType = 'query', dataType = 'string', required=true),
           @ApiImplicitParam(name = 'entry', value = 'Image entry id(typically 0)', defaultValue="0", paramType = 'query', dataType = 'string', required=false),
