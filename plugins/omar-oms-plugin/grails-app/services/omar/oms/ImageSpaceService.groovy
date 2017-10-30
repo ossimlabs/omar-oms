@@ -194,11 +194,11 @@ class ImageSpaceService
     result
   }
 
-  String serviceDown(String connectionString) {
-    return "Service is down"
-  }
+//  String serviceDown(String connectionString) {
+//    return "Service is down"
+//  }
 
-  @HystrixCommand(fallbackMethod = "serviceDown")
+//  @HystrixCommand(fallbackMethod = "serviceDown")
   def getTile(GetTileCommand cmd)
   {
 
