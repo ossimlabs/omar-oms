@@ -43,7 +43,7 @@ Ref: [omar-ossim-base](../../../omar-ossim-base/docs/install-guide/omar-ossim-ba
 
 ## Installation in Openshift
 
-**Assumption:** The omar-oms-service docker image is pushed into the OpenShift server's internal docker registry and available to the project.
+**Assumption:** The omar-oms-app docker image is pushed into the OpenShift server's internal docker registry and available to the project.
 
 ### Persistent Volumes
 
