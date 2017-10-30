@@ -170,4 +170,5 @@ status:
   unavailableReplicas: 0
   updatedReplicas: 0
 ```
+
 ## Application Configuration YAML
