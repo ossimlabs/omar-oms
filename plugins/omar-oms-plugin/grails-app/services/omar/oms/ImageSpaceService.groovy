@@ -258,7 +258,7 @@ class ImageSpaceService
       catch(e)
       {
         result = [status     : HttpStatus.INTERNAL_SERVER_ERROR,
-                  contentType: "image/${hints.type}",
+                  contentType: "plain/text",
                   buffer     : "${e}".bytes
                  ]
         status = "internal server error"
@@ -431,7 +431,7 @@ class ImageSpaceService
       catch(e)
       {
         result = [status     : HttpStatus.INTERNAL_SERVER_ERROR,
-                  contentType: "image/${hints.type}",
+                  contentType: "plain/text",
                   buffer     : "${e}".bytes
                  ]
       }
