@@ -118,7 +118,7 @@ class ChipperController {
           @ApiImplicitParam(name = 'rrds', value = 'Reduced resolution', defaultValue = '0',  paramType = 'query', dataType = 'integer', required=false),
           @ApiImplicitParam(name = 'histOp', value = 'Histogram Operation',defaultValue = '',allowableValues="none,auto-minmax,auto-percentile,std-stretch-1,std-stretch-2,std-stretch-3", paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'histCenter', value = 'Histogram Center Calculation',defaultValue = '',allowableValues="true,false", paramType = 'query', dataType = 'boolean', required=false),
-          @ApiImplicitParam(name = 'outputRadiometry', value = 'Output radiometry', defaultValue = '', allowableValues="ossim_uint8,ossim_uint11,ossim_uint16,ossim_sint16,ossim_float32,ossim_float64", paramType = 'query', dataType = 'string', required=true),
+          @ApiImplicitParam(name = 'outputRadiometry', value = 'Output radiometry', defaultValue = 'ossim_uint8', allowableValues="ossim_uint8,ossim_uint11,ossim_uint16,ossim_sint16,ossim_float32,ossim_float64", paramType = 'query', dataType = 'string', required=true),
           @ApiImplicitParam(name = 'bands', value = 'Bands', defaultValue = '',  paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'resamplerFilter', value = 'Which resampling engine to use', defaultValue = '',  allowableValues= "nearest-neighbor, bilinear, cubic, gaussian, blackman, bspline, hanning, hamming, hermite, mitchell, quadratic, sinc, magic", paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'outputFormat', value = 'Output format', defaultValue = '',  allowableValues= "image/jpeg,image/png,image/gif,image/tiff", paramType = 'query', dataType = 'string', required=false),
@@ -128,6 +128,7 @@ class ChipperController {
    ])
    def chip(){
       ChipperCommand command = new ChipperCommand()
+
       def json = request.JSON
 
       if(json)
@@ -141,7 +142,8 @@ class ChipperController {
          bindData(command, BindUtil.fixParamNames(ChipperCommand, params))
       }
       def result = chipperService.getTile(command)
-
+println command
+println command.toChipperOptions()
       response.contentType = result.contentType
       if(result.status != null) response.status        = result.status
       if(result.contentType) response.contentType      = result.contentType
@@ -263,7 +265,7 @@ class ChipperController {
           @ApiImplicitParam(name = 'histOp', value = 'Histogram Operation',defaultValue = '',allowableValues="none,auto-minmax,auto-percentile,std-stretch-1,std-stretch-2,std-stretch-3", paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'histCenter', value = 'Histogram Center Calculation',defaultValue = '',allowableValues="true,false", paramType = 'query', dataType = 'boolean', required=false),
           @ApiImplicitParam(name = 'srs', value = 'srs', defaultValue = '',  allowableValues="EPSG:4326, EPSG:3857", paramType = 'query', dataType = 'string', required=false),
-          @ApiImplicitParam(name = 'outputRadiometry', value = 'Output radiometry', defaultValue = '', allowableValues="ossim_uint8,ossim_uint11,ossim_uint16,ossim_sint16,ossim_float32,ossim_float64", paramType = 'query', dataType = 'string', required=true),
+          @ApiImplicitParam(name = 'outputRadiometry', value = 'Output radiometry', defaultValue = 'ossim_uint8', allowableValues="ossim_uint8,ossim_uint11,ossim_uint16,ossim_sint16,ossim_float32,ossim_float64", paramType = 'query', dataType = 'string', required=true),
           @ApiImplicitParam(name = 'bands', value = 'Bands', defaultValue = '',  paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'resamplerFilter', value = 'Which resampling engine to use', defaultValue = '',  allowableValues= "nearest-neighbor, bilinear, cubic, gaussian, blackman, bspline, hanning, hamming, hermite, mitchell, quadratic, sinc, magic", paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'outputFormat', value = 'Output format', defaultValue = '',  allowableValues= "image/jpeg,image/png,image/gif,image/tiff", paramType = 'query', dataType = 'string', required=false),
