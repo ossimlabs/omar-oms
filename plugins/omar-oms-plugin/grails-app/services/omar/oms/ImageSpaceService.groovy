@@ -35,7 +35,7 @@ class ImageSpaceService
   static transactional = false
   def chipperService
 
-  @HystrixCommand(fallbackMethod = "serviceDowngetTileOverlay")
+//  @HystrixCommand(fallbackMethod = "serviceDowngetTileOverlay")
   def getTileOverlay(GetTileCommand cmd)
   {
     def text = "${cmd.z}/${cmd.x}/${cmd.y}"
@@ -64,13 +64,13 @@ class ImageSpaceService
     [contentType: format, buffer: ostream.toByteArray()]
   }
 
-  String serviceDowngetTileOverlay(GetTileCommand cmd) {
+/*  String serviceDowngetTileOverlay(GetTileCommand cmd) {
     return "Service is down"
-  }
+  } */
 
 
 
-  @HystrixCommand(fallbackMethod = "serviceDownreadImageInfo")
+//  @HystrixCommand(fallbackMethod = "serviceDownreadImageInfo")
   def readImageInfo(String file)
   {
     def info = getImageInfoAsMap( file )
@@ -108,11 +108,11 @@ class ImageSpaceService
     return data
   }
 
-  String serviceDownreadImageInfo(String file) {
+/*  String serviceDownreadImageInfo(String file) {
     return "Service readImageInfo is down"
-  }
+  } */
 
-  @HystrixCommand(fallbackMethod = "serviceDowngetImageInfoAsMap")
+//  @HystrixCommand(fallbackMethod = "serviceDowngetImageInfoAsMap")
   def getImageInfoAsMap(String file)
   {
     def kwl = new Keywordlist()
@@ -151,13 +151,13 @@ class ImageSpaceService
     return data
   }
 
-  String serviceDowngetImageInfoAsMap (String file){
+  /* String serviceDowngetImageInfoAsMap (String file){
     return "Service is down"
-  }
+  } */
 
 
 
-  @HystrixCommand(fallbackMethod = "serviceDownfileExists")
+ // @HystrixCommand(fallbackMethod = "serviceDownfileExists")
   Boolean fileExists(String connectionString)
   {
     // default to true for protocols other than file and
@@ -175,11 +175,11 @@ class ImageSpaceService
     result
   }
 
-  String serviceDownfileExists(String connectionString) {
+/*  String serviceDownfileExists(String connectionString) {
     return "Service fileExists is down"
-  }
+  } */
 
-  @HystrixCommand(fallbackMethod = "serviceDown")
+//  @HystrixCommand(fallbackMethod = "serviceDown")
   Boolean isLocalFile(String connectionString)
   {
     Boolean result = false
@@ -296,12 +296,12 @@ class ImageSpaceService
     result
   }
 
-  String serviceDown(GetTileCommand cmd) {
+  /*String serviceDown(GetTileCommand cmd) {
     return "Service is down"
-  }
+  } */
 
 
-  @HystrixCommand(fallbackMethod = "serviceDown")
+//  @HystrixCommand(fallbackMethod = "serviceDown")
   def findIndexOffset(def cmd)
   {
     // GP: Currently this will not work correctly because the calling GUI
@@ -341,12 +341,12 @@ class ImageSpaceService
     return index
   }
 
-  String serviceDown(def cmd) {
+  /* String serviceDown(def cmd) {
     return "Service is down"
-  }
+  } */
 
 
-  @HystrixCommand(fallbackMethod = "serviceDown")
+//  @HystrixCommand(fallbackMethod = "serviceDown")
   def computeUpIsUp(String filename, Integer entryId)
   {
     Double upIsUp = 0.0
@@ -362,12 +362,12 @@ class ImageSpaceService
     return upIsUp
   }
 
-  String serviceDown(String filename, Integer entryId) {
+/*  String serviceDown(String filename, Integer entryId) {
     return "Service is down"
-  }
+  } */
 
 
-  @HystrixCommand(fallbackMethod = "serviceDownNorthIsUp")
+//  @HystrixCommand(fallbackMethod = "serviceDownNorthIsUp")
   def computeNorthIsUp(String filename, Integer entryId)
   {
     Double northIsUp = 0.0
@@ -383,12 +383,12 @@ class ImageSpaceService
     return northIsUp
   }
 
-  String serviceDownNorthIsUp(String filename, Integer entryId) {
+/*  String serviceDownNorthIsUp(String filename, Integer entryId) {
     return "Service computeNorthIsUp is down"
-  }
+  } */
 
 
-  @HystrixCommand(fallbackMethod = "serviceDown")
+//  @HystrixCommand(fallbackMethod = "serviceDown")
   def getThumbnail(GetThumbnailCommand cmd)
   {
     def result = [status:HttpStatus.OK, buffer:null]
@@ -429,12 +429,12 @@ class ImageSpaceService
     result
   }
 
-  String serviceDown(GetThumbnailCommand cmd) {
+/*  String serviceDown(GetThumbnailCommand cmd) {
     return "Service getThumbnail is down"
-  }
+  } */
 
 
-  @HystrixCommand(fallbackMethod = "serviceDown")
+//  @HystrixCommand(fallbackMethod = "serviceDown")
   def getDefaultImage(int width, int height)
   {
     def image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB)
@@ -450,8 +450,8 @@ class ImageSpaceService
     image
   }
 
-  String serviceDown(int width, int height) {
+/*  String serviceDown(int width, int height) {
     return "Service getDefaultImages is down"
-  }
+  } */
 
 }
