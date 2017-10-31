@@ -262,11 +262,6 @@ class ImageSpaceService
         Date endTimecatch = new Date()
 
 
-        result.get(status)
-
-
-
-
         responseTime = Math.abs(startTime.getTime() - endTimecatch.getTime())
 
         logOutput = new JsonBuilder(timestamp: startTime.format("YYYY-MM-DD HH:mm:ss.Ms"), requestType: requestType,
@@ -293,7 +288,7 @@ class ImageSpaceService
 
     logOutput = new JsonBuilder(timestamp: startTime.format("YYYY-MM-DD HH:mm:ss.Ms"), requestType: requestType,
             requestMethod: requestMethod, status: result.status, endTime: endTime.format("YYYY-MM-DD HH:mm:ss.Ms"),
-            responseTime: responseTime, resultsize: result.size(), filename: cmd.filename,location: bbox_midpoint)
+            responseTime: responseTime, resultsize: result.buffer.length, filename: cmd.filename,location: bbox_midpoint)
 
     log.info logOutput.toString()
 
