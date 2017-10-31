@@ -212,6 +212,7 @@ class ImageSpaceService
 
     def requestType = "GET"
     def requestMethod = "getTile"
+    def responseTime
     Date startTime = new Date()
     def bbox_midpoint
     JsonBuilder logOutput
