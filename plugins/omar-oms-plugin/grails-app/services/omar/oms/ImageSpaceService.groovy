@@ -209,18 +209,16 @@ class ImageSpaceService
                   contentType: "plane/text",
                   buffer     : "Unable to service tile".bytes]
 
-    def startTime = new Date()
-    def internalTime = new Date()
-    def processingTime
+
+    def requestType = "GET"
+    def requestMethod = "getTile"
+    Date startTime = new Date()
+    Date endTime = new Date()
     def bbox_midpoint
-    def timestamp
     JsonBuilder logOutput
     def status = "chipper services returned successfully"
 
     startTime = System.currentTimeMillis()
-    internalTime = startTime
-
-    timestamp = new Date().format("YYYY-MM-DD HH:mm:ss.Ms")
 
     def indexOffset = findIndexOffset(cmd)
     Boolean canChip = cmd.z < cmd.numResLevels
@@ -264,12 +262,14 @@ class ImageSpaceService
         status = "internal server error"
         log.info "status" + status
 
-        internalTime = System.currentTimeMillis()
+        endTime = System.currentTimeMillis()
 
-        processingTime = internalTime - startTime
 
-        logOutput = new JsonBuilder(timestamp: timestamp, status: status, processingTime: processingTime,
-                location: bbox_midpoint, resultsize: result.size())
+        responseTime = Math.abs(startTime.getTime() - endTime.getTime())
+
+        logOutput = new JsonBuilder(timestamp: startTime.format("YYYY-MM-DD HH:mm:ss.Ms"), requestType: requestType,
+                requestMethod: requestMethod, status: status, endTime: endTime.format("YYYY-MM-DD HH:mm:ss.Ms"),
+                responseTime: responseTime, resultsize: result.size(), filename: cmd.filename,location: bbox_midpoint)
 
         log.info logOutput.toString()
 
@@ -282,24 +282,16 @@ class ImageSpaceService
                   buffer     : "Not Enough resolution levels to satisfy request".bytes
                  ]
         status = "not enough resolution levels to satisfy request"
-      log.info "status" + status
-      internalTime = System.currentTimeMillis()
-
-      processingTime = internalTime - startTime
-
-      logOutput = new JsonBuilder(timestamp: timestamp, status: status, processingTime: processingTime,
-              location: bbox_midpoint, resultsize: result.size())
-
-      log.info logOutput.toString()
 
     }
 
-    internalTime = System.currentTimeMillis()
+    endTime = System.currentTimeMillis()
 
-    processingTime = internalTime - startTime
+    responseTime = Math.abs(startTime.getTime() - endTime.getTime())
 
-    logOutput = new JsonBuilder(timestamp: timestamp, status: status, processingTime: processingTime,
-            location: bbox_midpoint, resultsize: result.size())
+    logOutput = new JsonBuilder(timestamp: startTime.format("YYYY-MM-DD HH:mm:ss.Ms"), requestType: requestType,
+            requestMethod: requestMethod, status: status, endTime: endTime.format("YYYY-MM-DD HH:mm:ss.Ms"),
+            responseTime: responseTime, resultsize: result.size(), filename: cmd.filename,location: bbox_midpoint)
 
     log.info logOutput.toString()
 
