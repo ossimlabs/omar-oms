@@ -213,12 +213,9 @@ class ImageSpaceService
     def requestType = "GET"
     def requestMethod = "getTile"
     Date startTime = new Date()
-    Date endTime = new Date()
     def bbox_midpoint
     JsonBuilder logOutput
     def status = "chipper services returned successfully"
-
-    startTime = System.currentTimeMillis()
 
     def indexOffset = findIndexOffset(cmd)
     Boolean canChip = cmd.z < cmd.numResLevels
@@ -261,11 +258,12 @@ class ImageSpaceService
                  ]
         status = "internal server error"
         log.info "status" + status
+        Date endTimecatch = new Date()
 
-        endTime = System.currentTimeMillis()
 
 
-        responseTime = Math.abs(startTime.getTime() - endTime.getTime())
+
+        responseTime = Math.abs(startTime.getTime() - endTimecatch.getTime())
 
         logOutput = new JsonBuilder(timestamp: startTime.format("YYYY-MM-DD HH:mm:ss.Ms"), requestType: requestType,
                 requestMethod: requestMethod, status: status, endTime: endTime.format("YYYY-MM-DD HH:mm:ss.Ms"),
@@ -285,7 +283,7 @@ class ImageSpaceService
 
     }
 
-    endTime = System.currentTimeMillis()
+    Date endTime = new Date()
 
     responseTime = Math.abs(startTime.getTime() - endTime.getTime())
 
