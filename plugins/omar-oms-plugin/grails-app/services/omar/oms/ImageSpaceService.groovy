@@ -216,7 +216,6 @@ class ImageSpaceService
     Date startTime = new Date()
     def bbox_midpoint
     JsonBuilder logOutput
-    def status = "chipper services returned successfully"
 
     def indexOffset = findIndexOffset(cmd)
     Boolean canChip = cmd.z < cmd.numResLevels
@@ -257,8 +256,7 @@ class ImageSpaceService
                   contentType: "plain/text",
                   buffer     : "${e}".bytes
                  ]
-        status = "internal server error"
-        log.info "status" + status
+
         Date endTimecatch = new Date()
 
 
@@ -278,7 +276,6 @@ class ImageSpaceService
                   contentType: "plain/text",
                   buffer     : "Not Enough resolution levels to satisfy request".bytes
                  ]
-        status = "not enough resolution levels to satisfy request"
 
     }
 
@@ -288,7 +285,7 @@ class ImageSpaceService
 
     logOutput = new JsonBuilder(timestamp: startTime.format("YYYY-MM-DD HH:mm:ss.Ms"), requestType: requestType,
             requestMethod: requestMethod, status: result.status, endTime: endTime.format("YYYY-MM-DD HH:mm:ss.Ms"),
-            responseTime: responseTime, resultsize: result.buffer.length, filename: cmd.filename,location: bbox_midpoint)
+            responseTime: responseTime, responseSize: result.buffer.length, filename: cmd.filename,location: bbox_midpoint)
 
     log.info logOutput.toString()
 
