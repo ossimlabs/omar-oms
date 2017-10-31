@@ -107,10 +107,9 @@ dependencies {
 */
 
     compile "de.codecentric:spring-boot-admin-starter-client:1.5.4"
-    
+
     compile "org.springframework.cloud:spring-cloud-starter-config"
     compile "org.springframework.cloud:spring-cloud-starter-eureka"
-    compile "org.springframework.cloud:spring-cloud-starter-hystrix"
     compile "org.springframework.boot:spring-boot-starter-web"
     compile "org.springframework.cloud:spring-cloud-starter-zipkin"
 
