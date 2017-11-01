@@ -40,6 +40,12 @@ class ImageSpaceService
   {
     def text = "${cmd.z}/${cmd.x}/${cmd.y}"
 
+    def requestType = "GET"
+    def requestMethod = "getTileOverlay"
+    def responseTime
+    Date startTime = new Date()
+    JsonBuilder logOutput
+
     BufferedImage image = new BufferedImage( cmd.tileSize, cmd.tileSize, BufferedImage.TYPE_INT_ARGB )
     ByteArrayOutputStream ostream = new ByteArrayOutputStream()
     def g2d = image.createGraphics()
@@ -60,6 +66,16 @@ class ImageSpaceService
 
 
     ImageIO.write( image, format.split("/")[-1], ostream )
+
+    Date endTime = new Date()
+
+    responseTime = Math.abs(startTime.getTime() - endTime.getTime())
+
+    logOutput = new JsonBuilder(timestamp: startTime.format("YYYY-MM-DD HH:mm:ss.Ms"), requestType: requestType,
+            requestMethod: requestMethod, status: "got to end of function", endTime: endTime.format("YYYY-MM-DD HH:mm:ss.Ms"),
+            responseTime: responseTime, responseSize: buffer.length, filename: cmd.filename)
+
+    log.info logOutput.toString()
 
     [contentType: format, buffer: ostream.toByteArray()]
   }
@@ -214,7 +230,6 @@ class ImageSpaceService
     def requestMethod = "getTile"
     def responseTime
     Date startTime = new Date()
-    def bbox_midpoint
     JsonBuilder logOutput
 
     def indexOffset = findIndexOffset(cmd)
@@ -226,7 +241,6 @@ class ImageSpaceService
       ChipperCommand chipperCommand = new ChipperCommand()
 
       chipperCommand.cutBboxXywh = [cmd.x * cmd.tileSize, cmd.y * cmd.tileSize, cmd.tileSize, cmd.tileSize].join(',')
-      bbox_midpoint = [ x: cmd.x, y: cmd.y, tileSize: cmd.tileSize ]
       chipperCommand.images = [ [file: cmd.filename, entry: cmd.entry]]
       chipperCommand.operation = "chip"
       chipperCommand.scale_2_8_bit = cmd.scale_2_8_bit
@@ -264,7 +278,7 @@ class ImageSpaceService
 
         logOutput = new JsonBuilder(timestamp: startTime.format("YYYY-MM-DD HH:mm:ss.Ms"), requestType: requestType,
                 requestMethod: requestMethod, status: result.status, endTime: endTime.format("YYYY-MM-DD HH:mm:ss.Ms"),
-                responseTime: responseTime, responseSize: result.buffer.length, filename: cmd.filename,location: bbox_midpoint)
+                responseTime: responseTime, responseSize: result.buffer.length, filename: cmd.filename)
 
         log.info logOutput.toString()
 
@@ -285,7 +299,7 @@ class ImageSpaceService
 
     logOutput = new JsonBuilder(timestamp: startTime.format("YYYY-MM-DD HH:mm:ss.Ms"), requestType: requestType,
             requestMethod: requestMethod, status: result.status, endTime: endTime.format("YYYY-MM-DD HH:mm:ss.Ms"),
-            responseTime: responseTime, responseSize: result.buffer.length, filename: cmd.filename,location: bbox_midpoint)
+            responseTime: responseTime, responseSize: result.buffer.length, filename: cmd.filename)
 
     log.info logOutput.toString()
 
@@ -388,6 +402,13 @@ class ImageSpaceService
   def getThumbnail(GetThumbnailCommand cmd)
   {
     def result = [status:HttpStatus.OK, buffer:null]
+
+    def requestType = "GET"
+    def requestMethod = "getThumbnail"
+    def responseTime
+    Date startTime = new Date()
+    JsonBuilder logOutput
+
     // Check to see if file exists
     if ( ! fileExists(cmd.filename?.toString() ) )
     {
@@ -420,8 +441,32 @@ class ImageSpaceService
                   contentType: "plain/text",
                   buffer     : "${e}".bytes
                  ]
+
+        Date endTimecatch = new Date()
+
+
+        responseTime = Math.abs(startTime.getTime() - endTimecatch.getTime())
+
+        logOutput = new JsonBuilder(timestamp: startTime.format("YYYY-MM-DD HH:mm:ss.Ms"), requestType: requestType,
+                requestMethod: requestMethod, status: result.status, endTime: endTimecatch.format("YYYY-MM-DD HH:mm:ss.Ms"),
+                responseTime: responseTime, responseSize: result.buffer.length, filename: cmd.filename)
+
+        log.info logOutput.toString()
       }
     }
+
+
+    Date endTime = new Date()
+
+
+    responseTime = Math.abs(startTime.getTime() - endTimecatch.getTime())
+
+    logOutput = new JsonBuilder(timestamp: startTime.format("YYYY-MM-DD HH:mm:ss.Ms"), requestType: requestType,
+            requestMethod: requestMethod, status: result.status, endTime: endTime.format("YYYY-MM-DD HH:mm:ss.Ms"),
+            responseTime: responseTime, responseSize: result.buffer.length, filename: cmd.filename)
+
+    log.info logOutput.toString()
+
     result
   }
 
