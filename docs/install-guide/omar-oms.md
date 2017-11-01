@@ -1,10 +1,10 @@
 # OMAR OMS
 
 ## Source Location
-https://github.com/ossimlabs/omar-oms
+[https://github.com/ossimlabs/omar-oms](https://github.com/ossimlabs/omar-oms)
 
 ## Purpose
-The OSSIM Mapping Service (OMS) application serves as a core communication channel to essential OSSIM functionality. Other servies such as the Web Map Service (WMS) communicate to OMS for data.
+The OSSIM Mapping Service (OMS) application serves as a core communication channel to essential OSSIM functionality. Other services such as the Web Map Service (WMS) communicate to OMS for data.
 
 ## Dockerfile
 ```
@@ -57,9 +57,10 @@ OMS requires shared access to OSSIM imagery data. This data is assumed to be acc
 |------|------|
 |SPRING_PROFILES_ACTIVE|Comma separated profile tags (*e.g. production, dev*)|
 |SPRING_CLOUD_CONFIG_LABEL|The Git branch from which to pull config files (*e.g. master*)|
-|OSSIM_PREFS_FILE|The location of the preferences file (*e.g. /usr/share/ossim/ossim-site-preferences)|
+|OSSIM_PREFS_FILE|The location of the preferences file (*e.g. /usr/share/ossim/ossim-site-preferences*)|
 |OSSIM_INSTALL_PREFIX|The directory in which OSSIM is installed (*e.g. /usr*)|
-|OSSIM_DATA|The location of shared imagery data (*e.g. /data*)|
+|OSSIM_DATA|The location of OSSIM imagery data such as elevation (*e.g. /data*)|
+|BUCKETS|The S3 to mount for direct image access (*e.g. my-bucket*)|
 
 ### An Example DeploymentConfig
 ```yaml
