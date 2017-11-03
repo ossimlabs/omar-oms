@@ -47,6 +47,10 @@ class ChipperController {
 
     Is fixed to the value 'chip'
 
+*   **nullPixelFlip**
+
+    Flips null interior pixels to valid
+
 *   **brightness**
 
     Allows one to control the brightness of the image. This is expressed as a normalized value between -1 and 1.
@@ -108,12 +112,13 @@ class ChipperController {
     Enables transparent output if the **outputFormat** supports it    """)
    @ApiImplicitParams([
           @ApiImplicitParam(name = 'images[0].file', value = 'filename', defaultValue = '', paramType = 'query', dataType = 'string', required=true),
-          @ApiImplicitParam(name = 'images[0].entry', value = 'Image entry in the file', defaultValue = '', paramType = 'query', dataType = 'int', required=false),
+          @ApiImplicitParam(name = 'images[0].entry', value = 'Image entry in the file', defaultValue = '', paramType = 'query', dataType = 'integer', required=false),
           @ApiImplicitParam(name = 'operation', value = '', defaultValue = 'none', allowableValues= "chip", paramType = 'query', dataType = 'string', required=false),
-          @ApiImplicitParam(name = 'brightness', value = 'Brightness Operation',defaultValue="0.0", paramType = 'query', dataType = 'float', required=false),
-          @ApiImplicitParam(name = 'contrast', value = 'Contrast Operation',defaultValue="1.0",  paramType = 'query', dataType = 'float', required=false),
+          @ApiImplicitParam(name = 'nullPixelFlip', value = 'Flip interior null pixels to valid', allowableValues="true,false", defaultValue="", paramType = 'query', dataType = 'boolean', required=false),
+          @ApiImplicitParam(name = 'brightness', value = 'Brightness Operation',defaultValue="", paramType = 'query', dataType = 'float', required=false),
+          @ApiImplicitParam(name = 'contrast', value = 'Contrast Operation',defaultValue="",  paramType = 'query', dataType = 'float', required=false),
           @ApiImplicitParam(name = 'sharpenMode', value = '', defaultValue = '', allowableValues="light,heavy",paramType = 'query', dataType = 'string', required=false),
-          @ApiImplicitParam(name = 'thumbnailResolution', value = '', defaultValue = '',  paramType = 'query', dataType = 'int', required=false),
+          @ApiImplicitParam(name = 'thumbnailResolution', value = '', defaultValue = '',  paramType = 'query', dataType = 'integer', required=false),
           @ApiImplicitParam(name = 'cutBboxXywh', value = 'Cut image box separated by commas: <x>,<y>,<width>,<height>', defaultValue = '',  paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'rrds', value = 'Reduced resolution', defaultValue = '0',  paramType = 'query', dataType = 'integer', required=false),
           @ApiImplicitParam(name = 'histOp', value = 'Histogram Operation',defaultValue = '',allowableValues="none,auto-minmax,auto-percentile,std-stretch-1,std-stretch-2,std-stretch-3", paramType = 'query', dataType = 'string', required=false),
@@ -128,7 +133,6 @@ class ChipperController {
    ])
    def chip(){
       ChipperCommand command = new ChipperCommand()
-
       def json = request.JSON
 
       if(json)
@@ -141,9 +145,8 @@ class ChipperController {
          params.operation="chip"
          bindData(command, BindUtil.fixParamNames(ChipperCommand, params))
       }
+
       def result = chipperService.getTile(command)
-println command
-println command.toChipperOptions()
       response.contentType = result.contentType
       if(result.status != null) response.status        = result.status
       if(result.contentType) response.contentType      = result.contentType
@@ -183,6 +186,10 @@ println command.toChipperOptions()
 *   **operation**
 
     Is fixed to the value ortho
+
+*   **nullPixelFlip** 
+
+    Flips null interior pixels to valid
 
 *   **brightness**
 
@@ -253,14 +260,15 @@ println command.toChipperOptions()
     Enables transparent output if the **outputFormat** supports it    """)
    @ApiImplicitParams([
           @ApiImplicitParam(name = 'images[0].file', value = 'filename', defaultValue = '', paramType = 'query', dataType = 'string', required=true),
-          @ApiImplicitParam(name = 'images[0].entry', value = 'Image entry in the file', defaultValue = '', paramType = 'query', dataType = 'int', required=false),
+          @ApiImplicitParam(name = 'images[0].entry', value = 'Image entry in the file', defaultValue = '', paramType = 'query', dataType = 'integer', required=false),
           @ApiImplicitParam(name = 'operation', value = '', defaultValue = 'none', allowableValues= "ortho", paramType = 'query', dataType = 'string', required=false),
+          @ApiImplicitParam(name = 'nullPixelFlip', value = 'Flip interior null pixels to valid', allowableValues="true,false", defaultValue="false", paramType = 'query', dataType = 'boolean', required=false),
           @ApiImplicitParam(name = 'brightness', value = 'Brightness Operation',defaultValue="0.0", paramType = 'query', dataType = 'float', required=false),
           @ApiImplicitParam(name = 'contrast', value = 'Contrast Operation',defaultValue="1.0",  paramType = 'query', dataType = 'float', required=false),
           @ApiImplicitParam(name = 'sharpenMode', value = '', defaultValue = '', allowableValues="light,heavy",paramType = 'query', dataType = 'string', required=false),
-          @ApiImplicitParam(name = 'thumbnailResolution', value = '', defaultValue = '',  paramType = 'query', dataType = 'int', required=false),
-          @ApiImplicitParam(name = 'cutWidth', value = 'Cut width in pixels', defaultValue = '',  paramType = 'query', dataType = 'int', required=false),
-          @ApiImplicitParam(name = 'cutHeight', value = 'Cut height in pixels', defaultValue = '',  paramType = 'query', dataType = 'int', required=false),
+          @ApiImplicitParam(name = 'thumbnailResolution', value = '', defaultValue = '',  paramType = 'query', dataType = 'integer', required=false),
+          @ApiImplicitParam(name = 'cutWidth', value = 'Cut width in pixels', defaultValue = '',  paramType = 'query', dataType = 'integer', required=false),
+          @ApiImplicitParam(name = 'cutHeight', value = 'Cut height in pixels', defaultValue = '',  paramType = 'query', dataType = 'integer', required=false),
           @ApiImplicitParam(name = 'cutWmsBbox', value = 'Cut wms bbox format', defaultValue = '',  paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'histOp', value = 'Histogram Operation',defaultValue = '',allowableValues="none,auto-minmax,auto-percentile,std-stretch-1,std-stretch-2,std-stretch-3", paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'histCenter', value = 'Histogram Center Calculation',defaultValue = '',allowableValues="true,false", paramType = 'query', dataType = 'boolean', required=false),

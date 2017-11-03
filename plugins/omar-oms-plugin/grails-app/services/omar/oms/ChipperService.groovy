@@ -9,7 +9,6 @@ class ChipperService {
 
     def getTile(ChipperCommand cmd) {
       HashMap chipperOptions = cmd?.toChipperOptions()
-    
       HashMap result = [:]
       HashMap chipperResult = [:]
       String outputFormat = cmd.outputFormat?:"image/png"

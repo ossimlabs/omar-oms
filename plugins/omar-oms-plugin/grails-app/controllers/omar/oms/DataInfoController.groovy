@@ -21,7 +21,7 @@ class DataInfoController {
                 httpMethod="GET")
   @ApiImplicitParams([
           @ApiImplicitParam(name = 'filename', value = 'filename', defaultValue = '', paramType = 'query', dataType = 'string', required=true),
-          @ApiImplicitParam(name = 'entry', value = 'Entry', defaultValue = '0', paramType = 'query', dataType = 'int', required=false)
+          @ApiImplicitParam(name = 'entry', value = 'Entry', defaultValue = '0', paramType = 'query', dataType = 'integer', required=false)
   ])
    def getInfo()
    {

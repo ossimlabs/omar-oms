@@ -241,6 +241,7 @@ class ImageSpaceService
       chipperCommand.contrast = cmd.contrast
       chipperCommand.sharpenMode = cmd.sharpenMode
       chipperCommand.resamplerFilter = cmd.resamplerFilter
+      chipperCommand.nullPixelFlip = cmd.nullPixelFlip
       if(cmd.transparent == null) chipperCommand.transparent = true
       else chipperCommand.transparent = cmd.transparent
       if(cmd.outputFormat) chipperCommand.outputFormat = cmd.outputFormat
@@ -422,6 +423,7 @@ class ImageSpaceService
       chipperCommand.outputRadiometry = "ossim_uint8"
       chipperCommand.padThumbnail = true
       chipperCommand.threeBandOut = true
+      chipperCommand.nullPixelFlip = cmd.nullPixelFlip
       chipperCommand.thumbnailResolution = cmd.size?:64
       chipperCommand.outputFormat = cmd.outputFormat?:"image/jpeg"
       if(cmd.transparent!=null) chipperCommand.transparent = cmd.transparent

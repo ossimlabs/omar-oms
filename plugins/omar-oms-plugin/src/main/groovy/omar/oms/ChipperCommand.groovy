@@ -43,6 +43,7 @@ class ChipperCommand implements Validateable
    String      lutFile
    String      meters
    Boolean     northUp
+   Boolean     nullPixelFlip
    String      operation
    String      outputRadiometry
    Boolean     padThumbnail
@@ -100,6 +101,7 @@ class ChipperCommand implements Validateable
       lutFile(nullable:true, blank:true)
       meters(nullable:true, blank:true)
       northUp(nullable:true, blank:true)
+      nullPixelFlip(nullable:true, blank:true)
       operation(nullable:false, blank:false)
       outputRadiometry(nullable:true, blank:true)
       padThumbnail(nullable:true, blank:true)
