@@ -1,44 +1,33 @@
 package omar.oms
 
-import groovy.json.JsonSlurper
 import groovy.json.JsonBuilder
 import omar.core.HttpStatus
-import sun.awt.image.ToolkitImage
 
-import javax.media.jai.PlanarImage
 import java.awt.BasicStroke
 import java.awt.Color
 import java.awt.Font
-import java.awt.Point
-import java.awt.Transparency
-import java.awt.color.ColorSpace
 import java.awt.font.TextLayout
 import java.awt.image.BufferedImage
-import java.awt.image.ComponentColorModel
-import java.awt.image.DataBuffer
-import java.awt.image.DataBufferByte
-import java.awt.image.PixelInterleavedSampleModel
-import java.awt.image.Raster
 import javax.imageio.ImageIO
-import javax.media.jai.JAI
 
-import joms.oms.Chipper
 import joms.oms.ImageModel
 import joms.oms.Info
 import joms.oms.Keywordlist
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand
-
-import java.awt.image.RenderedImage
 
 class ImageSpaceService
 {
   static transactional = false
   def chipperService
 
-  @HystrixCommand(fallbackMethod = "serviceDowngetTileOverlay")
   def getTileOverlay(GetTileCommand cmd)
   {
     def text = "${cmd.z}/${cmd.x}/${cmd.y}"
+
+    def requestType = "GET"
+    def requestMethod = "getTileOverlay"
+    def responseTime
+    Date startTime = new Date()
+    JsonBuilder logOutput
 
     BufferedImage image = new BufferedImage( cmd.tileSize, cmd.tileSize, BufferedImage.TYPE_INT_ARGB )
     ByteArrayOutputStream ostream = new ByteArrayOutputStream()
@@ -61,16 +50,19 @@ class ImageSpaceService
 
     ImageIO.write( image, format.split("/")[-1], ostream )
 
+    Date endTime = new Date()
+
+    responseTime = Math.abs(startTime.getTime() - endTime.getTime())
+
+    logOutput = new JsonBuilder(timestamp: startTime.format("YYYY-MM-DD HH:mm:ss.Ms"), requestType: requestType,
+            requestMethod: requestMethod, status: "got to end of function", endTime: endTime.format("YYYY-MM-DD HH:mm:ss.Ms"),
+            responseTime: responseTime, responseSize: buffer.length, filename: cmd.filename)
+
+    log.info logOutput.toString()
+
     [contentType: format, buffer: ostream.toByteArray()]
   }
 
-  String serviceDowngetTileOverlay(GetTileCommand cmd) {
-    return "Service is down"
-  }
-
-
-
-  @HystrixCommand(fallbackMethod = "serviceDownreadImageInfo")
   def readImageInfo(String file)
   {
     def info = getImageInfoAsMap( file )
@@ -108,11 +100,6 @@ class ImageSpaceService
     return data
   }
 
-  String serviceDownreadImageInfo(String file) {
-    return "Service readImageInfo is down"
-  }
-
-  @HystrixCommand(fallbackMethod = "serviceDowngetImageInfoAsMap")
   def getImageInfoAsMap(String file)
   {
     def kwl = new Keywordlist()
@@ -151,13 +138,6 @@ class ImageSpaceService
     return data
   }
 
-  String serviceDowngetImageInfoAsMap (String file){
-    return "Service is down"
-  }
-
-
-
-  @HystrixCommand(fallbackMethod = "serviceDownfileExists")
   Boolean fileExists(String connectionString)
   {
     // default to true for protocols other than file and
@@ -175,11 +155,6 @@ class ImageSpaceService
     result
   }
 
-  String serviceDownfileExists(String connectionString) {
-    return "Service fileExists is down"
-  }
-
-  @HystrixCommand(fallbackMethod = "serviceDown")
   Boolean isLocalFile(String connectionString)
   {
     Boolean result = false
@@ -194,11 +169,6 @@ class ImageSpaceService
     result
   }
 
-//  String serviceDown(String connectionString) {
-//    return "Service is down"
-//  }
-
-//  @HystrixCommand(fallbackMethod = "serviceDown")
   def getTile(GetTileCommand cmd)
   {
 
@@ -209,18 +179,12 @@ class ImageSpaceService
                   contentType: "plane/text",
                   buffer     : "Unable to service tile".bytes]
 
-    def startTime = new Date()
-    def internalTime = new Date()
-    def processingTime
-    def bbox_midpoint
-    def timestamp
+
+    def requestType = "GET"
+    def requestMethod = "getTile"
+    def responseTime
+    Date startTime = new Date()
     JsonBuilder logOutput
-    def status = "chipper services returned successfully"
-
-    startTime = System.currentTimeMillis()
-    internalTime = startTime
-
-    timestamp = new Date().format("YYYY-MM-DD HH:mm:ss.Ms")
 
     def indexOffset = findIndexOffset(cmd)
     Boolean canChip = cmd.z < cmd.numResLevels
@@ -231,7 +195,6 @@ class ImageSpaceService
       ChipperCommand chipperCommand = new ChipperCommand()
 
       chipperCommand.cutBboxXywh = [cmd.x * cmd.tileSize, cmd.y * cmd.tileSize, cmd.tileSize, cmd.tileSize].join(',')
-      bbox_midpoint = [ x: cmd.x, y: cmd.y, tileSize: cmd.tileSize ]
       chipperCommand.images = [ [file: cmd.filename, entry: cmd.entry]]
       chipperCommand.operation = "chip"
       chipperCommand.scale_2_8_bit = cmd.scale_2_8_bit
@@ -262,15 +225,15 @@ class ImageSpaceService
                   contentType: "plain/text",
                   buffer     : "${e}".bytes
                  ]
-        status = "internal server error"
-        log.info "status" + status
 
-        internalTime = System.currentTimeMillis()
+        Date endTimecatch = new Date()
 
-        processingTime = internalTime - startTime
 
-        logOutput = new JsonBuilder(timestamp: timestamp, status: status, processingTime: processingTime,
-                location: bbox_midpoint, resultsize: result.size())
+        responseTime = Math.abs(startTime.getTime() - endTimecatch.getTime())
+
+        logOutput = new JsonBuilder(timestamp: startTime.format("YYYY-MM-DD HH:mm:ss.Ms"), requestType: requestType,
+                requestMethod: requestMethod, status: result.status, endTime: endTime.format("YYYY-MM-DD HH:mm:ss.Ms"),
+                responseTime: responseTime, responseSize: result.buffer.length, filename: cmd.filename)
 
         log.info logOutput.toString()
 
@@ -282,37 +245,22 @@ class ImageSpaceService
                   contentType: "plain/text",
                   buffer     : "Not Enough resolution levels to satisfy request".bytes
                  ]
-        status = "not enough resolution levels to satisfy request"
-      log.info "status" + status
-      internalTime = System.currentTimeMillis()
-
-      processingTime = internalTime - startTime
-
-      logOutput = new JsonBuilder(timestamp: timestamp, status: status, processingTime: processingTime,
-              location: bbox_midpoint, resultsize: result.size())
-
-      log.info logOutput.toString()
 
     }
 
-    internalTime = System.currentTimeMillis()
+    Date endTime = new Date()
 
-    processingTime = internalTime - startTime
+    responseTime = Math.abs(startTime.getTime() - endTime.getTime())
 
-    logOutput = new JsonBuilder(timestamp: timestamp, status: status, processingTime: processingTime,
-            location: bbox_midpoint, resultsize: result.size())
+    logOutput = new JsonBuilder(timestamp: startTime.format("YYYY-MM-DD HH:mm:ss.Ms"), requestType: requestType,
+            requestMethod: requestMethod, status: result.status, endTime: endTime.format("YYYY-MM-DD HH:mm:ss.Ms"),
+            responseTime: responseTime, responseSize: result.buffer.length, filename: cmd.filename)
 
     log.info logOutput.toString()
 
     result
   }
 
-  String serviceDown(GetTileCommand cmd) {
-    return "Service is down"
-  }
-
-
-  @HystrixCommand(fallbackMethod = "serviceDown")
   def findIndexOffset(def cmd)
   {
     // GP: Currently this will not work correctly because the calling GUI
@@ -352,12 +300,6 @@ class ImageSpaceService
     return index
   }
 
-  String serviceDown(def cmd) {
-    return "Service is down"
-  }
-
-
-  @HystrixCommand(fallbackMethod = "serviceDown")
   def computeUpIsUp(String filename, Integer entryId)
   {
     Double upIsUp = 0.0
@@ -373,12 +315,6 @@ class ImageSpaceService
     return upIsUp
   }
 
-  String serviceDown(String filename, Integer entryId) {
-    return "Service is down"
-  }
-
-
-  @HystrixCommand(fallbackMethod = "serviceDownNorthIsUp")
   def computeNorthIsUp(String filename, Integer entryId)
   {
     Double northIsUp = 0.0
@@ -394,15 +330,16 @@ class ImageSpaceService
     return northIsUp
   }
 
-  String serviceDownNorthIsUp(String filename, Integer entryId) {
-    return "Service computeNorthIsUp is down"
-  }
-
-
-  @HystrixCommand(fallbackMethod = "serviceDown")
   def getThumbnail(GetThumbnailCommand cmd)
   {
     def result = [status:HttpStatus.OK, buffer:null]
+
+    def requestType = "GET"
+    def requestMethod = "getThumbnail"
+    def responseTime
+    Date startTime = new Date()
+    JsonBuilder logOutput
+
     // Check to see if file exists
     if ( ! fileExists(cmd.filename?.toString() ) )
     {
@@ -436,17 +373,35 @@ class ImageSpaceService
                   contentType: "plain/text",
                   buffer     : "${e}".bytes
                  ]
+
+        Date endTimecatch = new Date()
+
+
+        responseTime = Math.abs(startTime.getTime() - endTimecatch.getTime())
+
+        logOutput = new JsonBuilder(timestamp: startTime.format("YYYY-MM-DD HH:mm:ss.Ms"), requestType: requestType,
+                requestMethod: requestMethod, status: result.status, endTime: endTimecatch.format("YYYY-MM-DD HH:mm:ss.Ms"),
+                responseTime: responseTime, responseSize: result.buffer.length, filename: cmd.filename)
+
+        log.info logOutput.toString()
       }
     }
+
+
+    Date endTime = new Date()
+
+
+    responseTime = Math.abs(startTime.getTime() - endTime.getTime())
+
+    logOutput = new JsonBuilder(timestamp: startTime.format("YYYY-MM-DD HH:mm:ss.Ms"), requestType: requestType,
+            requestMethod: requestMethod, status: result.status, endTime: endTime.format("YYYY-MM-DD HH:mm:ss.Ms"),
+            responseTime: responseTime, responseSize: result.buffer.length, filename: cmd.filename)
+
+    log.info logOutput.toString()
+
     result
   }
 
-  String serviceDown(GetThumbnailCommand cmd) {
-    return "Service getThumbnail is down"
-  }
-
-
-  @HystrixCommand(fallbackMethod = "serviceDown")
   def getDefaultImage(int width, int height)
   {
     def image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB)
@@ -461,9 +416,4 @@ class ImageSpaceService
 
     image
   }
-
-  String serviceDown(int width, int height) {
-    return "Service getDefaultImages is down"
-  }
-
 }
