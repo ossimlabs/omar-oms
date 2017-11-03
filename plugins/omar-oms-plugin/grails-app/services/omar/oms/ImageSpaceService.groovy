@@ -216,7 +216,7 @@ class ImageSpaceService
       if ( cmd.histCenterTile ) {
         chipperCommand.histCenter = cmd.histCenterTile
       }
-      try{ println chipperCommand
+      try{ 
         result = chipperService.getTile(chipperCommand)
       }
       catch(e)
