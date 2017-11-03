@@ -43,7 +43,7 @@ class ChipperCommand implements Validateable
    String      lutFile
    String      meters
    Boolean     northUp
-   Boolean     nullPixelFlip
+   Boolean     nullPixelFlip = true // HACK
    String      operation
    String      outputRadiometry
    Boolean     padThumbnail
