@@ -1,4 +1,24 @@
 ---
+# Set the context path for the application.
+#server:
+#  contextPath: /omar-oms
+
+# Define the production database values.
+environments:
+  production:
+    dataSource:
+      url: jdbc:h2:mem:testDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
+
+# Define the http protocols that swagger will use
+swagger:
+  schemes:
+    - HTTPS
+    - HTTP
+
+logging:
+  config: classpath:logback.groovy
+
+---
 grails:
     cors:
       enabled: true
@@ -128,7 +148,8 @@ environments:
     production:
         dataSource:
             dbCreate: update
-            url: jdbc:h2:./prodDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
+            # This is defined above.
+            #url: jdbc:h2:./prodDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
             properties:
                 jmxEnabled: true
                 initialSize: 5
@@ -147,13 +168,3 @@ environments:
                 testOnReturn: false
                 jdbcInterceptors: ConnectionState
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
-
-
----
-swagger:
-  schemes:
-    - HTTPS
-    - HTTP
-
-logging:
-  config: classpath:logback.groovy
