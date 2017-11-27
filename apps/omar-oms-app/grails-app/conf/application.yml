@@ -4,16 +4,16 @@
 #  contextPath: /omar-oms
 
 # Define the production database values.
-#environments:
-#  production:
-#    dataSource:
-#      url: jdbc:h2:mem:testDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
+environments:
+  production:
+    dataSource:
+      url: jdbc:h2:mem:testDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
 
 # Define the http protocols that swagger will use
-#swagger:
-#  schemes:
-#    - HTTPS
-#    - HTTP
+swagger:
+  schemes:
+    - HTTPS
+    - HTTP
 
 logging:
   config: classpath:logback.groovy
