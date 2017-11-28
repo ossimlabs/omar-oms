@@ -1,8 +1,5 @@
 # OMAR OMS
 
-## Source Location
-[https://github.com/ossimlabs/omar-oms](https://github.com/ossimlabs/omar-oms)
-
 ## Purpose
 The OSSIM Mapping Service (OMS) application serves as a core communication channel to essential OSSIM functionality. Other services such as the Web Map Service (WMS) communicate to OMS for data.
 
