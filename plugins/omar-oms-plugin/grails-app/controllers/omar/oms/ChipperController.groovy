@@ -323,4 +323,19 @@ class ChipperController {
           }
        }
    }
+
+   def executeChipper()
+   {
+     if ( request.method == 'POST' && request.JSON ) {
+       def initOps = request.JSON.inject([:]) { a, b ->
+          a[b?.key] = b?.value?.toString()
+          a
+       }
+       println initOps
+       render contentType: 'text/plain', text: ChipperUtil.executeChipper(initOps)
+     } else {
+       println 'ERROR'
+       render contentType: 'text/plain', text: false
+     }
+   }
 }
