@@ -1,0 +1,140 @@
+apiVersion: v1
+kind: DeploymentConfig
+metadata:
+  name: omar-oms-app
+  namespace: omar-dev
+  selfLink: /oapi/v1/namespaces/omar-dev/deploymentconfigs/omar-oms-app
+  uid: dce1a04e-82c2-11e7-ba3b-0e704fd9c8b2
+  resourceVersion: '9375124'
+  generation: 369
+  creationTimestamp: '2017-08-16T20:38:29Z'
+  labels:
+    app: omar-openshift
+  annotations:
+    openshift.io/generated-by: OpenShiftNewApp
+spec:
+  strategy:
+    type: Rolling
+    rollingParams:
+      updatePeriodSeconds: 1
+      intervalSeconds: 1
+      timeoutSeconds: 600
+      maxUnavailable: 25%
+      maxSurge: 25%
+    resources: {}
+    activeDeadlineSeconds: 21600
+  triggers:
+    - type: ImageChange
+      imageChangeParams:
+        automatic: true
+        containerNames:
+          - omar-oms-app
+        from:
+          kind: ImageStreamTag
+          namespace: o2
+          name: 'omar-oms-app:latest'
+        lastTriggeredImage: >-
+          172.30.181.173:5000/o2/omar-oms-app@sha256:fdfd967b89761d92be16363e96dd8ac318c041d0e0c686ec0c5af3b9459913b3
+    - type: ConfigChange
+  replicas: 1
+  test: false
+  selector:
+    app: omar-openshift
+    deploymentconfig: omar-oms-app
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: omar-openshift
+        deploymentconfig: omar-oms-app
+      annotations:
+        openshift.io/generated-by: OpenShiftNewApp
+    spec:
+      volumes:
+        - name: volume-oms
+          persistentVolumeClaim:
+            claimName: ossim-data-dev-pvc
+      containers:
+        - name: omar-oms-app
+          image: >-
+            172.30.181.173:5000/o2/omar-oms-app@sha256:fdfd967b89761d92be16363e96dd8ac318c041d0e0c686ec0c5af3b9459913b3
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: dev
+            - name: SPRING_CLOUD_CONFIG_LABEL
+              value: master
+            - name: OSSIM_PREFS_FILE
+              value: /usr/share/ossim/ossim-site-preferences
+            - name: OSSIM_INSTALL_PREFIX
+              value: /usr
+            - name: OSSIM_DATA
+              value: /data
+            - name: BUCKETS
+              value: o2-test-data
+          resources:
+            limits:
+              cpu: '5'
+              memory: 10000Mi
+          volumeMounts:
+            - name: volume-oms
+              mountPath: /data
+          livenessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 60
+            timeoutSeconds: 1
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          readinessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 30
+            timeoutSeconds: 1
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          terminationMessagePath: /dev/termination-log
+          imagePullPolicy: Always
+          securityContext:
+            capabilities:
+              add:
+                - SYS_ADMIN
+            privileged: true
+            runAsUser: 1001
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+status:
+  latestVersion: 342
+  observedGeneration: 369
+  replicas: 1
+  updatedReplicas: 1
+  availableReplicas: 1
+  unavailableReplicas: 0
+  details:
+    message: image change
+    causes:
+      - type: ImageChange
+        imageTrigger:
+          from:
+            kind: ImageStreamTag
+            namespace: o2
+            name: 'omar-oms-app:latest'
+  conditions:
+    - type: Available
+      status: 'True'
+      lastUpdateTime: '2017-11-10T01:34:21Z'
+      lastTransitionTime: '2017-11-10T01:34:21Z'
+      message: Deployment config has minimum availability.
+    - type: Progressing
+      status: 'True'
+      lastUpdateTime: '2017-12-06T17:02:52Z'
+      lastTransitionTime: '2017-12-06T17:02:50Z'
+      reason: NewReplicationControllerAvailable
+      message: replication controller "omar-oms-app-342" successfully rolled out
+  readyReplicas: 1
