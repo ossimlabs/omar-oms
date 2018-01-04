@@ -187,7 +187,7 @@ class ImageSpaceService
     JsonBuilder logOutput
 
     def indexOffset = findIndexOffset(cmd)
-    Boolean canChip = cmd.z < cmd.numResLevels
+    Boolean canChip = cmd.z <= cmd.numResLevels
 
     if (canChip)
     {
@@ -216,7 +216,7 @@ class ImageSpaceService
       if ( cmd.histCenterTile ) {
         chipperCommand.histCenter = cmd.histCenterTile
       }
-      try{ 
+      try{
         result = chipperService.getTile(chipperCommand)
       }
       catch(e)
