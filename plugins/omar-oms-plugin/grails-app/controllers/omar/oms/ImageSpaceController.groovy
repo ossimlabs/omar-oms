@@ -40,7 +40,7 @@ class ImageSpaceController
     [initParams: initParams]
   }
 
-  @ApiOperation(value = "Get a tile from the passed in image file", 
+  @ApiOperation(value = "Get a tile from the passed in image file",
                 produces="image/jpeg,image/png,image/gif",
                 httpMethod="GET")
   @ApiImplicitParams([
@@ -67,15 +67,22 @@ class ImageSpaceController
     def cmd = new GetTileCommand()
     BindUtil.fixParamNames( GetTileCommand, params )
     bindData( cmd, params )
+    // println cmd
     def outputStream = null
     try
     {
        response.status = HttpStatus.OK
        def result = imageSpaceService.getTile( cmd )
+      //  println result
        outputStream = response.outputStream
        if(result.status != null) response.status        = result.status
        if(result.contentType) response.contentType      = result.contentType
        if(result.buffer?.length) response.contentLength = result.buffer.length
+
+        if ( result.status == 500) {
+            throw new Exception( new String(result.buffer) )
+        }
+
        if(outputStream)
        {
           outputStream << result.buffer
@@ -83,6 +90,8 @@ class ImageSpaceController
     }
     catch ( e )
     {
+      e.printStackTrace()
+
        response.status = HttpStatus.INTERNAL_SERVER_ERROR
        log.debug(e.message)
     }
@@ -101,7 +110,7 @@ class ImageSpaceController
   }
 
 
-  @ApiOperation(value = "Get the footprint of  tile and its name", 
+  @ApiOperation(value = "Get the footprint of  tile and its name",
                 produces="image/jpeg,image/png,image/gif",
                 httpMethod="GET")
   @ApiImplicitParams([
@@ -174,7 +183,7 @@ class ImageSpaceController
     render contentType: 'application/json', text: results as JSON
   }
 
-  @ApiOperation(value = "Get the thumbnail of the passed in file name", 
+  @ApiOperation(value = "Get the thumbnail of the passed in file name",
                 produces="image/jpeg,image/png,image/gif",
                 httpMethod="GET")
   @ApiImplicitParams([
