@@ -185,6 +185,7 @@ class ImageSpaceService
     def requestMethod = "getTile"
     def responseTime
     Date startTime = new Date()
+    Date endTime
     JsonBuilder logOutput
 
     def indexOffset = findIndexOffset(cmd)
@@ -227,10 +228,10 @@ class ImageSpaceService
                   buffer     : "${e}".bytes
                  ]
 
-        Date endTimecatch = new Date()
+        endTime = new Date()
 
 
-        responseTime = Math.abs(startTime.getTime() - endTimecatch.getTime())
+        responseTime = Math.abs(startTime.getTime() - endTime.getTime())
 
         logOutput = new JsonBuilder(timestamp: DateUtil.formatUTC(startTime), requestType: requestType,
                 requestMethod: requestMethod, httpStatus: result.status, endTime: DateUtil.formatUTC(endTime),
@@ -249,7 +250,7 @@ class ImageSpaceService
 
     }
 
-    Date endTime = new Date()
+    endTime = new Date()
 
     responseTime = Math.abs(startTime.getTime() - endTime.getTime())
 
@@ -375,13 +376,13 @@ class ImageSpaceService
                   buffer     : "${e}".bytes
                  ]
 
-        Date endTimecatch = new Date()
+        endTime = new Date()
 
 
-        responseTime = Math.abs(startTime.getTime() - endTimecatch.getTime())
+        responseTime = Math.abs(startTime.getTime() - endTime.getTime())
 
         logOutput = new JsonBuilder(timestamp: DateUtil.formatUTC(startTime), requestType: requestType,
-                requestMethod: requestMethod, httpStatus: result.status, endTime: endTimecatch.format("YYYY-MM-DD HH:mm:ss.Ms"),
+                requestMethod: requestMethod, httpStatus: result.status, endTime: DateUtil.formatUTC(endTime),
                 responseTime: responseTime, responseSize: result.buffer.length, filename: cmd.filename)
 
         log.info logOutput.toString()
@@ -389,7 +390,7 @@ class ImageSpaceService
     }
 
 
-    Date endTime = new Date()
+    endTime = new Date()
 
 
     responseTime = Math.abs(startTime.getTime() - endTime.getTime())
