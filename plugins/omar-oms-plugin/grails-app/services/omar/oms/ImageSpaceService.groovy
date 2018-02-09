@@ -232,7 +232,7 @@ class ImageSpaceService
         responseTime = Math.abs(startTime.getTime() - endTimecatch.getTime())
 
         logOutput = new JsonBuilder(timestamp: startTime.format("yyyy-MM-dd hh:mm:ss.ms"), requestType: requestType,
-                requestMethod: requestMethod, status: result.status, endTime: endTime.format("yyyy-MM-dd hh:mm:ss.ms"),
+                requestMethod: requestMethod, status: result.status, endTime: endTimecatch.format("yyyy-MM-dd hh:mm:ss.ms"),
                 responseTime: responseTime, responseSize: result.buffer.length, filename: cmd.filename)
 
         log.info logOutput.toString()
