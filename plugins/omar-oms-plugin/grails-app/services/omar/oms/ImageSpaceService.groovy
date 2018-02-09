@@ -1,6 +1,7 @@
 package omar.oms
 
 import groovy.json.JsonBuilder
+import omar.core.DateUtil
 import omar.core.HttpStatus
 
 import java.awt.BasicStroke
@@ -54,8 +55,8 @@ class ImageSpaceService
 
     responseTime = Math.abs(startTime.getTime() - endTime.getTime())
 
-    logOutput = new JsonBuilder(timestamp: startTime.format("yyyy-MM-dd hh:mm:ss.ms"), requestType: requestType,
-            requestMethod: requestMethod, status: "got to end of function", endTime: endTime.format("yyyy-MM-dd hh:mm:ss.ms"),
+    logOutput = new JsonBuilder(timestamp: DateUtil.formatUTC(startTime), requestType: requestType,
+            requestMethod: requestMethod, httpStatus: 200, endTime: DateUtil.formatUTC(endTime),
             responseTime: responseTime, responseSize: buffer.length, filename: cmd.filename)
 
     log.info logOutput.toString()
@@ -184,6 +185,7 @@ class ImageSpaceService
     def requestMethod = "getTile"
     def responseTime
     Date startTime = new Date()
+    Date endTime
     JsonBuilder logOutput
 
     def indexOffset = findIndexOffset(cmd)
@@ -226,10 +228,10 @@ class ImageSpaceService
                   buffer     : "${e}".bytes
                  ]
 
-        Date endTimecatch = new Date()
+        endTime = new Date()
 
 
-        responseTime = Math.abs(startTime.getTime() - endTimecatch.getTime())
+        responseTime = Math.abs(startTime.getTime() - endTime.getTime())
 
         logOutput = new JsonBuilder(timestamp: startTime.format("yyyy-MM-dd hh:mm:ss.ms"), requestType: requestType,
                 requestMethod: requestMethod, status: result.status, endTime: endTimecatch.format("yyyy-MM-dd hh:mm:ss.ms"),
@@ -248,12 +250,12 @@ class ImageSpaceService
 
     }
 
-    Date endTime = new Date()
+    endTime = new Date()
 
     responseTime = Math.abs(startTime.getTime() - endTime.getTime())
 
-    logOutput = new JsonBuilder(timestamp: startTime.format("yyyy-MM-dd hh:mm:ss.ms"), requestType: requestType,
-            requestMethod: requestMethod, status: result.status, endTime: endTime.format("yyyy-MM-dd hh:mm:ss.ms"),
+    logOutput = new JsonBuilder(timestamp: DateUtil.formatUTC(startTime), requestType: requestType,
+            requestMethod: requestMethod, httpStatus: result.status, endTime: DateUtil.formatUTC(endTime),
             responseTime: responseTime, responseSize: result.buffer.length, filename: cmd.filename)
 
     log.info logOutput.toString()
@@ -374,13 +376,13 @@ class ImageSpaceService
                   buffer     : "${e}".bytes
                  ]
 
-        Date endTimecatch = new Date()
+        endTime = new Date()
 
 
-        responseTime = Math.abs(startTime.getTime() - endTimecatch.getTime())
+        responseTime = Math.abs(startTime.getTime() - endTime.getTime())
 
-        logOutput = new JsonBuilder(timestamp: startTime.format("YYYY-MM-DD HH:mm:ss.Ms"), requestType: requestType,
-                requestMethod: requestMethod, status: result.status, endTime: endTimecatch.format("YYYY-MM-DD HH:mm:ss.Ms"),
+        logOutput = new JsonBuilder(timestamp: DateUtil.formatUTC(startTime), requestType: requestType,
+                requestMethod: requestMethod, httpStatus: result.status, endTime: DateUtil.formatUTC(endTime),
                 responseTime: responseTime, responseSize: result.buffer.length, filename: cmd.filename)
 
         log.info logOutput.toString()
@@ -388,13 +390,13 @@ class ImageSpaceService
     }
 
 
-    Date endTime = new Date()
+    endTime = new Date()
 
 
     responseTime = Math.abs(startTime.getTime() - endTime.getTime())
 
-    logOutput = new JsonBuilder(timestamp: startTime.format("yyyy-MM-dd hh:mm:ss.ms"), requestType: requestType,
-            requestMethod: requestMethod, status: result.status, endTime: endTime.format("yyyy-MM-dd hh:mm:ss.ms"),
+    logOutput = new JsonBuilder(timestamp: DateUtil.formatUTC(startTime), requestType: requestType,
+            requestMethod: requestMethod, httpStatus: result.httpStatus, endTime: DateUtil.formatUTC(endTime),
             responseTime: responseTime, responseSize: result.buffer.length, filename: cmd.filename)
 
     log.info logOutput.toString()
