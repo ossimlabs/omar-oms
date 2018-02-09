@@ -390,7 +390,7 @@ class ImageSpaceService
     }
 
 
-    endTime = new Date()
+    Date endTime = new Date()
 
 
     responseTime = Math.abs(startTime.getTime() - endTime.getTime())
