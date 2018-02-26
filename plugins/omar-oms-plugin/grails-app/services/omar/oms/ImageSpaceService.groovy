@@ -188,17 +188,20 @@ class ImageSpaceService
     Date startTime = new Date()
     Date endTime
     JsonBuilder logOutput
-
     def indexOffset = findIndexOffset(cmd)
     Boolean canChip = cmd.z <= cmd.numResLevels
 
     if (canChip)
     {
+      HashMap chipperFileOptions = [file: cmd.filename, entry: cmd.entry]
       Integer rrds = indexOffset - cmd.z
+      println "RRDS ============ ${rrds}"
       ChipperCommand chipperCommand = new ChipperCommand()
-
+      if(cmd.hist) chipperFileOptions.hist = cmd.hist
+      if(cmd.ovr) chipperFileOptions.ovr = cmd.ovr
+      if(cmd.geom) chipperFileOptions.geom = cmd.geom
       chipperCommand.cutBboxXywh = [cmd.x * cmd.tileSize, cmd.y * cmd.tileSize, cmd.tileSize, cmd.tileSize].join(',')
-      chipperCommand.images = [ [file: cmd.filename, entry: cmd.entry]]
+      chipperCommand.images = [ chipperFileOptions]
       chipperCommand.operation = "chip"
       chipperCommand.scale_2_8_bit = cmd.scale_2_8_bit
       chipperCommand.rrds = rrds
@@ -357,9 +360,13 @@ class ImageSpaceService
     }
     else
     {
+      HashMap chipperFileOptions = [file:cmd.filename, entry:cmd.entry?:0]
       ChipperCommand chipperCommand = new ChipperCommand()
+      if(cmd.hist) chipperFileOptions.hist = cmd.hist
+      if(cmd.ovr)  chipperFileOptions.ovr = cmd.ovr
+      if(cmd.geom)  chipperFileOptions.geom = cmd.geom
       chipperCommand.histOp = cmd.histOp
-      chipperCommand.images = [ [file:cmd.filename, entry:cmd.entry?:0]]
+      chipperCommand.images = [ chipperFileOptions ]
       chipperCommand.operation = "chip"
       chipperCommand.outputRadiometry = "ossim_uint8"
       chipperCommand.padThumbnail = true
@@ -369,6 +376,7 @@ class ImageSpaceService
       chipperCommand.outputFormat = cmd.outputFormat?:"image/jpeg"
       if(cmd.transparent!=null) chipperCommand.transparent = cmd.transparent
       try{
+        println chipperCommand
         result = chipperService.getTile(chipperCommand)
       }
       catch(e)

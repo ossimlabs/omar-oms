@@ -113,6 +113,9 @@ class ChipperController {
    @ApiImplicitParams([
           @ApiImplicitParam(name = 'images[0].file', value = 'filename', defaultValue = '', paramType = 'query', dataType = 'string', required=true),
           @ApiImplicitParam(name = 'images[0].entry', value = 'Image entry in the file', defaultValue = '', paramType = 'query', dataType = 'integer', required=false),
+          @ApiImplicitParam(name = 'images[0].ovr', value = 'Location of overview', defaultValue = '', paramType = 'query', dataType = 'string', required=false),
+          @ApiImplicitParam(name = 'images[0].hist', value = 'Location of histogram', defaultValue = '', paramType = 'query', dataType = 'string', required=false),
+          @ApiImplicitParam(name = 'images[0].geom', value = 'Location of geometry', defaultValue = '', paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'operation', value = '', defaultValue = 'none', allowableValues= "chip", paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'nullPixelFlip', value = 'Flip interior null pixels to valid', allowableValues="true,false", defaultValue="", paramType = 'query', dataType = 'boolean', required=false),
           @ApiImplicitParam(name = 'brightness', value = 'Brightness Operation',defaultValue="", paramType = 'query', dataType = 'float', required=false),
@@ -261,6 +264,9 @@ class ChipperController {
    @ApiImplicitParams([
           @ApiImplicitParam(name = 'images[0].file', value = 'filename', defaultValue = '', paramType = 'query', dataType = 'string', required=true),
           @ApiImplicitParam(name = 'images[0].entry', value = 'Image entry in the file', defaultValue = '', paramType = 'query', dataType = 'integer', required=false),
+          @ApiImplicitParam(name = 'images[0].ovr', value = 'Location of overview', defaultValue = '', paramType = 'query', dataType = 'string', required=false),
+          @ApiImplicitParam(name = 'images[0].hist', value = 'Location of histogram', defaultValue = '', paramType = 'query', dataType = 'string', required=false),
+          @ApiImplicitParam(name = 'images[0].geom', value = 'Location of geometry', defaultValue = '', paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'operation', value = '', defaultValue = 'none', allowableValues= "ortho", paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'nullPixelFlip', value = 'Flip interior null pixels to valid', allowableValues="true,false", defaultValue="", paramType = 'query', dataType = 'boolean', required=false),
           @ApiImplicitParam(name = 'brightness', value = 'Brightness Operation',defaultValue="0.0", paramType = 'query', dataType = 'float', required=true),
