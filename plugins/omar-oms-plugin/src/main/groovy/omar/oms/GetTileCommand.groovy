@@ -29,6 +29,9 @@ class GetTileCommand implements Validateable
   Integer numResLevels = 1
   Integer width = 0
   Integer height = 0
+  String hist
+  String ovr
+  String geom
 
    void setOutputFormat(String format)
    {

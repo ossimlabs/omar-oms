@@ -160,9 +160,19 @@ class ChipperCommand implements Validateable
       }
 
       images.eachWithIndex{v,i ->
-         result."image${i}.file" = v.file?:""
-         if(v.entry == null) result."image${i}.entry" = "0"
-         else result."image${i}.entry" = v.entry.toString()
+         v.each{key, value ->
+            if((key == "entry") && (value == null))
+            {
+              result."image${i}.${key}" = "0" 
+            }
+            else
+            {
+               result."image${i}.${key}" = value!=null?value.toString():""
+            }
+         }
+//         result."image${i}.file" = v.file?:""
+//         if(v.entry == null) result."image${i}.entry" = "0"
+//         else result."image${i}.entry" = v.entry.toString()
       }
 
       result
