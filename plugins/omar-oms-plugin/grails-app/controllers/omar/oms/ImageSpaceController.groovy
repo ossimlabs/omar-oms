@@ -191,6 +191,8 @@ class ImageSpaceController
           @ApiImplicitParam(name = 'outputFormat', value = 'Output image format', allowableValues="png,jpeg,gif,tiff", defaultValue="png", paramType = 'query', dataType = 'string', required=true),
           @ApiImplicitParam(name = 'nullPixelFlip', value = 'Flip interior null pixels to valid', allowableValues="true,false", defaultValue="false", paramType = 'query', dataType = 'boolean', required=false),
           @ApiImplicitParam(name = 'filename', value = 'Filename', paramType = 'query', dataType = 'string', required=true),
+          @ApiImplicitParam(name = 'hist', value = 'Histogram File', paramType = 'query', dataType = 'string', required=false),
+          @ApiImplicitParam(name = 'ovr', value = 'Overview File', paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'histOp', value = 'Histogram Operation',defaultValue = '',allowableValues="none,auto-minmax,auto-percentile,std-stretch-1,std-stretch-2,std-stretch-3", paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'entry', value = 'Image entry id(typically 0)', defaultValue="0", paramType = 'query', dataType = 'string', required=true),
   ])
