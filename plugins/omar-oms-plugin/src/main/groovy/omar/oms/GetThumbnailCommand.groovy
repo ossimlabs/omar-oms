@@ -12,6 +12,7 @@ class GetThumbnailCommand implements Validateable
    String filename
    String hist
    String ovr
+   String geom
    Integer entry=0
    Integer size=128
    String outputFormat="image/jpeg"
