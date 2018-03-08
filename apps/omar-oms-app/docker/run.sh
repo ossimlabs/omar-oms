@@ -37,15 +37,17 @@ if [ -z $GOOFY_OPTS ] ; then
    GOOFY_OPTS="-o allow_other"
 fi
 GOOFY_OPTS="-f ${GOOFY_OPTS}"
-if [ ! -z $BUCKETS ] ; then
+if [ ! -z ${BUCKETS} ] ; then
    #!/bin/bash
    SPLIT_BUCKET=${BUCKETS//\,/ }
 
-   for BUCKET in $SPLIT_BUCKET ; do
-      mkdir -p /${MOUNT_POINT}/$BUCKET
+   for BUCKET in ${SPLIT_BUCKET} ; do
+      mkdir -p /${MOUNT_POINT}/${BUCKET}
       goofys ${GOOFY_OPTS} ${BUCKET} ${MOUNT_POINT}/${BUCKET} &
    done
 fi
 
 export JAR_FILE=`find $HOME -name "*.jar"`
-java $JAVA_OPTS -jar $JAR_FILE
+
+echo "java ${JAVA_OPTS} -jar ${JAR_FILE}"
+java ${JAVA_OPTS} -jar ${JAR_FILE}
