@@ -36,6 +36,8 @@ fi
 if [ -z $GOOFY_OPTS ] ; then
    GOOFY_OPTS="-o allow_other"
 fi
+
+# force to forground
 GOOFY_OPTS="-f ${GOOFY_OPTS}"
 if [ ! -z ${BUCKETS} ] ; then
    #!/bin/bash
