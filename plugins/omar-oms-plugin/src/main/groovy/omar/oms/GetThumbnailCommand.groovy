@@ -9,10 +9,12 @@ import groovy.transform.ToString
 @ToString( includeNames = true )
 class GetThumbnailCommand implements Validateable
 {
+   String id
    String filename
    String hist
    String ovr
    String geom
+   String thumbnail
    Integer entry=0
    Integer size=128
    String outputFormat="image/jpeg"

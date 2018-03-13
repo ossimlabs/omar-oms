@@ -10,15 +10,19 @@ import java.awt.Font
 import java.awt.font.TextLayout
 import java.awt.image.BufferedImage
 import javax.imageio.ImageIO
+import java.net.URL
 
 import joms.oms.ImageModel
 import joms.oms.Info
 import joms.oms.Keywordlist
 
+import groovy.json.JsonSlurper
+
 class ImageSpaceService
 {
   static transactional = false
   def chipperService
+  def grailsApplication
 
   def getTileOverlay(GetTileCommand cmd)
   {
@@ -195,7 +199,6 @@ class ImageSpaceService
     {
       HashMap chipperFileOptions = [file: cmd.filename, entry: cmd.entry]
       Integer rrds = indexOffset - cmd.z
-      println "RRDS ============ ${rrds}"
       ChipperCommand chipperCommand = new ChipperCommand()
       if(cmd.hist) chipperFileOptions.hist = cmd.hist
       if(cmd.ovr) chipperFileOptions.ovr = cmd.ovr
@@ -335,7 +338,45 @@ class ImageSpaceService
 
     return northIsUp
   }
+  def getRasterFiles(String id)
+  {
+    def result = []
+    String getRasterFilesUrl = grailsApplication.config?.omar?.oms?.getRasterFilesUrl;
+    try{
 
+      if(getRasterFilesUrl)
+      {
+        Boolean addQuestion = !getRasterFilesUrl?.endsWith("?")
+        String question = ""
+        def slurper = new JsonSlurper()
+        if(id)
+        {
+          if(addQuestion)
+          {
+            getRasterFilesUrl="${getRasterFilesUrl}?"
+            URL url = new URL("${getRasterFilesUrl}id=${id}".toString())
+            String txt = url.text
+            def obj = slurper.parseText(txt)
+            if(obj)
+            {
+                obj.results.each{record->
+                    result << [name:record.name, type:record.type]
+                }
+            }
+          }
+        }
+
+      }
+    }
+    catch(e)
+    {
+      e.printStackTrace()
+      log.error e.toString()
+      result = []
+    }
+
+    result
+  }
   def getThumbnail(GetThumbnailCommand cmd)
   {
     def result = [status:HttpStatus.OK, buffer:null]
@@ -343,16 +384,53 @@ class ImageSpaceService
     def requestType = "GET"
     def requestMethod = "getThumbnail"
     def responseTime
+    String format = cmd.outputFormat?cmd?.outputFormat?.split('/')?.last():"jpeg"
+
     Date startTime = new Date()
     Date endTime
     JsonBuilder logOutput
+    String thumbnailOverride
+    def associatedFiles = getRasterFiles(cmd.id)
+    if(associatedFiles)
+    {
+      associatedFiles.each{
+        switch(it.type?.toLowerCase())
+        {
+          case "histogram":
+            cmd.hist = it.name
+            break
+          case "overview":
+            cmd.ovr = it.name
+            break
+          case "main":
+            cmd.filename = it.name
+            break
+          case "geom":
+            cmd.geom = it.name
+            break
+          case "thumbnail":
+            thumbnailOverride = it.name
+            break
+          default:
+            break
+        }
+      }
+    }
+    if(thumbnailOverride)
+    {
+      File inputImage = new File(thumbnailOverride)
+      def bufImg = JaiImage.fileToBufferedImage(inputImage)
+      def image = JaiImage.createThumbnail(bufImg, cmd.size, format) 
 
-    // Check to see if file exists
-    if ( ! fileExists(cmd.filename?.toString() ) )
+      def ostream = new ByteArrayOutputStream()
+      ImageIO.write(image, format, ostream)
+
+      result = [status:HttpStatus.OK, contentType: "image/${format}", buffer: ostream.toByteArray()]
+    }
+    else if ( ! fileExists(cmd.filename?.toString() ) )
     {
       def image = getDefaultImage(cmd.size, cmd.size)
       def ostream = new ByteArrayOutputStream()
-      def format = cmd?.outputFormat?.split('/')?.last()
 
       ImageIO.write(image, format, ostream)
 
@@ -376,7 +454,6 @@ class ImageSpaceService
       chipperCommand.outputFormat = cmd.outputFormat?:"image/jpeg"
       if(cmd.transparent!=null) chipperCommand.transparent = cmd.transparent
       try{
-        println chipperCommand
         result = chipperService.getTile(chipperCommand)
       }
       catch(e)
