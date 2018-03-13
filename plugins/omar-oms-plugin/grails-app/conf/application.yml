@@ -76,3 +76,11 @@ grails:
 endpoints:
     jmx:
         unique-names: true
+
+omar:
+  oms:
+    # getRasterFilesUrl is the location for getting the raster files associated with
+    # an ID.
+    # The data manager is typically on the omar-stager-app service.  Uncomment and put the location
+    # of your service
+    # getRasterFilesUrl: "http://omar-stager-app:8080/omar-stager/dataManager/getRasterFiles"

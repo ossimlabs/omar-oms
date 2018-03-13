@@ -7,6 +7,7 @@ import javax.media.jai.JAI
 import javax.media.jai.ParameterBlockJAI
 import javax.media.jai.PlanarImage
 import java.awt.Graphics
+import java.awt.Graphics2D
 import java.awt.Image
 import java.awt.Point
 import java.awt.RenderingHints
@@ -40,7 +41,7 @@ class JaiImage
 
     modifiedImage
   }
-  def reformatImage(def image, int tileWidth = 256, int tileHeight = 256)
+  static def reformatImage(def image, int tileWidth = 256, int tileHeight = 256)
   {
     def imageLayout = new ImageLayout( image )
 
@@ -56,7 +57,7 @@ class JaiImage
     image
   }
 
-  def readImage(def File file, int rLevel)
+  static def readImage(def File file, int rLevel)
   {
     def istream = ImageIO.createImageInputStream( file )
     def reader = ImageIO.getImageReaders( istream )?.next()
@@ -73,7 +74,7 @@ class JaiImage
     image
   }
 
-  def readImageInfo(File file)
+  static def readImageInfo(File file)
   {
     def istream = ImageIO.createImageInputStream( file )
     def reader = ImageIO.getImageReaders( istream )?.next()
@@ -106,7 +107,7 @@ class JaiImage
     return info
   }
 
-  def getTile(GetTileCommand cmd)
+  static def getTile(GetTileCommand cmd)
   {
     def file = cmd.filename as File
     def imageInfo = readImageInfo( file )
@@ -120,7 +121,7 @@ class JaiImage
     [contentType: "image/${cmd.format}", buffer: ostream.toByteArray()]
   }
 
-  def getTileAsImage(image, x, y)
+  static def getTileAsImage(image, x, y)
   {
     def raster = image.getTile( x, y )
     def dataBuffer = raster.getDataBuffer();
@@ -130,8 +131,7 @@ class JaiImage
     return tileImage
   }
 
-
-  def findIndexOffset(def imageInfo, def tileSize = 256)
+  static def findIndexOffset(def imageInfo, def tileSize = 256)
   {
     def index
 
@@ -149,4 +149,48 @@ class JaiImage
     return index
   }
 
+  static def createThumbnail(def img, Integer w, Integer h, String format="jpeg")
+  {
+    int srcW = img.width
+    int srcH = img.height
+    int x = 0
+    int y = 0
+    int tgtW = w
+    int tgtH = h
+    def maxSize = Math.max(srcW, srcH);
+    def minTgt = Math.min(tgtW,tgtH)
+    Double scale = maxSize/minTgt;
+    Boolean transparentFlag = format?.toLowerCase() != "jpeg"
+    println "FORMAT ===================== ${format}"
+    BufferedImage thumbnailImg = new BufferedImage(w, h, transparentFlag?BufferedImage.TYPE_INT_ARGB:BufferedImage.TYPE_INT_RGB);//img.getType());
+    //Adjust target
+    if(scale >=1)
+    {
+        tgtW = srcW/scale
+        tgtH = srcH/scale
+    }
+    else
+    {
+        tgtW = srcW
+        tgtH = srcH
+    }      
+    Graphics2D g = thumbnailImg.createGraphics();
+    g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+            RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+    g.drawImage(img, 0, 0, tgtW, tgtH, 0, 0, srcW, srcH, null);
+    g.dispose();
+
+    thumbnailImg
+  }
+  static def createThumbnail(def img, Integer size, String format="jpeg")
+  {
+    createThumbnail(img, size, size, format);
+  }
+
+  static def fileToBufferedImage(File inputFile)
+  {
+    def image = ImageIO.read(inputFile)
+
+    image
+  }
 }
