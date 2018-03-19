@@ -28,17 +28,17 @@ Only required for Jenkins pipelines or if you are running Artifactory and/or Ope
 3. Install omar-core-plugin (it is part of the omar-core repo).
 ```
  cd omar-core/plugins/omar-core-plugin
- ./gradlew clean install
+ gradle clean install
 ```
 
 4. Install omar-openlayers-plugin
 ```
  cd omar-openlayers/plugins/omar-openlayers-plugin
- ./gradlew clean install
+ gradle clean install
 ```
 
 5. Install omar-oms-plugin
 ```
  cd omar-oms/plugin/omar-oms-plugin
- ./gradlew clean install
+ gradle clean install
 ``
