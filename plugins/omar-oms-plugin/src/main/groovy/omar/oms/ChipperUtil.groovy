@@ -208,7 +208,7 @@ class ChipperUtil
     responseTime = Math.abs(startTime.getTime() - endTime.getTime())
     logOutput = new JsonBuilder(timestamp: DateUtil.formatUTC(startTime), requestType: requestType,
             requestMethod: requestMethod, httpStatus: httpStatus, endTime: DateUtil.formatUTC(endTime),
-            responseTime: responseTime, responseSize: result.raster.length, filename: opts.image0?.file)
+            responseTime: responseTime, responseSize: result.raster.length, filename: opts?."image0.file"?)
 
     log.info logOutput.toString()
 
