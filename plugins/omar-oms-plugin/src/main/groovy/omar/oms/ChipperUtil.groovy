@@ -100,7 +100,7 @@ class ChipperUtil
     log.trace "runChipper: Entered.................."
     def chipper = new Chipper()
 
-    log.debug "runChipper options: ${opts}"
+    log.trace "runChipper options: ${opts}"
     if ( chipper.initialize( opts ) )
     {
       log.debug "initialize: good"
@@ -155,8 +155,17 @@ class ChipperUtil
     def chipper = new Chipper()
     def imageData
     def cacheSource
-    try{
-      log.debug "runChipper options: ${opts}"
+
+    def requestType = "GET"
+    def requestMethod = "runChipper"
+    def responseTime
+    def httpStatus = 200
+    Date startTime = new Date()
+    Date endTime
+    JsonBuilder logOutput
+
+    try {
+      log.trace "runChipper options: ${opts}"
       if ( chipper.initialize( opts ) )
       {
         imageData = chipper.getChip(opts);
@@ -181,16 +190,24 @@ class ChipperUtil
     catch(e)
     {
       log.error e.toString()
-       // e.printStackTrace()
+      httpStatus = 400
     }
-    finally{
-      cacheSource?.delete();cacheSource=null
+    finally {
+      cacheSource?.delete();cacheSource = null
       imageData?.delete(); imageData = null
       chipper?.delete(); chipper = null
 
     }
 
     log.trace "runChipper: Leaving.................."
+
+    endTime = new Date()
+    responseTime = Math.abs(startTime.getTime() - endTime.getTime())
+    logOutput = new JsonBuilder(timestamp: DateUtil.formatUTC(startTime), requestType: requestType,
+            requestMethod: requestMethod, httpStatus: httpStatus, endTime: DateUtil.formatUTC(endTime),
+            responseTime: responseTime, responseSize: result.raster.length, filename: opts.image0?.file)
+
+    log.info logOutput.toString()
 
     result
   }
