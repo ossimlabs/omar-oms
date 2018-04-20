@@ -1,6 +1,7 @@
 package omar.oms
 
 import groovy.json.JsonSlurper
+import groovy.json.JsonBuilder
 import org.ossim.oms.util.ImageGenerator
 import org.ossim.oms.util.TransparentFilter
 
@@ -18,14 +19,16 @@ import groovy.util.logging.Slf4j
 import java.awt.image.IndexColorModel
 
 import joms.oms.Chipper
-import joms.oms.ossimMemoryImageSource;
-import joms.oms.ossimImageDataRefPtr;
+import joms.oms.ossimMemoryImageSource
+import joms.oms.ossimImageDataRefPtr
 
-import org.ossim.oms.image.omsRenderedImage;
+import omar.core.DateUtil
+
+import org.ossim.oms.image.omsRenderedImage
 import org.ossim.oms.image.omsImageSource
 
 import java.awt.image.SampleModel
-import java.awt.image.WritableRaster;
+import java.awt.image.WritableRaster
 
 /**
  * Created by sbortman on 1/15/16.
