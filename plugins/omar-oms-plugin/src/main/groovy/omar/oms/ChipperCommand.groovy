@@ -32,6 +32,7 @@ class ChipperCommand implements Validateable
    String      degreesX
    String      degreesY
    String      dem
+   String      fullresXys
    String      gain
    List<Map>   images
    Boolean     histAoi
@@ -89,6 +90,7 @@ class ChipperCommand implements Validateable
       degreesX(nullable:true, blank:true)
       degreesY(nullable:true, blank:true)
       dem(nullable:true, blank:true)
+      fullresXys(nullable:true, blank:true)
       gain(nullable:true, blank:true)
       images(nullable:false, blank:false)
       histAoi(nullable:true, blank:true)
