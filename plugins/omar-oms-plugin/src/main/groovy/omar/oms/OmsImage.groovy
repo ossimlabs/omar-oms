@@ -15,6 +15,8 @@ import joms.oms.Chipper
 import joms.oms.Info
 import joms.oms.Keywordlist
 
+import org.springframework.util.FastByteArrayOutputStream
+
 /**
  * Created by sbortman on 12/7/15.
  */
@@ -44,13 +46,13 @@ class OmsImage
         width: cmd.tileSize,
         height: cmd.tileSize,
         type: cmd.format,
-        ostream: new ByteArrayOutputStream()
+        ostream: new FastByteArrayOutputStream((cmd.tileSize * cmd.tileSize * 3).intValue())
     ]
 
     //println opts
     runChipper( opts, hints )
 
-    [contentType: "image/${hints.type}", buffer: hints.ostream.toByteArray()]
+    [contentType: "image/${hints.type}", buffer: hints.ostream.toByteArrayUnsafe()]
   }
 
   def runChipper(def opts, def hints)
