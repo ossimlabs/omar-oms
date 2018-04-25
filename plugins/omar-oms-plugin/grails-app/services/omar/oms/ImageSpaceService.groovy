@@ -242,10 +242,7 @@ class ImageSpaceService
                  ]
 
         endTime = new Date()
-
-
         responseTime = Math.abs(startTime.getTime() - endTime.getTime())
-
         logOutput = new JsonBuilder(timestamp: DateUtil.formatUTC(startTime), requestType: requestType,
                 requestMethod: requestMethod, httpStatus: result.status, endTime: DateUtil.formatUTC(endTime),
                 responseTime: responseTime, responseSize: result.buffer.length, filename: cmd.filename)

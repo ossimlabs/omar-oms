@@ -15,6 +15,7 @@ class ChipperService {
       HashMap chipperResult = [:]
       String outputFormat = cmd.outputFormat?:"image/png"
       def hints = [type:outputFormat]
+      
       if(cmd.validate())
       {
          if(cmd.transparent != null)
