@@ -14,6 +14,8 @@ import java.awt.RenderingHints
 import java.awt.image.BufferedImage
 import java.awt.image.Raster
 
+import org.springframework.util.FastByteArrayOutputStream
+
 /**
  * Created by sbortman on 12/7/15.
  */
@@ -114,11 +116,14 @@ class JaiImage
     def index = findIndexOffset( imageInfo ) - ( cmd.z )
     def image = reformatImage( readImage( file, index ) )
     def tileImage = getTileAsImage( image, cmd.x, cmd.y )
-    def ostream = new ByteArrayOutputStream()
+
+    def ostream = new FastByteArrayOutputStream(
+      (tileImage.sampleModel.sampleSize.sum() / 8 * tileImage.width * tileImage.height).intValue()
+    )
 
     ImageIO.write( tileImage, cmd.format, ostream )
 
-    [contentType: "image/${cmd.format}", buffer: ostream.toByteArray()]
+    [contentType: "image/${cmd.format}", buffer: ostream.toByteArrayUnsafe()]
   }
 
   static def getTileAsImage(image, x, y)
@@ -173,7 +178,7 @@ class JaiImage
     {
         tgtW = srcW
         tgtH = srcH
-    }      
+    }
     Graphics2D g = thumbnailImg.createGraphics();
     g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
             RenderingHints.VALUE_INTERPOLATION_BILINEAR);
