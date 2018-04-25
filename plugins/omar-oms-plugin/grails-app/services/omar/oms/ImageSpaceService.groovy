@@ -18,6 +18,8 @@ import joms.oms.Keywordlist
 
 import groovy.json.JsonSlurper
 
+import org.springframework.util.FastByteArrayOutputStream
+
 class ImageSpaceService
 {
   static transactional = false
@@ -36,7 +38,11 @@ class ImageSpaceService
     JsonBuilder logOutput
 
     BufferedImage image = new BufferedImage( cmd.tileSize, cmd.tileSize, BufferedImage.TYPE_INT_ARGB )
-    ByteArrayOutputStream ostream = new ByteArrayOutputStream()
+
+    FastByteArrayOutputStream ostream = new FastByteArrayOutputStream(
+      (image.sampleModel.sampleSize.sum() / 8 * image.width * image.height).intValue()
+    )
+
     def g2d = image.createGraphics()
     def font = new Font( "TimesRoman", Font.PLAIN, 18 )
     def bounds = new TextLayout( text, font, g2d.fontRenderContext ).bounds
@@ -66,7 +72,7 @@ class ImageSpaceService
 
     log.info logOutput.toString()
 
-    [contentType: format, buffer: ostream.toByteArray()]
+    [contentType: format, buffer: ostream.toByteArrayUnsafe()]
   }
 
   def readImageInfo(String file)
@@ -182,7 +188,7 @@ class ImageSpaceService
     def imageEntry
 
     def result = [status     : HttpStatus.NOT_FOUND,
-                  contentType: "plane/text",
+                  contentType: "text/plain",
                   buffer     : "Unable to service tile".bytes]
 
 
@@ -231,7 +237,7 @@ class ImageSpaceService
       catch(e)
       {
         result = [status     : HttpStatus.INTERNAL_SERVER_ERROR,
-                  contentType: "plain/text",
+                  contentType: "text/plain",
                   buffer     : "${e}".bytes
                  ]
 
@@ -248,7 +254,7 @@ class ImageSpaceService
     else
     {
         result = [status     : HttpStatus.INTERNAL_SERVER_ERROR,
-                  contentType: "plain/text",
+                  contentType: "text/plain",
                   buffer     : "Not Enough resolution levels to satisfy request".bytes
                  ]
 
@@ -393,23 +399,23 @@ class ImageSpaceService
       associatedFiles.each{
         switch(it.type?.toLowerCase())
         {
-          case "histogram":
-            cmd.hist = it.name
-            break
-          case "overview":
-            cmd.ovr = it.name
-            break
-          case "main":
-            cmd.filename = it.name
-            break
-          case "geom":
-            cmd.geom = it.name
-            break
-          case "thumbnail":
-            thumbnailOverride = it.name
-            break
-          default:
-            break
+        case "histogram":
+          cmd.hist = it.name
+          break
+        case "overview":
+          cmd.ovr = it.name
+          break
+        case "main":
+          cmd.filename = it.name
+          break
+        case "geom":
+          cmd.geom = it.name
+          break
+        case "thumbnail":
+          thumbnailOverride = it.name
+          break
+        default:
+          break
         }
       }
     }
@@ -417,21 +423,27 @@ class ImageSpaceService
     {
       File inputImage = new File(thumbnailOverride)
       def bufImg = JaiImage.fileToBufferedImage(inputImage)
-      def image = JaiImage.createThumbnail(bufImg, cmd.size, format) 
+      def image = JaiImage.createThumbnail(bufImg, cmd.size, format)
 
-      def ostream = new ByteArrayOutputStream()
+      def ostream = new FastByteArrayOutputStream(
+        (image.sampleModel.sampleSize.sum() / 8 * image.width * image.height).intValue()
+      )
+
       ImageIO.write(image, format, ostream)
 
-      result = [status:HttpStatus.OK, contentType: "image/${format}", buffer: ostream.toByteArray()]
+      result = [status:HttpStatus.OK, contentType: "image/${format}", buffer: ostream.toByteArrayUnsafe()]
     }
     else if ( ! fileExists(cmd.filename?.toString() ) )
     {
       def image = getDefaultImage(cmd.size, cmd.size)
-      def ostream = new ByteArrayOutputStream()
+
+      def ostream = new FastByteArrayOutputStream(
+        (image.sampleModel.sampleSize.sum() / 8 * image.width * image.height).intValue()
+      )
 
       ImageIO.write(image, format, ostream)
 
-      result = [status:HttpStatus.OK, contentType: "image/${format}", buffer: ostream.toByteArray()]
+      result = [status:HttpStatus.OK, contentType: "image/${format}", buffer: ostream.toByteArrayUnsafe()]
     }
     else
     {
@@ -456,7 +468,7 @@ class ImageSpaceService
       catch(e)
       {
         result = [status     : HttpStatus.INTERNAL_SERVER_ERROR,
-                  contentType: "plain/text",
+                  contentType: "text/plain",
                   buffer     : "${e}".bytes
                  ]
 

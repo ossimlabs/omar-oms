@@ -1,10 +1,12 @@
 package omar.oms
 
-import grails.transaction.Transactional
+// import grails.transaction.Transactional
 import omar.core.HttpStatus
 import javax.imageio.ImageIO
 
-@Transactional
+import org.springframework.util.FastByteArrayOutputStream
+
+// @Transactional
 class ChipperService {
 
     def getTile(ChipperCommand cmd) {
@@ -50,7 +52,7 @@ class ChipperService {
       }
       else
       {
-        chipperResult.statusMessage = "Parameter values are invalid. Please check the paramter format" 
+        chipperResult.statusMessage = "Parameter values are invalid. Please check the paramter format"
         chipperResult.status        = HttpStatus.BAD_REQUEST
         chipperResult.contentType   = "text/plain"
 
@@ -62,10 +64,13 @@ class ChipperService {
       {
         if(chipperResult.image)
         {
-          def ostream = new ByteArrayOutputStream()
+          def ostream = new FastByteArrayOutputStream(
+            (chipperResult.image.width * chipperResult.image.height * 3).intValue()
+          )
+
           try{
             ImageIO.write(chipperResult.image, chipperResult.format, ostream)
-            result.buffer = ostream.toByteArray()
+            result.buffer = ostream.toByteArrayUnsafe()
 
           }
           catch(e)
