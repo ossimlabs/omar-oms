@@ -1,8 +1,9 @@
-pluginRepositories {
-	maven { url "${ System.getenv('ARTIFACTORY_URL') }/ossim-deps" }
-	gradlePluginPortal()
+pluginManagement {
+  repositories {
+    maven { url "${ System.getenv('ARTIFACTORY_URL') }/ossim-deps" }
+    gradlePluginPortal()
+  }
 }
-
 def final O2_DEV_HOME = System.getenv('O2_DEV_HOME')
 if ( O2_DEV_HOME ) {
 
