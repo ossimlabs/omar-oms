@@ -68,6 +68,7 @@ node(""){
             // Run all tasks on the app. This includes pushing to OpenShift and S3.
             sh """
             pushd ${workspaceDir}/${appName}
+            aws s3 cp s3://ossimlabs/dependencies/goofys/goofys ./apps/${appName}-app/docker/
             gradle :${appName}-app:${GRADLE_TASK}
             popd
             """
