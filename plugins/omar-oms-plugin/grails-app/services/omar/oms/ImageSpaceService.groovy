@@ -459,6 +459,7 @@ class ImageSpaceService
       chipperCommand.padThumbnail = true
       chipperCommand.threeBandOut = true
       chipperCommand.nullPixelFlip = cmd.nullPixelFlip
+      chipperCommand.padThumbnail = cmd.padThumbnail
       chipperCommand.thumbnailResolution = cmd.size?:64
       chipperCommand.outputFormat = cmd.outputFormat?:"image/jpeg"
       if(cmd.transparent!=null) chipperCommand.transparent = cmd.transparent
