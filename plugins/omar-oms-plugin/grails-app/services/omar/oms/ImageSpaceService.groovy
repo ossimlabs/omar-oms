@@ -468,7 +468,6 @@ class ImageSpaceService
       {
         chipperCommand.transparent = false
       }
-      println "************CHIPPER COMMAND*****************\n${chipperCommand}\n*****************"
       try{
         result = chipperService.getTile(chipperCommand)
       }
