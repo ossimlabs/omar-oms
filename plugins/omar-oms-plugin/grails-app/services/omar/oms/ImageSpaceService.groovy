@@ -419,7 +419,7 @@ class ImageSpaceService
         }
       }
     }
-    if(thumbnailOverride)
+    if(thumbnailOverride&&fileExists(thumbnailOverride))
     {
       File inputImage = new File(thumbnailOverride)
       def bufImg = JaiImage.fileToBufferedImage(inputImage)
@@ -449,19 +449,25 @@ class ImageSpaceService
     {
       HashMap chipperFileOptions = [file:cmd.filename, entry:cmd.entry?:0]
       ChipperCommand chipperCommand = new ChipperCommand()
-      if(cmd.hist) chipperFileOptions.hist = cmd.hist
-      if(cmd.ovr)  chipperFileOptions.ovr = cmd.ovr
+      if(cmd.hist)  chipperFileOptions.hist = cmd.hist
+      if(cmd.ovr)   chipperFileOptions.ovr = cmd.ovr
       if(cmd.geom)  chipperFileOptions.geom = cmd.geom
       chipperCommand.histOp = cmd.histOp
       chipperCommand.images = [ chipperFileOptions ]
       chipperCommand.operation = "chip"
       chipperCommand.outputRadiometry = "ossim_uint8"
-      chipperCommand.padThumbnail = true
+      chipperCommand.padThumbnail = cmd.padThumbnail?:false
       chipperCommand.threeBandOut = true
       chipperCommand.nullPixelFlip = cmd.nullPixelFlip
+      chipperCommand.padThumbnail = cmd.padThumbnail
       chipperCommand.thumbnailResolution = cmd.size?:64
-      chipperCommand.outputFormat = cmd.outputFormat?:"image/jpeg"
+      chipperCommand.transparent = cmd.transparent?:false
+      chipperCommand.outputFormat = cmd.outputFormat?:"image/png"
       if(cmd.transparent!=null) chipperCommand.transparent = cmd.transparent
+      if(chipperCommand.outputFormat.toLowerCase().contains("jpeg"))
+      {
+        chipperCommand.transparent = false
+      }
       try{
         result = chipperService.getTile(chipperCommand)
       }

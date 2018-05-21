@@ -194,6 +194,8 @@ class ImageSpaceController
           @ApiImplicitParam(name = 'size', value = 'Overview image size', allowableValues="64,128,256,512,1024", defaultValue="256", paramType = 'query', dataType = 'integer', required=true),
           @ApiImplicitParam(name = 'outputFormat', value = 'Output image format', allowableValues="png,jpeg,gif,tiff", defaultValue="png", paramType = 'query', dataType = 'string', required=true),
           @ApiImplicitParam(name = 'nullPixelFlip', value = 'Flip interior null pixels to valid', allowableValues="true,false", defaultValue="false", paramType = 'query', dataType = 'boolean', required=false),
+          @ApiImplicitParam(name = 'padThumbnail', value = 'pad the thumbnail so it is square', allowableValues="true,false", defaultValue="false", paramType = 'query', dataType = 'boolean', required=false),
+          @ApiImplicitParam(name = 'transparent', value = 'enable/disable transparency', allowableValues="true,false", defaultValue="false", paramType = 'query', dataType = 'boolean', required=false),
           @ApiImplicitParam(name = 'id', value = 'ID', paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'filename', value = 'Filename', paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'hist', value = 'Histogram File', paramType = 'query', dataType = 'string', required=false),
