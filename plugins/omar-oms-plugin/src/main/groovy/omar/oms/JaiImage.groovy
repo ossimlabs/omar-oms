@@ -166,7 +166,6 @@ class JaiImage
     def minTgt = Math.min(tgtW,tgtH)
     Double scale = maxSize/minTgt;
     Boolean transparentFlag = format?.toLowerCase() != "jpeg"
-    println "FORMAT ===================== ${format}"
     BufferedImage thumbnailImg = new BufferedImage(w, h, transparentFlag?BufferedImage.TYPE_INT_ARGB:BufferedImage.TYPE_INT_RGB);//img.getType());
     //Adjust target
     if(scale >=1)
