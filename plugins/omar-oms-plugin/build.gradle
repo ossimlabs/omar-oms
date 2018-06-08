@@ -113,6 +113,7 @@ dependencies {
   testCompile "org.grails:grails-web-testing-support"
   testRuntime "org.seleniumhq.selenium:selenium-htmlunit-driver:${seleniumHtmlUnitDriverV}"
   testRuntime "net.sourceforge.htmlunit:htmlunit:${htmlUnitV}"
+  testCompile "org.grails:grails-test-mixins:3.3.0"
 
 }
 
