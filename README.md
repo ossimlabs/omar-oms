@@ -1,5 +1,9 @@
 # omar-oms
 
+## Description
+
+The OMAR OSSIM Mapping Service contains all of OSSIM's functionality, binding it via JNI to be web accessible. 
+
 [![Build Status](https://jenkins.radiantbluecloud.com/buildStatus/icon?job=omar-oms-dev)]()
 
 ### Required environment variable
