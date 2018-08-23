@@ -36,6 +36,7 @@ class ImageSpaceService
     Date startTime = new Date()
     Date endTime
     JsonBuilder logOutput
+    def buffer
 
     BufferedImage image = new BufferedImage( cmd.tileSize, cmd.tileSize, BufferedImage.TYPE_INT_ARGB )
 
@@ -66,13 +67,14 @@ class ImageSpaceService
 
     responseTime = Math.abs(startTime.getTime() - endTime.getTime())
 
+    buffer = ostream.toByteArrayUnsafe()
     logOutput = new JsonBuilder(timestamp: DateUtil.formatUTC(startTime), requestType: requestType,
             requestMethod: requestMethod, httpStatus: 200, endTime: DateUtil.formatUTC(endTime),
             responseTime: responseTime, responseSize: buffer.length, filename: cmd.filename)
 
     log.info logOutput.toString()
 
-    [contentType: format, buffer: ostream.toByteArrayUnsafe()]
+    [contentType: format, buffer: buffer]
   }
 
   def readImageInfo(String file)
