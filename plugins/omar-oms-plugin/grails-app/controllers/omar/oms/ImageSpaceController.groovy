@@ -55,7 +55,6 @@ class ImageSpaceController
           @ApiImplicitParam(name = 'hist', value = 'Histogram file', paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'ovr', value = 'Overview file', paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'geom', value = 'Geometry file', paramType = 'query', dataType = 'string', required=false),
-          @ApiImplicitParam(name = 'entry', value = 'Image entry id(typically 0)', defaultValue="0", paramType = 'query', dataType = 'integer', required=false),
           @ApiImplicitParam(name = 'bands', value = 'Bands', defaultValue="", paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'histOp', value = 'Histogram Operation',defaultValue = '',allowableValues="none,auto-minmax,auto-percentile,std-stretch-1,std-stretch-2,std-stretch-3", paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'sharpenMode', value = 'Sharpen Operation',allowableValues="none,light,heavy", defaultValue="none", paramType = 'query', dataType = 'string', required=false),
