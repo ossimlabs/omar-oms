@@ -10,12 +10,12 @@ The OMAR OSSIM Mapping Service contains all of OSSIM's functionality, binding it
 - OMAR_COMMON_PROPERTIES
 
 ### Optional environment variables
-Only required for Jenkins pipelines or if you are running Artifactory and/or Openshift locally
+Only required for Jenkins pipelines or if you are running Nexus and/or Openshift locally
 
 - OPENSHIFT_USERNAME
 - OPENSHIFT_PASSWORD
-- ARTIFACTORY_USER
-- ARTIFACTORY_PASSWORD
+- REPOSITORY_MANAGER_USER
+- REPOSITORY_MANAGER_PASSWORD
 
 ## How to Install omar-oms-plugin locally
 
