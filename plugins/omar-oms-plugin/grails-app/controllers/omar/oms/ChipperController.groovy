@@ -177,6 +177,7 @@ class ChipperController {
           }
        }
 
+      println "--- DEBUG ---"
       log.info(json)
    }
 
@@ -331,6 +332,7 @@ class ChipperController {
           }
        }
 
+      println "--- DEBUG ---"
       log.info(json)
    }
 
