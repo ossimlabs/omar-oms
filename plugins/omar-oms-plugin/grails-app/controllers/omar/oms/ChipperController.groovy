@@ -176,6 +176,8 @@ class ChipperController {
              }
           }
        }
+
+      log.info(json)
    }
 
   @ApiOperation(value = "Get ortho chip from the passed in image file name",
@@ -328,6 +330,8 @@ class ChipperController {
              }
           }
        }
+
+      log.info(json)
    }
 
    def executeChipper()
