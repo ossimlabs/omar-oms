@@ -38,15 +38,20 @@ if [ -z "${GOOFY_OPTS}" ] ; then
 fi
 
 # force to forground
+#  we are taking a comma separated list of buckets in the form of
+#  AWS  <bucket>:<prefix-path>,.....
+#  where :<prefix-path> is optional.  
+#  we will mount to the location <mount-point>/<prefix-path>
+# 
 GOOFY_OPTS="-f ${GOOFY_OPTS}"
 if [ ! -z "${BUCKETS}" ] ; then
-   #!/bin/bash
-   SPLIT_BUCKET=${BUCKETS//\,/ }
-
-   for BUCKET in ${SPLIT_BUCKET} ; do
-      mkdir -p /${MOUNT_POINT}/${BUCKET}
-      goofys ${GOOFY_OPTS} ${BUCKET} ${MOUNT_POINT}/${BUCKET} &
-   done
+  SPLIT_BUCKET=${BUCKETS//\,/ }
+  
+  for BUCKET in ${SPLIT_BUCKET} ; do
+    BUCKET_PATH="${MOUNT_POINT}/${BUCKET//://}"
+    mkdir -p $BUCKET_PATH
+    goofys ${GOOFY_OPTS} ${BUCKET} ${BUCKET_PATH} &
+  done
 fi
 
 export JAR_FILE=`find $HOME -name "*.jar"`
