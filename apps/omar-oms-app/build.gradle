@@ -2,31 +2,7 @@ buildscript {
     ext {
         grailsVersion = project.grailsVersion
         baseImage = "omar-ossim-base"
-    dockerFile ="docker/Dockerfile"
-     dockerStatementsOverride = {
-       [
-          "FROM ${project.dockerNamespaceUrl}${project.ext.baseImage}:${project.dockerAppTag}",
-          """ENV SPRING_CLOUD_CONFIG_ENABLED=true \\
-    SPRING_CLOUD_DISCOVERY_ENABLED=true \\
-    HOME=/home/omar""",
-          "COPY run.sh \$HOME/run.sh",
-          "COPY goofys /usr/bin/goofys",
-          "COPY ${project.name}-${buildVersion}-${buildVersionTag}.jar \$HOME",
-          "USER root",
-          """RUN yum -y install nss_wrapper fuse fuse-libs libevent curl && \\
-    yum clean all && \\
-    chmod +x /usr/bin/goofys && \\
-    mkdir -p /s3 && chown -R 1001:0 /s3 && chmod 777 /s3 && \\
-    echo "user_allow_other" > /etc/fuse.conf && \\
-    chown -R 1001:0 \$HOME && \\
-    chmod +x \$HOME/run.sh && \\
-    find \$HOME -type d -exec chmod g+x {} +""",
-          "USER 1001",
-          "WORKDIR \$HOME",
-          "EXPOSE 8080",
-          "CMD \$HOME/run.sh"
-       ]
-     }
+//    dockerFile ="docker/Dockerfile"
     }
     if(System.env.OMAR_COMMON_PROPERTIES)
     {
