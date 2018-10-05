@@ -2,9 +2,11 @@
 #
 # ENV Variables:
 #
-# GOOFY_OPTS - options for goofy
+# GOOFY_OPTS - options for goofy. Note -f is going to be added automatically so do not add the -f option
 # MOUNT_POINT - mount point for s3 buckets.  Should have default of /s3
-# 
+# BUCKETS - Is a comma seperated list of <bucket>:<prefix-path>,....,<bucket>:<prefix-path>.  
+#           Note: ":<prefix-path>" is Optional and is used if you are mounting a folder 
+#           within a bucket instead of just the bucket
 # AWS_ACCESS_KEY - AWS key.  Optional
 # AWS_SECRET_KEY - AWS Secret Key. Optional
 # JAVA_OPTS - Arguments to pass to java to start the app.  Optional
@@ -20,6 +22,7 @@ fi
 export USER_ID=$(id -u)
 export GROUP_ID=$(id -g)
 sed '/^omar/d' /etc/passwd > /tmp/passwd
+
 echo omar:x:$USER_ID:$GROUP_ID:Default Application User:$HOME:/sbin/nologin >> /tmp/passwd
 
 export LD_PRELOAD=/usr/lib64/libnss_wrapper.so
