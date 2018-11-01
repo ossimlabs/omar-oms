@@ -38,7 +38,7 @@ class ChipperService {
             if(!chipperResult.image)
             {
                chipperResult.status        = HttpStatus.BAD_REQUEST
-               chipperResult.statusMessage = "Unable to crate an image."
+               chipperResult.statusMessage = "Unable to create an image."
                chipperResult.contentType   = "text/plain"
             }
          }
