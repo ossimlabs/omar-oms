@@ -8,14 +8,10 @@ def final O2_DEV_HOME = System.getenv('O2_DEV_HOME')
 if ( O2_DEV_HOME ) {
 
 include 'omar-oms-app',
-        'omar-core-plugin',
-        'omar-oms-plugin',
-        'omar-openlayers-plugin'
+        'omar-oms-plugin'
 
 
 project(':omar-oms-app').projectDir = "${O2_DEV_HOME}/omar-oms/apps/omar-oms-app" as File
-project(':omar-core-plugin').projectDir = "${O2_DEV_HOME}/omar-core/plugins/omar-core-plugin" as File
 project(':omar-oms-plugin').projectDir = "${O2_DEV_HOME}/omar-oms/plugins/omar-oms-plugin" as File
-project(':omar-openlayers-plugin').projectDir = "${O2_DEV_HOME}/omar-openlayers/plugins/omar-openlayers-plugin" as File
 
 }
