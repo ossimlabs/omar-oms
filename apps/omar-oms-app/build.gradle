@@ -69,7 +69,6 @@ dependencyManagement {
 grails {
   plugins {
         compile project(':omar-oms-plugin')
-        compile project(':omar-openlayers-plugin')
   }
 }
 
