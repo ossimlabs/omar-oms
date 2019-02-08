@@ -51,9 +51,20 @@ repositories {
    applyMavenExclusions false
  }
 
+ if ( System.getenv('O2_INLINE_BUILD') ) {
+   grails {
+     plugins {
+      compile project(":omar-core-plugin")
+//      compile project(":omar-openlayers-plugin")
+     }
+   }
+ }
+
 dependencies {
-  compile "io.ossim.omar.plugins:omar-core-plugin:+"
-  compile "io.ossim.omar.plugins:omar-openlayers-plugin:+"
+  if ( ! System.getenv('O2_INLINE_BUILD') ) {
+    compile "io.ossim.omar.plugins:omar-core-plugin:+"
+  }
+
   compile "javax.media:jai_core:1.1.3"
   compile "javax.media:jai_codec:1.1.3"
   compile "javax.media:jai_imageio:1.1"
