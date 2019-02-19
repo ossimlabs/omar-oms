@@ -64,26 +64,29 @@ node("${BUILD_NODE}"){
         }
     }
 
-    stage ("OpenShift Tag Image")
-    {
-        withCredentials([[$class: 'UsernamePasswordMultiBinding',
-                          credentialsId: 'openshiftCredentials',
-                          usernameVariable: 'OPENSHIFT_USERNAME',
-                          passwordVariable: 'OPENSHIFT_PASSWORD']])
+    try {
+        stage ("OpenShift Tag Image")
         {
-            // Run all tasks on the app. This includes pushing to OpenShift and S3.
-            sh """
-                gradle openshiftTagImage \
-                    -PossimMavenProxy=${OSSIM_MAVEN_PROXY}
+            withCredentials([[$class: 'UsernamePasswordMultiBinding',
+                            credentialsId: 'openshiftCredentials',
+                            usernameVariable: 'OPENSHIFT_USERNAME',
+                            passwordVariable: 'OPENSHIFT_PASSWORD']])
+            {
+                // Run all tasks on the app. This includes pushing to OpenShift and S3.
+                sh """
+                    gradle openshiftTagImage \
+                        -PossimMavenProxy=${OSSIM_MAVEN_PROXY}
 
-            """
+                """
+            }
         }
+    } catch (e) {
+        echo e.toString()
     }
-
         
-   stage("Clean Workspace")
-   {
-      if ("${CLEAN_WORKSPACE}" == "true")
-        step([$class: 'WsCleanup'])
-   }
+    stage("Clean Workspace")
+    {
+        if ("${CLEAN_WORKSPACE}" == "true")
+            step([$class: 'WsCleanup'])
+    }
 }
