@@ -8,7 +8,7 @@ buildscript {
         classpath "org.grails.plugins:hibernate5:${gormVersion-".RELEASE"}"
         classpath "com.bertramlabs.plugins:asset-pipeline-gradle:2.14.10"
         classpath 'com.bmuschko:gradle-docker-plugin:3.0.12'
-        classpath 'io.ossim:gradleDefaults:1.4-SNAPSHOT'
+        classpath 'io.ossim:gradleDefaults:1.5-SNAPSHOT'
     }
 }
 
