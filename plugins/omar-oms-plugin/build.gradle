@@ -45,9 +45,20 @@ io.ossim.gradleDefaults.Publications.addRepository(project, mavenPublishUrl, mav
    applyMavenExclusions false
  }
 
+ if ( System.getenv('O2_INLINE_BUILD') ) {
+   grails {
+     plugins {
+      compile project(":omar-core-plugin")
+//      compile project(":omar-openlayers-plugin")
+     }
+   }
+ }
+
 dependencies {
+  if ( ! System.getenv('O2_INLINE_BUILD') ) {
   compile "io.ossim.omar.plugins:omar-core-plugin:${latestGradleIdentifier}"
   compile "io.ossim.omar.plugins:omar-openlayers-plugin:${latestGradleIdentifier}"
+  }
 
   compile "io.swagger:swagger-annotations:1.5.15"
   compile "io.swagger:swagger-models:1.5.15"

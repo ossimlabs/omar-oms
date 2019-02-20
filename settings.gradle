@@ -10,3 +10,16 @@ include 'omar-oms-app',
 
 project(':omar-oms-app').projectDir = "${rootProject.projectDir}/apps/omar-oms-app" as File
 project(':omar-oms-plugin').projectDir = "${rootProject.projectDir}/plugins/omar-oms-plugin" as File
+
+if ( System.getenv('O2_INLINE_BUILD')) {
+  def modules = [
+      "omar-core",
+      // "omar-openlayers",
+  ]
+
+  modules.each { module ->
+    include "${module}-plugin"
+
+    project(":${module}-plugin").projectDir = "${rootProject.projectDir}/../${module}/plugins/${module}-plugin" as File
+  }
+}
