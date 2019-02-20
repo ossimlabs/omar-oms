@@ -1,19 +1,12 @@
 buildscript {
-  ext {
-    grailsVersion = project.grailsVersion
-    baseImage = ""
-  }
-  if(System.env.OMAR_COMMON_PROPERTIES)
-  {
-    apply from: System.env.OMAR_COMMON_PROPERTIES
-  }
   repositories {
     mavenLocal()
-    maven { url "${ossimMavenProxy}" }
+    maven { url ossimMavenProxy }
   }
   dependencies {
     classpath "org.grails:grails-gradle-plugin:$grailsVersion"
-    classpath "com.bertramlabs.plugins:asset-pipeline-gradle:$assetPipelineGradleV"
+    classpath "com.bertramlabs.plugins:asset-pipeline-gradle:2.14.10"
+    classpath 'io.ossim:gradleDefaults:1.4-SNAPSHOT'
   }
 }
 
@@ -32,17 +25,18 @@ apply plugin: "asset-pipeline"
 apply plugin: "java"
 apply plugin: "maven-publish"
 
-group "io.ossim.omar.plugins"
-
-ext {
-  grailsVersion = project.grailsVersion
-  gradleWrapperVersion = project.gradleWrapperVersion
-}
-
 repositories {
   mavenLocal()
-  maven { url "${ossimMavenProxy}" }
+  maven { url ossimMavenProxy }
 }
+
+sourceSets.main.output.classesDir = 'build/classes/groovy/main'
+io.ossim.gradleDefaults.Variables.setAdditionalVariables(project)
+io.ossim.gradleDefaults.Variables.setVersionVariables(project)
+version "${buildVersion}-${buildVersionTag}"
+jarDestination = "${projectDir}/build/libs/${project.name}-${version}.jar"
+io.ossim.gradleDefaults.Publications.addPublication(project, groupName, name, "${buildVersion}-${buildVersionTag}")
+io.ossim.gradleDefaults.Publications.addRepository(project, mavenPublishUrl, mavenRepoUsername, mavenRepoPassword)
 
  dependencyManagement {
    imports {
@@ -62,8 +56,13 @@ repositories {
 
 dependencies {
   if ( ! System.getenv('O2_INLINE_BUILD') ) {
-    compile "io.ossim.omar.plugins:omar-core-plugin:+"
+  compile "io.ossim.omar.plugins:omar-core-plugin:${latestGradleIdentifier}"
+  compile "io.ossim.omar.plugins:omar-openlayers-plugin:${latestGradleIdentifier}"
   }
+
+  compile "io.swagger:swagger-annotations:1.5.15"
+  compile "io.swagger:swagger-models:1.5.15"
+  compile "org.grails.plugins:actuator-ui:1.1"
 
   compile "javax.media:jai_core:1.1.3"
   compile "javax.media:jai_codec:1.1.3"
@@ -97,7 +96,7 @@ dependencies {
   testCompile "org.grails:grails-gorm-testing-support"
   testCompile "org.grails:grails-plugin-testing"
   testCompile "org.grails.plugins:geb"
-  testCompile "org.grails:grails-web-testing-support"
+  testCompile "org.grails:grails-web-testing-support:3.2.7"
   testRuntime "org.seleniumhq.selenium:selenium-htmlunit-driver:${seleniumHtmlUnitDriverV}"
   testRuntime "net.sourceforge.htmlunit:htmlunit:${htmlUnitV}"
   testCompile "org.grails:grails-test-mixins:3.3.0"
@@ -107,28 +106,3 @@ dependencies {
 assets {
   packagePlugin = true
 }
-
-grailsPublish {
-  // TODO: Provide values here
-  user = "user"
-  key = "key"
-  githubSlug = "foo/bar"
-  license {
-    name = "Apache-2.0"
-  }
-  title = "My Plugin"
-  desc = "Full plugin description"
-  developers = [johndoe:"John Doe"]
-  portalUser = ""
-  portalPassword = ""
-}
-
-/*
-publishing {
-  publications {
-    mavenJava(MavenPublication) {
-      from components.java
-    }
-  }
-}
-*/
