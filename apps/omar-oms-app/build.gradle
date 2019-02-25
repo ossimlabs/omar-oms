@@ -98,7 +98,7 @@ dependencies {
     runtime "com.bertramlabs.plugins:asset-pipeline-grails:${assetPipelineGrailsV}"
     testCompile "org.grails:grails-gorm-testing-support"
     testCompile "org.grails.plugins:geb"
-    testCompile "org.grails:grails-web-testing-support:3.2.7"
+    testCompile "org.grails:grails-web-testing-support"
     testRuntime "org.seleniumhq.selenium:selenium-htmlunit-driver:${seleniumHtmlUnitDriverV}"
     testRuntime "net.sourceforge.htmlunit:htmlunit:${htmlUnitV}"
 }
