@@ -5,7 +5,8 @@ properties([
     ]),
     pipelineTriggers([
             [$class: "GitHubPushTrigger"]
-    ])
+    ]),
+    disableConcurrentBuilds()
 ])
 
 node("${BUILD_NODE}"){
