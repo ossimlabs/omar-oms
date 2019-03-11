@@ -6,6 +6,7 @@ properties([
     pipelineTriggers([
             [$class: "GitHubPushTrigger"]
     ]),
+    [$class: 'GithubProjectProperty', displayName: '', projectUrlStr: 'https://github.com/ossimlabs/omar-oms'],
     disableConcurrentBuilds()
 ])
 
@@ -18,10 +19,12 @@ node("${BUILD_NODE}"){
 
     stage("Load Variables")
     {
-        step ([$class: "CopyArtifact",
-        projectName: "ossim-ci",
-           filter: "common-variables.groovy",
-           flatten: true])
+        withCredentials([string(credentialsId: 'o2-artifact-project', variable: 'o2ArtifactProject')]) {
+            step ([$class: "CopyArtifact",
+                projectName: o2ArtifactProject,
+                filter: "common-variables.groovy",
+                flatten: true])
+        }
 
         load "common-variables.groovy"
     }
