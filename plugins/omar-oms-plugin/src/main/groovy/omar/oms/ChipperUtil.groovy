@@ -186,7 +186,7 @@ class ChipperUtil
       }
       else
       {
-         log.error 'chipper.initialize( opts ): ${opts} was unsuccessful'
+         log.error "chipper.initialize( opts ): ${opts} was unsuccessful"
       }
 
     }
