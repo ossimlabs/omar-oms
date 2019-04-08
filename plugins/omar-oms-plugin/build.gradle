@@ -6,7 +6,7 @@ buildscript {
   dependencies {
     classpath "org.grails:grails-gradle-plugin:$grailsVersion"
     classpath "com.bertramlabs.plugins:asset-pipeline-gradle:2.14.10"
-    classpath 'io.ossim:gradleDefaults:1.6-SNAPSHOT'
+    classpath 'io.ossim:gradleDefaults:1.7-SNAPSHOT'
   }
 }
 
