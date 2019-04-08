@@ -39,6 +39,8 @@ class ChipperCommand implements Validateable
    Boolean     histCenter
    String      histLlwh
    String      histOp
+   String      histLinearClip
+   String      histLinearNormClip
    String      imageSpaceScaleX
    String      imageSpaceScaleY
    String      lutFile
@@ -97,6 +99,8 @@ class ChipperCommand implements Validateable
       histCenter(nullable:true, blank:true)
       histLlwh(nullable:true, blank:true)
       histOp(nullable:true, blank:true)
+      histLinearClip(nullable:true, blank:true)
+      histLinearNormClip(nullable:true, blank:true)
       imageSpaceScaleX(nullable:true, blank:true)
       imageSpaceScaleY(nullable:true, blank:true)
       keepBands(nullable:true, blank:true)

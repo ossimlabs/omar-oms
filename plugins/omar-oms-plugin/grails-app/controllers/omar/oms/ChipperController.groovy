@@ -77,7 +77,18 @@ class ChipperController {
 
 *   **histOp**
 
-    Histogram operations used can be none, auto-minmax, auto-percentile, std-stretch-1, std-stretch-2, std-stretch-3
+    Histogram operations used can be none, linear, auto-minmax, auto-percentile, std-stretch-1, std-stretch-2, std-stretch-3.
+    If custom "linear" option then you must either populate the histLinearClip or the histLinearNormClip values
+
+*   **histLinearClip**
+
+    Is a comma separated pair of low then high value.  **Example:** 8,180 defines a low clip of pixel value 8 and a high clip of pixel value 180.
+
+*   **histLinearNormClip**
+
+    Is a comma separated pair of low then high normalized values.  **Example:** .2,.8 defines a low clip of a normalized penetration of .2 or 20% and high 
+    clip of .8 which is calculated as a penetration of 80 percent from start of the histogram bins or you can read it as a 20% penetration from the end 
+    of the histogram bins.
 
 *   **histCenter**
 
@@ -122,9 +133,11 @@ class ChipperController {
           @ApiImplicitParam(name = 'contrast', value = 'Contrast Operation',defaultValue="1.0",  paramType = 'query', dataType = 'number', required=false),
           @ApiImplicitParam(name = 'sharpenMode', value = '', defaultValue = '', allowableValues="light,heavy",paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'thumbnailResolution', value = '', defaultValue = '',  paramType = 'query', dataType = 'integer', required=false),
-          @ApiImplicitParam(name = 'cutBboxXywh', value = 'Cut image box separated by commas: <x>,<y>,<width>,<height>', defaultValue = '',  paramType = 'query', dataType = 'string', required=false),
+          @ApiImplicitParam(name = 'cutBboxXywh', value = 'Cut image box separated by commas: **x**,**y**,**width**,**height**', defaultValue = '',  paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'rrds', value = 'Reduced resolution', defaultValue = '0', paramType = 'query', dataType = 'integer', required=false),
-          @ApiImplicitParam(name = 'histOp', value = 'Histogram Operation',defaultValue = '',allowableValues="none,auto-minmax,auto-percentile,std-stretch-1,std-stretch-2,std-stretch-3", paramType = 'query', dataType = 'string', required=false),
+          @ApiImplicitParam(name = 'histOp', value = 'Histogram Operation',defaultValue = '',allowableValues="none,linear,auto-minmax,auto-percentile,std-stretch-1,std-stretch-2,std-stretch-3", paramType = 'query', dataType = 'string', required=false),
+          @ApiImplicitParam(name = 'histLinearClip', value = 'Histogram clip comma separated: **low**,**high** ',defaultValue = '',allowableValues="", paramType = 'query', dataType = 'string', required=false),
+          @ApiImplicitParam(name = 'histLinearNormClip', value = 'Histogram normalized clip comma separated: **low**,**high**',defaultValue = '',allowableValues="", paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'histCenter', value = 'Histogram Center Calculation',defaultValue = '',allowableValues="true,false", paramType = 'query', dataType = 'boolean', required=false),
           @ApiImplicitParam(name = 'outputRadiometry', value = 'Output radiometry', defaultValue = 'ossim_uint8', allowableValues="ossim_uint8,ossim_uint11,ossim_uint16,ossim_sint16,ossim_float32,ossim_float64", paramType = 'query', dataType = 'string', required=true),
           @ApiImplicitParam(name = 'bands', value = 'Bands', defaultValue = '',  paramType = 'query', dataType = 'string', required=false),
@@ -229,6 +242,16 @@ class ChipperController {
 
     Histogram operations used can be none, auto-minmax, auto-percentile, std-stretch-1, std-stretch-2, or std-stretch-3
 
+*   **histLinearClip**
+
+    Is a comma separated pair of low then high value.  **Example:** 8,180 defines a low clip of pixel value 8 and a high clip of pixel value 180.
+
+*   **histLinearNormClip**
+
+    Is a comma separated pair of low then high normalized values.  **Example:** .2,.8 defines a low clip of a normalized penetration of .2 or 20% and high 
+    clip of .8 which is calculated as a penetration of 80 percent from start of the histogram bins or you can read it as a 20% penetration from the end 
+    of the histogram bins.
+
 *   **histCenter**
 
     Histogram should be calculated based on the center of the request
@@ -279,7 +302,9 @@ class ChipperController {
           @ApiImplicitParam(name = 'cutWidth', value = 'Cut width in pixels', defaultValue = '',  paramType = 'query', dataType = 'integer', required=false),
           @ApiImplicitParam(name = 'cutHeight', value = 'Cut height in pixels', defaultValue = '',  paramType = 'query', dataType = 'integer', required=false),
           @ApiImplicitParam(name = 'cutWmsBbox', value = 'Cut wms bbox format', defaultValue = '',  paramType = 'query', dataType = 'string', required=false),
-          @ApiImplicitParam(name = 'histOp', value = 'Histogram Operation',defaultValue = '',allowableValues="none,auto-minmax,auto-percentile,std-stretch-1,std-stretch-2,std-stretch-3", paramType = 'query', dataType = 'string', required=false),
+          @ApiImplicitParam(name = 'histOp', value = 'Histogram Operation',defaultValue = '',allowableValues="none,linear,auto-minmax,auto-percentile,std-stretch-1,std-stretch-2,std-stretch-3", paramType = 'query', dataType = 'string', required=false),
+          @ApiImplicitParam(name = 'histLinearClip', value = 'Histogram clip comma separated: **low**,**high** ',defaultValue = '',allowableValues="", paramType = 'query', dataType = 'string', required=false),
+          @ApiImplicitParam(name = 'histLinearNormClip', value = 'Histogram normalized clip comma separated: **low**,**high**',defaultValue = '',allowableValues="", paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'histCenter', value = 'Histogram Center Calculation',defaultValue = '',allowableValues="true,false", paramType = 'query', dataType = 'boolean', required=false),
           @ApiImplicitParam(name = 'srs', value = 'srs', defaultValue = '',  allowableValues="EPSG:4326, EPSG:3857", paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'outputRadiometry', value = 'Output radiometry', defaultValue = 'ossim_uint8', allowableValues="ossim_uint8,ossim_uint11,ossim_uint16,ossim_sint16,ossim_float32,ossim_float64", paramType = 'query', dataType = 'string', required=true),
