@@ -41,12 +41,14 @@ class OmsImage
         three_band_out: "true"
     ]
 
+    int bufferSize = ( cmd.format == 'jpeg') ? ChipperUtil.DEFAULT_JPEG_SIZE : ChipperUtil.DEFAULT_PNG_SIZE
+    
     def hints = [
         transparent: cmd.format == 'png',
         width: cmd.tileSize,
         height: cmd.tileSize,
         type: cmd.format,
-        ostream: new FastByteArrayOutputStream((cmd.tileSize * cmd.tileSize * 3).intValue())
+        ostream: new FastByteArrayOutputStream(bufferSize)
     ]
 
     //println opts
