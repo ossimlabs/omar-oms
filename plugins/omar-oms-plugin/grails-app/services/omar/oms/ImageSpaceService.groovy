@@ -17,6 +17,7 @@ import joms.oms.Info
 import joms.oms.Keywordlist
 
 import groovy.json.JsonSlurper
+import groovy.transform.Memoized
 
 import org.springframework.util.FastByteArrayOutputStream
 
@@ -26,6 +27,7 @@ class ImageSpaceService
   def chipperService
   def grailsApplication
 
+  @Memoized
   def getTileOverlay(GetTileCommand cmd)
   {
     def text = "${cmd.z}/${cmd.x}/${cmd.y}"
@@ -39,10 +41,7 @@ class ImageSpaceService
     def buffer
 
     BufferedImage image = new BufferedImage( cmd.tileSize, cmd.tileSize, BufferedImage.TYPE_INT_ARGB )
-
-    FastByteArrayOutputStream ostream = new FastByteArrayOutputStream(
-      (image.sampleModel.sampleSize.sum() / 8 * image.width * image.height).intValue()
-    )
+    FastByteArrayOutputStream ostream = new FastByteArrayOutputStream( ChipperUtil.DEFAULT_JPEG_SIZE  )
 
     def g2d = image.createGraphics()
     def font = new Font( "TimesRoman", Font.PLAIN, 18 )
@@ -314,6 +313,7 @@ class ImageSpaceService
     return index
   }
 
+  @Memoized
   def computeUpIsUp(String filename, Integer entryId)
   {
     Double upIsUp = 0.0
@@ -329,6 +329,7 @@ class ImageSpaceService
     return upIsUp
   }
 
+  @Memoized
   def computeNorthIsUp(String filename, Integer entryId)
   {
     Double northIsUp = 0.0
@@ -343,6 +344,8 @@ class ImageSpaceService
 
     return northIsUp
   }
+
+  @Memoized
   def getRasterFiles(String id)
   {
     def result = []
@@ -370,7 +373,6 @@ class ImageSpaceService
             }
           }
         }
-
       }
     }
     catch(e)
@@ -382,6 +384,8 @@ class ImageSpaceService
 
     result
   }
+
+  @Memoized
   def getThumbnail(GetThumbnailCommand cmd)
   {
     def result = [status:HttpStatus.OK, buffer:null]
@@ -427,9 +431,8 @@ class ImageSpaceService
       def bufImg = JaiImage.fileToBufferedImage(inputImage)
       def image = JaiImage.createThumbnail(bufImg, cmd.size, format)
 
-      def ostream = new FastByteArrayOutputStream(
-        (image.sampleModel.sampleSize.sum() / 8 * image.width * image.height).intValue()
-      )
+      int bufferSize = ( format == 'jpeg') ? ChipperUtil.DEFAULT_JPEG_SIZE : ChipperUtil.DEFAULT_PNG_SIZE
+      def ostream = new FastByteArrayOutputStream(bufferSize)
 
       ImageIO.write(image, format, ostream)
 
@@ -438,10 +441,8 @@ class ImageSpaceService
     else if ( ! fileExists(cmd.filename?.toString() ) )
     {
       def image = getDefaultImage(cmd.size, cmd.size)
-
-      def ostream = new FastByteArrayOutputStream(
-        (image.sampleModel.sampleSize.sum() / 8 * image.width * image.height).intValue()
-      )
+      int bufferSize = ( format == 'jpeg' ) ? ChipperUtil.DEFAULT_JPEG_SIZE : ChipperUtil.DEFAULT_PNG_SIZE
+      def ostream = new FastByteArrayOutputStream(bufferSize)
 
       ImageIO.write(image, format, ostream)
 
@@ -505,6 +506,7 @@ class ImageSpaceService
     result
   }
 
+  @Memoized
   def getDefaultImage(int width, int height)
   {
     def image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB)
