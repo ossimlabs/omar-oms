@@ -36,6 +36,9 @@ import java.awt.image.WritableRaster
 @Slf4j
 class ChipperUtil
 {
+  static final int DEFAULT_PNG_SIZE = 262144
+  static final int DEFAULT_JPEG_SIZE = 16384
+
   static HashMap stylesToOpts(String styles, HashMap options=null)
   {
     HashMap opts = options?:[:]
