@@ -151,50 +151,7 @@ class ChipperController {
           @ApiImplicitParam(name = 'transparent', value = 'Enable transparent if the outputFormat supports it', defaultValue = "true", paramType = 'query', dataType = 'boolean', required=false),
    ])
    def chip(){
-      ChipperCommand command = new ChipperCommand()
-      def json = request.JSON
-
-      if(json)
-      {
-         json.operation="chip"
-         bindData(command, BindUtil.fixParamNames(ChipperCommand, json))
-      }
-      else
-      {
-         params.operation="chip"
-         bindData(command, BindUtil.fixParamNames(ChipperCommand, params))
-      }
-
-      def result = chipperService.getTile(command)
-      response.contentType = result.contentType
-      if(result.status != null) response.status        = result.status
-      if(result.contentType) response.contentType      = result.contentType
-      if(result.buffer?.length) response.contentLength = result.buffer.length
-
-       def outputStream = null
-       try{
-          outputStream = response.getOutputStream()
-          outputStream << result.buffer
-       }
-       catch(e)
-       {
-          log.error(e.toString())
-       }
-       finally{
-          if(outputStream!=null)
-          {
-             try{
-                outputStream.close()
-             }
-             catch(e)
-             {
-                log.debug(e.toString())
-             }
-          }
-       }
-
-//      println "--- DEBUG ---"
-//      println(json)
+      runChipperCommand("chip")
    }
 
   @ApiOperation(value = "Get ortho chip from the passed in image file name",
@@ -318,50 +275,8 @@ class ChipperController {
           @ApiImplicitParam(name = 'padThumbnail', value = 'Add padding to the output to make it square', defaultValue = "false", paramType = 'query', dataType = 'boolean', required=false),
           @ApiImplicitParam(name = 'transparent', value = 'Enable transparent if the outputFormat supports it', defaultValue = "true", paramType = 'query', dataType = 'boolean', required=false),
    ])
-   def ortho(){
-      ChipperCommand command = new ChipperCommand()
-      def json = request.JSON
-
-      if(json)
-      {
-         json.operation="ortho"
-         bindData(command, BindUtil.fixParamNames(ChipperCommand, json))
-      }
-      else
-      {
-         params.operation="ortho"
-         bindData(command, BindUtil.fixParamNames(ChipperCommand, params))
-      }
-      def result = chipperService.getTile(command)
-      response.contentType = result.contentType
-      if(result.status != null) response.status        = result.status
-      if(result.contentType) response.contentType      = result.contentType
-      if(result.buffer?.length) response.contentLength = result.buffer.length
-
-       def outputStream = null
-       try{
-          outputStream = response.getOutputStream()
-          outputStream << result.buffer
-       }
-       catch(e)
-       {
-          log.error(e.toString())
-       }
-       finally{
-          if(outputStream!=null)
-          {
-             try{
-                outputStream.close()
-             }
-             catch(e)
-             {
-                log.debug(e.toString())
-             }
-          }
-       }
-
-//      println "--- DEBUG ---"
-//      println(json)
+   def ortho() {
+     runChipperCommand("ortho")
    }
 
     @ApiOperation(value = "Get ortho chip from the passed in image file name",
@@ -479,17 +394,23 @@ class ChipperController {
             @ApiImplicitParam(name = 'transparent', value = 'Enable transparent if the outputFormat supports it', defaultValue = "true", paramType = 'query', dataType = 'boolean', required=false),
     ])
     def psm(){
+        runChipperCommand("psm")
+    }
+
+    def runChipperCommand(operation) {
         ChipperCommand command = new ChipperCommand()
         def json = request.JSON
 
+        log.debug("Running chipper command: ${operation}")
+
         if(json)
         {
-            json.operation="psm"
+            json.operation=operation
             bindData(command, BindUtil.fixParamNames(ChipperCommand, json))
         }
         else
         {
-            params.operation="psm"
+            params.operation=operation
             bindData(command, BindUtil.fixParamNames(ChipperCommand, params))
         }
         def result = chipperService.getTile(command)
@@ -499,29 +420,14 @@ class ChipperController {
         if(result.buffer?.length) response.contentLength = result.buffer.length
 
         def outputStream = null
-        try{
+        try {
             outputStream = response.getOutputStream()
             outputStream << result.buffer
-        }
-        catch(e)
-        {
+        } catch(e) {
             log.error(e.toString())
+        } finally {
+            outputStream?.close()
         }
-        finally{
-            if(outputStream!=null)
-            {
-                try{
-                    outputStream.close()
-                }
-                catch(e)
-                {
-                    log.debug(e.toString())
-                }
-            }
-        }
-
-//      println "--- DEBUG ---"
-//      println(json)
     }
 
    def executeChipper()
