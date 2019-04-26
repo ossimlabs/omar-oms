@@ -33,6 +33,7 @@ class ChipperController {
          forward action: 'psm'
          break
       default:
+         log.warn("Unexpected operation: ${operation}")
          render ""
          break
       }
@@ -423,8 +424,8 @@ class ChipperController {
         try {
             outputStream = response.getOutputStream()
             outputStream << result.buffer
-        } catch(e) {
-            log.error(e.toString())
+        } catch(IOException e) {
+            log.error("Error writing chipper command output to the response", e)
         } finally {
             outputStream?.close()
         }
