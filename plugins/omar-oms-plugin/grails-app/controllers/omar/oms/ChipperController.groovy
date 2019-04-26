@@ -398,7 +398,7 @@ class ChipperController {
         runChipperCommand("psm")
     }
 
-    def runChipperCommand(operation) {
+    def runChipperCommand(String operation) {
         ChipperCommand command = new ChipperCommand()
         def json = request.JSON
 
@@ -414,21 +414,23 @@ class ChipperController {
             params.operation=operation
             bindData(command, BindUtil.fixParamNames(ChipperCommand, params))
         }
-        def result = chipperService.getTile(command)
-        response.contentType = result.contentType
-        if(result.status != null) response.status        = result.status
-        if(result.contentType) response.contentType      = result.contentType
-        if(result.buffer?.length) response.contentLength = result.buffer.length
+        Map getTileResult = chipperService.getTile(command)
+        response.contentType = getTileResult.contentType
+        if(getTileResult.status != null) response.status        = getTileResult.status
+        if(getTileResult.contentType) response.contentType      = getTileResult.contentType
+        if(getTileResult.buffer?.length) response.contentLength = getTileResult.buffer.length
 
-        def outputStream = null
+        OutputStream runChipperCommandOutputStream = null
         try {
-            outputStream = response.getOutputStream()
-            outputStream << result.buffer
+            runChipperCommandOutputStream = response.getOutputStream()
+            runChipperCommandOutputStream << getTileResult.buffer
         } catch(IOException e) {
             log.error("Error writing chipper command output to the response", e)
         } finally {
-            outputStream?.close()
+            runChipperCommandOutputStream?.close()
         }
+
+        return runChipperCommandOutputStream
     }
 
    def executeChipper()
