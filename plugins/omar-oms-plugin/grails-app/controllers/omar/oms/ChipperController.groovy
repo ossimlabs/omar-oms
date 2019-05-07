@@ -63,6 +63,11 @@ class ChipperController {
 
     Sharpen mode can take on the values none, light, or heavy.
 
+*   **sharpenPercent**
+
+    Sharpen percent can take a percentage value between 0 and 1.
+    Where 0 is not sharpened and 1 is fully sharpened.
+
 *   **thumbnailResolution**
 
     Specify the resolution of the thumbnail. The valie is assumed square so only one dimension is needed. Setting the value to 512 will output to a 512x512 image.
@@ -132,6 +137,7 @@ class ChipperController {
           @ApiImplicitParam(name = 'brightness', value = 'Brightness Operation',defaultValue="0.0", paramType = 'query', dataType = 'number', required=false),
           @ApiImplicitParam(name = 'contrast', value = 'Contrast Operation',defaultValue="1.0",  paramType = 'query', dataType = 'number', required=false),
           @ApiImplicitParam(name = 'sharpenMode', value = '', defaultValue = '', allowableValues="light,heavy",paramType = 'query', dataType = 'string', required=false),
+          @ApiImplicitParam(name = 'sharpenPercent', value = 'Sharpen Percent (0..1)', defaultValue="0", paramType = 'query', dataType = 'number', required=false),
           @ApiImplicitParam(name = 'thumbnailResolution', value = '', defaultValue = '',  paramType = 'query', dataType = 'integer', required=false),
           @ApiImplicitParam(name = 'cutBboxXywh', value = 'Cut image box separated by commas: **x**,**y**,**width**,**height**', defaultValue = '',  paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'rrds', value = 'Reduced resolution', defaultValue = '0', paramType = 'query', dataType = 'integer', required=false),
