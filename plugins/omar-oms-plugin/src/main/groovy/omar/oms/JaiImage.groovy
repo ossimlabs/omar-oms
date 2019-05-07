@@ -117,9 +117,8 @@ class JaiImage
     def image = reformatImage( readImage( file, index ) )
     def tileImage = getTileAsImage( image, cmd.x, cmd.y )
 
-    def ostream = new FastByteArrayOutputStream(
-      (tileImage.sampleModel.sampleSize.sum() / 8 * tileImage.width * tileImage.height).intValue()
-    )
+    int bufferSize = ( cmd.format == 'jpeg') ? ChipperUtil.DEFAULT_JPEG_SIZE : ChipperUtil.DEFAULT_PNG_SIZE
+    def ostream = new FastByteArrayOutputStream( bufferSize )
 
     ImageIO.write( tileImage, cmd.format, ostream )
 

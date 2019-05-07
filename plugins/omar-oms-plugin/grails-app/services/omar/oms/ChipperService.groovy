@@ -6,9 +6,9 @@ import javax.imageio.ImageIO
 
 import org.springframework.util.FastByteArrayOutputStream
 
-// @Transactional
 class ChipperService {
-
+    static transactional = false
+    
     def getTile(ChipperCommand cmd) {
       HashMap chipperOptions = cmd?.toChipperOptions()
       HashMap result = [:]
@@ -55,8 +55,8 @@ class ChipperService {
         chipperResult.statusMessage = "Parameter values are invalid. Please check the paramter format"
         chipperResult.status        = HttpStatus.BAD_REQUEST
         chipperResult.contentType   = "text/plain"
-
       }
+      
       result.status      = chipperResult.status
       result.contentType = chipperResult.contentType
 
@@ -64,14 +64,13 @@ class ChipperService {
       {
         if(chipperResult.image)
         {
-          def ostream = new FastByteArrayOutputStream(
-            (chipperResult.image.width * chipperResult.image.height * 3).intValue()
-          )
+          int bufferSize = ( chipperResult.format == 'jpeg') ? ChipperUtil.DEFAULT_JPEG_SIZE : ChipperUtil.DEFAULT_PNG_SIZE
+          def ostream = new FastByteArrayOutputStream( bufferSize )
 
-          try{
+          try 
+          {
             ImageIO.write(chipperResult.image, chipperResult.format, ostream)
             result.buffer = ostream.toByteArrayUnsafe()
-
           }
           catch(e)
           {
