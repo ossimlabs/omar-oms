@@ -1,6 +1,7 @@
 # OMAR OMS
 
 ## Purpose
+
 The OSSIM Mapping Service (OMS) application serves as a core communication channel to essential OSSIM functionality. Other services such as the Web Map Service (WMS) communicate to OMS for data.
 
 ## Installation in Openshift
@@ -23,6 +24,7 @@ OMS requires shared access to OSSIM imagery data. This data is assumed to be acc
 |BUCKETS|The S3 to mount for direct image access (*e.g. my-bucket*)|
 
 ### An Example DeploymentConfig
+
 ```yaml
 apiVersion: v1
 kind: DeploymentConfig
