@@ -21,6 +21,7 @@ class GetTileCommand implements Validateable
   Double brightness = 0.0
   Double contrast  = 1.0
   String sharpenMode = "none"
+  Double sharpenPercent = 0
   String resamplerFilter = "nearest"
   Boolean scale_2_8_bit = true
   Boolean histCenterTile = false
