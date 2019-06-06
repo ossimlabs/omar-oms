@@ -52,13 +52,14 @@ class ChipperCommand implements Validateable
    Boolean     padThumbnail
    String      resamplerFilter
    Double      rotation
-   Integer      rrds
+   Integer     rrds
    Boolean     scale_2_8_bit
    String      sharpenMode
+   Double      sharpenPercent
    String      snapTieToOrigin
    String      srs
    Boolean     threeBandOut
-   Integer      thumbnailResolution
+   Integer     thumbnailResolution
    String      tileSize
    Boolean     upIsUp
    String      combinerType
@@ -116,6 +117,7 @@ class ChipperCommand implements Validateable
       rrds(nullable:true, blank:true)
       scale_2_8_bit(nullable:true, blank:true)
       sharpenMode(nullable:true, blank:true)
+      sharpenPercent(nullable:true, blank:true)
       snapTieToOrigin(nullable:true, blank:true)
       srs(nullable:true, blank:true)
       threeBandOut(nullable:true, blank:true)

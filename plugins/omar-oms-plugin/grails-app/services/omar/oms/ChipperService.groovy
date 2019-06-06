@@ -6,7 +6,6 @@ import javax.imageio.ImageIO
 
 import org.springframework.util.FastByteArrayOutputStream
 
-// @Transactional(readOnly=true)
 class ChipperService {
     static transactional = false
     
