@@ -180,10 +180,10 @@ class ChipperUtil
         {
           cacheSource = new ossimMemoryImageSource();
           cacheSource?.setImage( imageData );
-          def renderedImage = new omsRenderedImage( new omsImageSource( cacheSource ) )
+          def renderedImage  = new omsRenderedImage( new omsImageSource( cacheSource ) )
           result.sampleModel = renderedImage.sampleModel
-          result.colorModel = renderedImage.colorModel
-          result.raster = renderedImage.data
+          result.colorModel  = renderedImage.colorModel
+          result.raster      = renderedImage.data
           renderedImage=null
         }
       }
@@ -264,7 +264,7 @@ class ChipperUtil
 
       try
       {
-        image = ChipperUtil.optimizeRaster( chipperResult.raster, chipperResult.colorModel, hints )
+        image = ImageGenerator.optimizeRaster( chipperResult.raster, chipperResult.colorModel, hints )
       }
       catch ( e )
       {
@@ -272,70 +272,5 @@ class ChipperUtil
       }
     }
     image 
-  }
-  static def convertToColorIndexModel( def dataBuffer, def width, def height, def transparentFlag )
-  {
-    ImageTypeSpecifier isp = ImageTypeSpecifier.createGrayscale( 8, DataBuffer.TYPE_BYTE, false );
-    ColorModel colorModel
-    SampleModel sampleModel = isp.getSampleModel( width, height )
-    if ( !transparentFlag )
-    {
-      colorModel = isp.getColorModel();
-    }
-    else
-    {
-      int[] lut = new int[256]
-      ( 0..<lut.length ).each {i ->
-        lut[i] = ( ( 0xff << 24 ) | ( i << 16 ) | ( i << 8 ) | ( i ) );
-      }
-      lut[0] = 0xff000000
-      colorModel = new IndexColorModel( 8, lut.length, lut, 0, true, 0, DataBuffer.TYPE_BYTE )
-    }
-    WritableRaster raster = WritableRaster.createWritableRaster( sampleModel, dataBuffer, null )
-    return new BufferedImage( colorModel, raster, false, null );
-
-  }
-
-  static def optimizeRaster(Raster image, ColorModel colorModel, def hints)//String mimeType, Boolean transparentFlag)
-  {
-    def result
-    String mimeTypeTest = hints.type?.toLowerCase()
-    Boolean transparentFlag = hints.transparent
-    if(transparentFlag == null) transparentFlag = false
-
-    if(mimeTypeTest?.contains("jpeg"))
-    {
-      transparentFlag = false
-    }
-    if ( image.numBands == 1 )
-    {
-      result = convertToColorIndexModel( image.dataBuffer,
-              image.width,
-              image.height,
-              transparentFlag )
-    }
-    else
-    {
-      Boolean isRasterPremultiplied = true
-      Hashtable<?, ?> properties = null
-      result = new BufferedImage(
-              colorModel,
-              image,
-              isRasterPremultiplied,
-              properties
-      )
-      if ( image.numBands == 3 )
-      {
-        if ( transparentFlag )
-        {
-          result = TransparentFilter.fixTransparency( new TransparentFilter(), result )
-        }
-        if ( mimeTypeTest?.contains( "gif" ) )
-        {
-          result = ImageGenerator.convertRGBAToIndexed( result )
-        }
-      }
-    }
-    result
   }
 }
