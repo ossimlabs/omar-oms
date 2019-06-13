@@ -8,7 +8,7 @@ import org.springframework.util.FastByteArrayOutputStream
 
 class ChipperService {
     static transactional = false
-    
+
     def getTile(ChipperCommand cmd) {
       HashMap chipperOptions = cmd?.toChipperOptions()
       HashMap result = [:]
@@ -26,6 +26,7 @@ class ChipperService {
          {
             hints.keepBands = cmd.keepBands
          }
+            println chipperOptions
          try{
             chipperResult             = ChipperUtil.runChipper( chipperOptions )
             chipperResult.image       = ChipperUtil.chipperResultToImage(chipperResult, hints)
@@ -56,7 +57,7 @@ class ChipperService {
         chipperResult.status        = HttpStatus.BAD_REQUEST
         chipperResult.contentType   = "text/plain"
       }
-      
+
       result.status      = chipperResult.status
       result.contentType = chipperResult.contentType
 
@@ -67,7 +68,7 @@ class ChipperService {
           int bufferSize = ( chipperResult.format == 'jpeg') ? ChipperUtil.DEFAULT_JPEG_SIZE : ChipperUtil.DEFAULT_PNG_SIZE
           def ostream = new FastByteArrayOutputStream( bufferSize )
 
-          try 
+          try
           {
             ImageIO.write(chipperResult.image, chipperResult.format, ostream)
             result.buffer = ostream.toByteArrayUnsafe()
