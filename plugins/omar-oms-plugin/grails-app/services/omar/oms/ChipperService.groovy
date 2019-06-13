@@ -16,18 +16,17 @@ class ChipperService {
       String outputFormat = cmd.outputFormat?:"image/png"
       def hints = [type:outputFormat]
 
-      if(cmd.validate())
-      {
-         if(cmd.transparent != null)
-         {
+      if( cmd.validate() ) {
+         println cmd
+            println cmd.filename
+         if( cmd.transparent != null ) {
             hints.transparent = cmd.transparent
          }
-         if(cmd.keepBands)
-         {
+         if( cmd.keepBands ) {
             hints.keepBands = cmd.keepBands
          }
-            println chipperOptions
-         try{
+
+         try {
             chipperResult             = ChipperUtil.runChipper( chipperOptions )
             chipperResult.image       = ChipperUtil.chipperResultToImage(chipperResult, hints)
 
@@ -36,23 +35,20 @@ class ChipperService {
             chipperResult.contentType = "image/${outputFormat?.split("/")[-1]}"
             chipperResult.format      = outputFormat?.split("/")[-1]
 
-            if(!chipperResult.image)
-            {
+            if(!chipperResult.image) {
                chipperResult.status        = HttpStatus.BAD_REQUEST
                chipperResult.statusMessage = "Unable to create an image."
                chipperResult.contentType   = "text/plain"
             }
          }
-         catch(e)
-         {
+         catch( e ) {
             chipperResult.status        = HttpStatus.BAD_REQUEST
             chipperResult.statusMessage = e.toString()
             chipperResult.contentType   = "text/plain"
             chipperResult.image = null
          }
       }
-      else
-      {
+      else {
         chipperResult.statusMessage = "Parameter values are invalid. Please check the paramter format"
         chipperResult.status        = HttpStatus.BAD_REQUEST
         chipperResult.contentType   = "text/plain"
