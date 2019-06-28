@@ -7,8 +7,8 @@ properties([
             [$class: "GitHubPushTrigger"]
     ]),
     [$class: 'GithubProjectProperty', displayName: '', projectUrlStr: 'https://github.com/ossimlabs/omar-oms'],
-    disableConcurrentBuilds(),
-    buildDiscarder( logRotator( numToKeepStr: '5' ) )
+    buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '3', daysToKeepStr: '', numToKeepStr: '20')),
+    disableConcurrentBuilds()
 ])
 
 node("${BUILD_NODE}"){
