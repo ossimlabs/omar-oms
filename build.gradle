@@ -1,0 +1,163 @@
+buildscript {
+  repositories {
+    mavenLocal()
+    maven { url ossimMavenProxy }
+  }
+  dependencies {
+    classpath "org.grails:grails-gradle-plugin:$grailsVersion"
+    classpath "com.bertramlabs.plugins:asset-pipeline-gradle:${assetPipelineGradleV}"
+    classpath "com.bmuschko:gradle-docker-plugin:${gradleDockerPluginV}"
+    classpath "io.ossim:gradleDefaults:${gradleDefaultsV}"
+  }
+}
+
+plugins {
+  id "com.github.ben-manes.versions" version "0.21.0"
+  id "org.sonarqube" version "2.6.2"
+}
+
+subprojects { project ->
+    boolean isGrailsApp = project.name.endsWith( '-app' )
+	boolean isGrailsPlugin = project.name.endsWith( '-plugin' )
+	boolean isGrailsProject = isGrailsApp || isGrailsPlugin
+
+    if ( isGrailsProject )
+    {
+        apply plugin: "eclipse"
+        apply plugin: "idea"
+        apply plugin: "java"
+
+        if ( isGrailsApp )        
+        {
+            apply plugin: "org.grails.grails-web"
+        }
+        else if ( isGrailsPlugin )
+        {
+            apply plugin: "org.grails.grails-plugin"
+            apply plugin: "org.grails.grails-plugin-publish"
+        }
+
+        apply plugin: "org.grails.grails-gsp"
+        apply plugin: "asset-pipeline"
+        apply plugin: "maven-publish"
+
+        io.ossim.gradleDefaults.Variables.setAdditionalVariables(project)
+        io.ossim.gradleDefaults.Variables.setVersionVariables(project)
+        version "${buildVersion}-${buildVersionTag}"
+
+        if ( isGrailsApp )        
+        {
+            dockerBuildDir="${rootProject.projectDir}/docker"
+            jarDestination = "${project.projectDir}/build/libs/${project.name}-${version}.jar"
+            io.ossim.gradleDefaults.Docker.addDockerTasks(project, dockerRegistryUrl, dockerRegistryUsername, dockerRegistryPassword, name, dockerImageTag, dockerBuildDir, jarDestination, ["BASE_IMAGE": "${dockerRegistryUrl}/${dockerBaseImage}:${dockerFromTag}"])
+            io.ossim.gradleDefaults.Openshift.addOpenshiftTasks(project, openshiftUrl, openshiftUsername, openshiftPassword, openshiftProjectName, openshiftServiceName,  dockerRegistryUrl, name, dockerImageTag)
+        }
+        else if ( isGrailsPlugin )
+        {
+            sourceSets.main.output.classesDir = 'build/classes/groovy/main'
+            jarDestination = "${project.projectDir}/build/libs/${project.name}-${version}.jar"
+            io.ossim.gradleDefaults.Publications.addPublication(project, groupName, name, "${buildVersion}-${buildVersionTag}")
+            io.ossim.gradleDefaults.Publications.addRepository(project, mavenPublishUrl, mavenRepoUsername, mavenRepoPassword)
+        }
+        
+        repositories {
+            mavenLocal()
+            maven { url ossimMavenProxy }
+        }
+
+        dependencyManagement {
+            imports {
+                // mavenBom "org.grails:grails-bom:$grailsVersion"
+                mavenBom "org.springframework.cloud:spring-cloud-starter-parent:${springCloudDependencyV}"
+            }
+            applyMavenExclusions false
+        }
+
+        dependencies {
+            compile "org.springframework.boot:spring-boot-starter-logging"
+            compile "org.springframework.boot:spring-boot-autoconfigure"
+            compile "org.grails:grails-core"
+            compile "org.springframework.boot:spring-boot-starter-actuator"
+            compile "org.springframework.boot:spring-boot-starter-tomcat"
+            compile "org.grails:grails-web-boot"
+            compile "org.grails:grails-logging"
+            compile "org.grails:grails-plugin-rest"
+            compile "org.grails:grails-plugin-databinding"
+            compile "org.grails:grails-plugin-i18n"
+            compile "org.grails:grails-plugin-services"
+            compile "org.grails:grails-plugin-url-mappings"
+            compile "org.grails:grails-plugin-interceptors"
+            compile "org.grails.plugins:cache"
+            compile "org.grails.plugins:async"
+            compile "org.grails.plugins:scaffolding"
+            compile "org.grails.plugins:gsp"
+            console "org.grails:grails-console"
+            runtime "com.bertramlabs.plugins:asset-pipeline-grails:${assetPipelineGrailsV}"
+            testCompile "org.grails:grails-gorm-testing-support"
+            testCompile "org.grails:grails-web-testing-support"
+            testRuntime "org.seleniumhq.selenium:selenium-htmlunit-driver:${seleniumHtmlUnitDriverV}"
+            testRuntime "net.sourceforge.htmlunit:htmlunit:${htmlUnitV}"            
+            testCompile "org.grails.plugins:geb"
+
+            if ( isGrailsApp ) 
+            {
+                compile "org.grails.plugins:events"
+                compile "org.grails.plugins:hibernate5"
+                compile "org.hibernate:hibernate-core:${hibernateCoreV}"
+                profile "org.grails.profiles:web"
+                runtime "org.glassfish.web:el-impl:${elImplV}"
+                runtime "com.h2database:h2"
+                runtime "org.apache.tomcat:tomcat-jdbc"
+
+                compile "de.codecentric:spring-boot-admin-starter-client:${springBootAdminStarterClientV}"
+                compile "org.springframework.cloud:spring-cloud-starter-config"
+                compile "org.springframework.cloud:spring-cloud-starter-eureka"
+
+            } 
+            else if ( isGrailsPlugin )
+            {
+                profile "org.grails.profiles:web-plugin"
+                provided "org.grails:grails-plugin-services"
+                provided "org.grails:grails-plugin-domain-class"
+                testCompile "org.grails:grails-plugin-testing"
+            }
+        }  
+
+        bootRun {
+            jvmArgs('-Dspring.output.ansi.enabled=always')
+            addResources = true
+        }
+
+        if ( isGrailsPlugin ) 
+        {
+            bootRepackage.enabled = false
+            grailsPublish {
+                // TODO: Provide values here
+                user = 'user'
+                key = 'key'
+                githubSlug = 'foo/bar'
+                license {
+                    name = 'Apache-2.0'
+                }
+                title = "My Plugin"
+                desc = "Full plugin description"
+                developers = [johndoe:"John Doe"]
+            }
+        }
+
+		assets {
+            if ( isGrailsApp )
+            {
+                minifyJs = true
+                minifyCss = true
+                includes = ["fonts/*"]
+                excludes = ["**/*-debug.js", "**/*-deps.js", "**/*.gz", "**/*.txt", "**/*.less", "**/*.html", "**/i18n/**", "**/",
+                    ".grunt/**", "**/locale/**", "webjars/jquery/2.1.4/src/intro.js", "webjars/jquery/2.1.4/src/outro.js"]
+            }
+            else if ( isGrailsPlugin )
+            {
+                packagePlugin = true
+            }
+        }  
+    }
+}
