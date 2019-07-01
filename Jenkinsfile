@@ -7,6 +7,7 @@ properties([
             [$class: "GitHubPushTrigger"]
     ]),
     [$class: 'GithubProjectProperty', displayName: '', projectUrlStr: 'https://github.com/ossimlabs/omar-oms'],
+    buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '3', daysToKeepStr: '', numToKeepStr: '20')),
     disableConcurrentBuilds()
 ])
 
@@ -86,7 +87,7 @@ node("${BUILD_NODE}"){
     } catch (e) {
         echo e.toString()
     }
-        
+
     stage("Clean Workspace")
     {
         if ("${CLEAN_WORKSPACE}" == "true")
