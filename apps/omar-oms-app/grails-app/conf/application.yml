@@ -1,7 +1,7 @@
 ---
 # Set the context path for the application.
-#server:
-#  contextPath: /omar-oms
+server:
+  contextPath: /omar-oms
 
 # Define the production database values.
 environments:
