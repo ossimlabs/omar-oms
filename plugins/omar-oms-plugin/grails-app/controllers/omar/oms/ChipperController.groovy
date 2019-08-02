@@ -129,7 +129,11 @@ class ChipperController {
 
 *   **transparent**
 
-    Enables transparent output if the **outputFormat** supports it    """)
+    Enables transparent output if the **outputFormat** supports it    
+
+*   **gamma**
+
+    Gamma correction value.  Good values between lighter .01  to darker 2  """)
    @ApiImplicitParams([
           @ApiImplicitParam(name = 'images[0].file', value = 'filename', defaultValue = '', paramType = 'query', dataType = 'string', required=true),
           @ApiImplicitParam(name = 'images[0].entry', value = 'Image entry in the file', defaultValue = '', paramType = 'query', dataType = 'integer', required=false),
@@ -156,6 +160,7 @@ class ChipperController {
           @ApiImplicitParam(name = 'keepBands', value = 'Determine if we auto adjust bands or not', defaultValue = "false", paramType = 'query', dataType = 'boolean', required=false),
           @ApiImplicitParam(name = 'padThumbnail', value = 'Add padding to the output to make it square', defaultValue = "false", paramType = 'query', dataType = 'boolean', required=false),
           @ApiImplicitParam(name = 'transparent', value = 'Enable transparent if the outputFormat supports it', defaultValue = "true", paramType = 'query', dataType = 'boolean', required=false),
+          @ApiImplicitParam(name = 'gamma', value = 'Gamma correction', defaultValue = "", paramType = 'query', dataType = 'number', required=false),
    ])
    def chip(){
       runChipperCommand("chip")
@@ -253,7 +258,11 @@ class ChipperController {
 
 *   **transparent**
 
-    Enables transparent output if the **outputFormat** supports it    """)
+    Enables transparent output if the **outputFormat** supports it    
+
+*   **gamma**
+
+    Gamma correction value.  Good values between lighter .01  to darker 2  """)
    @ApiImplicitParams([
           @ApiImplicitParam(name = 'images[0].file', value = 'filename', defaultValue = '', paramType = 'query', dataType = 'string', required=true),
           @ApiImplicitParam(name = 'images[0].entry', value = 'Image entry in the file', defaultValue = '', paramType = 'query', dataType = 'integer', required=false),
@@ -281,6 +290,7 @@ class ChipperController {
           @ApiImplicitParam(name = 'keepBands', value = 'Determine if we auto adjust bands or not', defaultValue = "false", paramType = 'query', dataType = 'boolean', required=false),
           @ApiImplicitParam(name = 'padThumbnail', value = 'Add padding to the output to make it square', defaultValue = "false", paramType = 'query', dataType = 'boolean', required=false),
           @ApiImplicitParam(name = 'transparent', value = 'Enable transparent if the outputFormat supports it', defaultValue = "true", paramType = 'query', dataType = 'boolean', required=false),
+          @ApiImplicitParam(name = 'gamma', value = 'Gamma correction', defaultValue = "", paramType = 'query', dataType = 'number', required=false),
    ])
    def ortho() {
      runChipperCommand("ortho")
@@ -368,7 +378,11 @@ class ChipperController {
 
 *   **transparent**
 
-    Enables transparent output if the **outputFormat** supports it    """)
+    Enables transparent output if the **outputFormat** supports it    
+
+*   **gamma**
+
+    Gamma correction value.  Good values between lighter .01  to darker 2  """)
     @ApiImplicitParams([
             @ApiImplicitParam(name = 'images[0].file', value = 'first filename', defaultValue = '', paramType = 'query', dataType = 'string', required=true),
             @ApiImplicitParam(name = 'images[0].entry', value = 'Image entry in the first file', defaultValue = '', paramType = 'query', dataType = 'integer', required=false),
@@ -399,6 +413,7 @@ class ChipperController {
             @ApiImplicitParam(name = 'keepBands', value = 'Determine if we auto adjust bands or not', defaultValue = "false", paramType = 'query', dataType = 'boolean', required=false),
             @ApiImplicitParam(name = 'padThumbnail', value = 'Add padding to the output to make it square', defaultValue = "false", paramType = 'query', dataType = 'boolean', required=false),
             @ApiImplicitParam(name = 'transparent', value = 'Enable transparent if the outputFormat supports it', defaultValue = "true", paramType = 'query', dataType = 'boolean', required=false),
+            @ApiImplicitParam(name = 'gamma', value = 'Gamma correction', defaultValue = "", paramType = 'query', dataType = 'number', required=false)
     ])
     def psm(){
         runChipperCommand("psm")

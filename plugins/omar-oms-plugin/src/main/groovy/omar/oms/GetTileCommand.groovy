@@ -33,9 +33,10 @@ class GetTileCommand implements Validateable
   String hist
   String ovr
   String geom
-
-   void setOutputFormat(String format)
-   {
+  Double gamma
+ 
+  void setOutputFormat(String format)
+  {
       if(format.split("/").size() == 1)
       {
          this.outputFormat = "image/${format.toLowerCase()}"
@@ -44,6 +45,6 @@ class GetTileCommand implements Validateable
       {
          this.outputFormat = format
       }
-   }
+  }
 
 }
