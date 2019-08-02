@@ -64,6 +64,8 @@ class ChipperCommand implements Validateable
    Boolean     upIsUp
    String      combinerType
 
+   Double      gamma
+
    // parameters that are not part of chipper
    String outputFormat
    Boolean transparent
@@ -125,7 +127,7 @@ class ChipperCommand implements Validateable
       tileSize(nullable:true, blank:true)
       upIsUp(nullable:true, blank:true)
       combinerType(nullable:true, blank:true)
-
+      gamma(nullable:true,blank:true)
       outputFormat(nullable:true, blank:true)
       transparent(nullable:true, blank:true)
    }

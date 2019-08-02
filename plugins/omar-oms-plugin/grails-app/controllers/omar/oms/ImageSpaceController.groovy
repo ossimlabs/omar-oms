@@ -66,6 +66,7 @@ class ImageSpaceController
           @ApiImplicitParam(name = 'histCenterTile', value = 'Use Center File for Histogram', defaultValue="false",  paramType = 'query', dataType = 'boolean', required=false),
           @ApiImplicitParam(name = 'transparent', value = 'Enable transparent if the outputFormat supports it', defaultValue="true",  paramType = 'query', dataType = 'boolean', required=false),
           @ApiImplicitParam(name = 'numResLevels', value = 'Number of Resolution Levels', defaultValue="1", paramType = 'query', dataType = 'integer', required=false)
+          @ApiImplicitParam(name = 'gamma', value = 'Gamma correction', defaultValue="", paramType = 'query', dataType = 'number', required=false)
   ])
   def getTile(/*GetTileCommand cmd*/)
   {
