@@ -58,6 +58,7 @@ class ImageSpaceController
           @ApiImplicitParam(name = 'geom', value = 'Geometry file', paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'bands', value = 'Bands', defaultValue="", paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'histOp', value = 'Histogram Operation',defaultValue = '',allowableValues="none,auto-minmax,auto-percentile,std-stretch-1,std-stretch-2,std-stretch-3", paramType = 'query', dataType = 'string', required=false),
+          @ApiImplicitParam(name = 'histCenterClip', value = 'Adjust center for min max clip (defaults to 0.5)', defaultValue="0.5", paramType = 'query', dataType = 'number', required=false),
           @ApiImplicitParam(name = 'sharpenMode', value = 'Sharpen Operation',allowableValues="none,light,heavy", defaultValue="none", paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'sharpenPercent', value = 'Sharpen Percentage (0..1)', defaultValue="0.0", paramType = 'query', dataType = 'number', required=false),
           @ApiImplicitParam(name = 'resamplerFilter', value = 'Which resampling engine to use', defaultValue = '',  allowableValues= "nearest-neighbor, bilinear, cubic, gaussian, blackman, bspline, hanning, hamming, hermite, mitchell, quadratic, sinc, magic", paramType = 'query', dataType = 'string', required=false),
