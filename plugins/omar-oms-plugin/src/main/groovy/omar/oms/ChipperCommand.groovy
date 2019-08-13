@@ -107,6 +107,7 @@ class ChipperCommand implements Validateable
       histLinearClip(nullable:true, blank:true)
       histLinearNormClip(nullable:true, blank:true)
       histCenterClip(nullable:true, blank:true)
+      histBiasFactor(nullable:true, blank:true)
       imageSpaceScaleX(nullable:true, blank:true)
       imageSpaceScaleY(nullable:true, blank:true)
       keepBands(nullable:true, blank:true)
