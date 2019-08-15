@@ -10,7 +10,9 @@ import io.swagger.annotations.*
 @Api(value = "/imageSpace",
      description = "API operations in image space."
 )
-class ImageSpaceController
+import grails.async.web.AsyncController
+
+class ImageSpaceController implements AsyncController
 {
   def imageSpaceService
 
@@ -208,6 +210,8 @@ class ImageSpaceController
   ])
   def getThumbnail(/*GetThumbnailCommand cmd*/)
   {
+   def ctx = startAsync()
+   ctx.start {
      def cmd = new GetThumbnailCommand()
 
      BindUtil.fixParamNames( GetThumbnailCommand, params )
@@ -248,5 +252,7 @@ class ImageSpaceController
           }
        }
      }
+      ctx.complete()
+    }     
   }
 }
