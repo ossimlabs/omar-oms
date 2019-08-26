@@ -89,6 +89,11 @@ class ChipperController {
     Histogram operations used can be none, linear, auto-minmax, auto-percentile, std-stretch-1, std-stretch-2, std-stretch-3.
     If custom "linear" option then you must either populate the histLinearClip or the histLinearNormClip values
 
+*   **histBiasFactor**
+
+   Used as a bias factor in the auto clip calculations.  Currently only used for auto min max clip adjustmjents.  You can add a small bias to control how the clip  points
+   are located during the aut calculations
+
 *   **histLinearClip**
 
     Is a comma separated pair of low then high value.  **Example:** 8,180 defines a low clip of pixel value 8 and a high clip of pixel value 180.
@@ -98,6 +103,11 @@ class ChipperController {
     Is a comma separated pair of low then high normalized values.  **Example:** .2,.8 defines a low clip of a normalized penetration of .2 or 20% and high 
     clip of .8 which is calculated as a penetration of 80 percent from start of the histogram bins or you can read it as a 20% penetration from the end 
     of the histogram bins.
+
+*   **histCenterClip**
+
+    You can adjust the center value used in the min max clip.  The value ranges from 0 to 1 and defaults to 0.5.  Closer to 0 the more the center will be shifted to the min value causing
+    the image to become brighter. If the value gets closer to 1 the closer to the max clip it will be causing the overall image to become darker.
 
 *   **histCenter**
 
@@ -129,7 +139,11 @@ class ChipperController {
 
 *   **transparent**
 
-    Enables transparent output if the **outputFormat** supports it    """)
+    Enables transparent output if the **outputFormat** supports it    
+
+*   **gamma**
+
+    Gamma correction value.  Good values between lighter .01  to darker 2  """)
    @ApiImplicitParams([
           @ApiImplicitParam(name = 'images[0].file', value = 'filename', defaultValue = '', paramType = 'query', dataType = 'string', required=true),
           @ApiImplicitParam(name = 'images[0].entry', value = 'Image entry in the file', defaultValue = '', paramType = 'query', dataType = 'integer', required=false),
@@ -146,8 +160,10 @@ class ChipperController {
           @ApiImplicitParam(name = 'cutBboxXywh', value = 'Cut image box separated by commas: **x**,**y**,**width**,**height**', defaultValue = '',  paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'rrds', value = 'Reduced resolution', defaultValue = '0', paramType = 'query', dataType = 'integer', required=false),
           @ApiImplicitParam(name = 'histOp', value = 'Histogram Operation',defaultValue = '',allowableValues="none,linear,auto-minmax,auto-percentile,std-stretch-1,std-stretch-2,std-stretch-3", paramType = 'query', dataType = 'string', required=false),
+          @ApiImplicitParam(name = 'histBiasFactor', value = 'bias adjustment for auto calculations (defaults to the identity = 1) range is 0..2', defaultValue="1", paramType = 'query', dataType = 'number', required=false),
           @ApiImplicitParam(name = 'histLinearClip', value = 'Histogram clip comma separated: **low**,**high** ',defaultValue = '',allowableValues="", paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'histLinearNormClip', value = 'Histogram normalized clip comma separated: **low**,**high**',defaultValue = '',allowableValues="", paramType = 'query', dataType = 'string', required=false),
+          @ApiImplicitParam(name = 'histCenterClip', value = 'Adjust center for min max clip (defaults to 0.5) range is 0..1', defaultValue="0.5", paramType = 'query', dataType = 'number', required=false),
           @ApiImplicitParam(name = 'histCenter', value = 'Histogram Center Calculation',defaultValue = '',allowableValues="true,false", paramType = 'query', dataType = 'boolean', required=false),
           @ApiImplicitParam(name = 'outputRadiometry', value = 'Output radiometry', defaultValue = 'ossim_uint8', allowableValues="ossim_uint8,ossim_uint11,ossim_uint16,ossim_sint16,ossim_float32,ossim_float64", paramType = 'query', dataType = 'string', required=true),
           @ApiImplicitParam(name = 'bands', value = 'Bands', defaultValue = '',  paramType = 'query', dataType = 'string', required=false),
@@ -156,6 +172,7 @@ class ChipperController {
           @ApiImplicitParam(name = 'keepBands', value = 'Determine if we auto adjust bands or not', defaultValue = "false", paramType = 'query', dataType = 'boolean', required=false),
           @ApiImplicitParam(name = 'padThumbnail', value = 'Add padding to the output to make it square', defaultValue = "false", paramType = 'query', dataType = 'boolean', required=false),
           @ApiImplicitParam(name = 'transparent', value = 'Enable transparent if the outputFormat supports it', defaultValue = "true", paramType = 'query', dataType = 'boolean', required=false),
+          @ApiImplicitParam(name = 'gamma', value = 'Gamma correction', defaultValue = "", paramType = 'query', dataType = 'number', required=false),
    ])
    def chip(){
       runChipperCommand("chip")
@@ -209,6 +226,11 @@ class ChipperController {
 
     Histogram operations used can be none, auto-minmax, auto-percentile, std-stretch-1, std-stretch-2, or std-stretch-3
 
+*   **histBiasFactor**
+
+   Used as a bias factor in the auto clip calculations.  Currently only used for auto min max clip adjustmjents.  You can add a small bias to control how the clip  points
+   are located during the aut calculations
+
 *   **histLinearClip**
 
     Is a comma separated pair of low then high value.  **Example:** 8,180 defines a low clip of pixel value 8 and a high clip of pixel value 180.
@@ -218,6 +240,11 @@ class ChipperController {
     Is a comma separated pair of low then high normalized values.  **Example:** .2,.8 defines a low clip of a normalized penetration of .2 or 20% and high 
     clip of .8 which is calculated as a penetration of 80 percent from start of the histogram bins or you can read it as a 20% penetration from the end 
     of the histogram bins.
+
+*   **histCenterClip**
+
+    You can adjust the center value used in the min max clip.  The value ranges from 0 to 1 and defaults to 0.5.  Closer to 0 the more the center will be shifted to the min value causing
+    the image to become brighter. If the value gets closer to 1 the closer to the max clip it will be causing the overall image to become darker.
 
 *   **histCenter**
 
@@ -253,7 +280,11 @@ class ChipperController {
 
 *   **transparent**
 
-    Enables transparent output if the **outputFormat** supports it    """)
+    Enables transparent output if the **outputFormat** supports it    
+
+*   **gamma**
+
+    Gamma correction value.  Good values between lighter .01  to darker 2  """)
    @ApiImplicitParams([
           @ApiImplicitParam(name = 'images[0].file', value = 'filename', defaultValue = '', paramType = 'query', dataType = 'string', required=true),
           @ApiImplicitParam(name = 'images[0].entry', value = 'Image entry in the file', defaultValue = '', paramType = 'query', dataType = 'integer', required=false),
@@ -270,8 +301,10 @@ class ChipperController {
           @ApiImplicitParam(name = 'cutHeight', value = 'Cut height in pixels', defaultValue = '',  paramType = 'query', dataType = 'integer', required=false),
           @ApiImplicitParam(name = 'cutWmsBbox', value = 'Cut wms bbox format', defaultValue = '',  paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'histOp', value = 'Histogram Operation',defaultValue = '',allowableValues="none,linear,auto-minmax,auto-percentile,std-stretch-1,std-stretch-2,std-stretch-3", paramType = 'query', dataType = 'string', required=false),
+          @ApiImplicitParam(name = 'histBiasFactor', value = 'bias adjustment for auto calculations (defaults to the identity = 1) range is 0..2', defaultValue="1", paramType = 'query', dataType = 'number', required=false),
           @ApiImplicitParam(name = 'histLinearClip', value = 'Histogram clip comma separated: **low**,**high** ',defaultValue = '',allowableValues="", paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'histLinearNormClip', value = 'Histogram normalized clip comma separated: **low**,**high**',defaultValue = '',allowableValues="", paramType = 'query', dataType = 'string', required=false),
+          @ApiImplicitParam(name = 'histCenterClip', value = 'Adjust center for min max clip (defaults to 0.5) range is 0..1', defaultValue="0.5", paramType = 'query', dataType = 'number', required=false),
           @ApiImplicitParam(name = 'histCenter', value = 'Histogram Center Calculation',defaultValue = '',allowableValues="true,false", paramType = 'query', dataType = 'boolean', required=false),
           @ApiImplicitParam(name = 'srs', value = 'srs', defaultValue = '',  allowableValues="EPSG:4326, EPSG:3857", paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'outputRadiometry', value = 'Output radiometry', defaultValue = 'ossim_uint8', allowableValues="ossim_uint8,ossim_uint11,ossim_uint16,ossim_sint16,ossim_float32,ossim_float64", paramType = 'query', dataType = 'string', required=true),
@@ -281,6 +314,7 @@ class ChipperController {
           @ApiImplicitParam(name = 'keepBands', value = 'Determine if we auto adjust bands or not', defaultValue = "false", paramType = 'query', dataType = 'boolean', required=false),
           @ApiImplicitParam(name = 'padThumbnail', value = 'Add padding to the output to make it square', defaultValue = "false", paramType = 'query', dataType = 'boolean', required=false),
           @ApiImplicitParam(name = 'transparent', value = 'Enable transparent if the outputFormat supports it', defaultValue = "true", paramType = 'query', dataType = 'boolean', required=false),
+          @ApiImplicitParam(name = 'gamma', value = 'Gamma correction', defaultValue = "", paramType = 'query', dataType = 'number', required=false),
    ])
    def ortho() {
      runChipperCommand("ortho")
@@ -334,6 +368,26 @@ class ChipperController {
 
     Histogram operations used can be none, auto-minmax, auto-percentile, std-stretch-1, std-stretch-2, or std-stretch-3
 
+*   **histBiasFactor**
+
+   Used as a bias factor in the auto clip calculations.  Currently only used for auto min max clip adjustmjents.  You can add a small bias to control how the clip  points
+   are located during the aut calculations
+
+*   **histLinearClip**
+
+    Is a comma separated pair of low then high value.  **Example:** 8,180 defines a low clip of pixel value 8 and a high clip of pixel value 180.
+
+*   **histLinearNormClip**
+
+    Is a comma separated pair of low then high normalized values.  **Example:** .2,.8 defines a low clip of a normalized penetration of .2 or 20% and high 
+    clip of .8 which is calculated as a penetration of 80 percent from start of the histogram bins or you can read it as a 20% penetration from the end 
+    of the histogram bins.
+
+*   **histCenterClip**
+
+    You can adjust the center value used in the min max clip.  The value ranges from 0 to 1 and defaults to 0.5.  Closer to 0 the more the center will be shifted to the min value causing
+    the image to become brighter. If the value gets closer to 1 the closer to the max clip it will be causing the overall image to become darker.
+
 *   **histCenter**
 
     Histogram should be calculated based on the center of the request
@@ -368,7 +422,11 @@ class ChipperController {
 
 *   **transparent**
 
-    Enables transparent output if the **outputFormat** supports it    """)
+    Enables transparent output if the **outputFormat** supports it    
+
+*   **gamma**
+
+    Gamma correction value.  Good values between lighter .01  to darker 2  """)
     @ApiImplicitParams([
             @ApiImplicitParam(name = 'images[0].file', value = 'first filename', defaultValue = '', paramType = 'query', dataType = 'string', required=true),
             @ApiImplicitParam(name = 'images[0].entry', value = 'Image entry in the first file', defaultValue = '', paramType = 'query', dataType = 'integer', required=false),
@@ -390,6 +448,10 @@ class ChipperController {
             @ApiImplicitParam(name = 'cutHeight', value = 'Cut height in pixels', defaultValue = '',  paramType = 'query', dataType = 'integer', required=false),
             @ApiImplicitParam(name = 'cutWmsBbox', value = 'Cut wms bbox format', defaultValue = '',  paramType = 'query', dataType = 'string', required=false),
             @ApiImplicitParam(name = 'histOp', value = 'Histogram Operation',defaultValue = '',allowableValues="none,auto-minmax,auto-percentile,std-stretch-1,std-stretch-2,std-stretch-3", paramType = 'query', dataType = 'string', required=false),
+            @ApiImplicitParam(name = 'histBiasFactor', value = 'bias adjustment for auto calculations (defaults to the identity = 1) range is 0..2', defaultValue="1", paramType = 'query', dataType = 'number', required=false),
+            @ApiImplicitParam(name = 'histLinearClip', value = 'Histogram clip comma separated: **low**,**high** ',defaultValue = '',allowableValues="", paramType = 'query', dataType = 'string', required=false),
+            @ApiImplicitParam(name = 'histLinearNormClip', value = 'Histogram normalized clip comma separated: **low**,**high**',defaultValue = '',allowableValues="", paramType = 'query', dataType = 'string', required=false),            
+            @ApiImplicitParam(name = 'histCenterClip', value = 'Adjust center for min max clip (defaults to 0.5) range is 0..1', defaultValue="0.5", paramType = 'query', dataType = 'number', required=false),
             @ApiImplicitParam(name = 'histCenter', value = 'Histogram Center Calculation',defaultValue = '',allowableValues="true,false", paramType = 'query', dataType = 'boolean', required=false),
             @ApiImplicitParam(name = 'srs', value = 'srs', defaultValue = '',  allowableValues="EPSG:4326, EPSG:3857", paramType = 'query', dataType = 'string', required=false),
             @ApiImplicitParam(name = 'outputRadiometry', value = 'Output radiometry', defaultValue = 'ossim_uint8', allowableValues="ossim_uint8,ossim_uint11,ossim_uint16,ossim_sint16,ossim_float32,ossim_float64", paramType = 'query', dataType = 'string', required=true),
@@ -399,6 +461,7 @@ class ChipperController {
             @ApiImplicitParam(name = 'keepBands', value = 'Determine if we auto adjust bands or not', defaultValue = "false", paramType = 'query', dataType = 'boolean', required=false),
             @ApiImplicitParam(name = 'padThumbnail', value = 'Add padding to the output to make it square', defaultValue = "false", paramType = 'query', dataType = 'boolean', required=false),
             @ApiImplicitParam(name = 'transparent', value = 'Enable transparent if the outputFormat supports it', defaultValue = "true", paramType = 'query', dataType = 'boolean', required=false),
+            @ApiImplicitParam(name = 'gamma', value = 'Gamma correction', defaultValue = "", paramType = 'query', dataType = 'number', required=false)
     ])
     def psm(){
         runChipperCommand("psm")
