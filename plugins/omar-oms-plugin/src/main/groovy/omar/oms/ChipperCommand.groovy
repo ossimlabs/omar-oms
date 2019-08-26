@@ -41,6 +41,8 @@ class ChipperCommand implements Validateable
    String      histOp
    String      histLinearClip
    String      histLinearNormClip
+   String      histCenterClip
+   String      histBiasFactor
    String      imageSpaceScaleX
    String      imageSpaceScaleY
    String      lutFile
@@ -63,6 +65,8 @@ class ChipperCommand implements Validateable
    String      tileSize
    Boolean     upIsUp
    String      combinerType
+
+   Double      gamma
 
    // parameters that are not part of chipper
    String outputFormat
@@ -102,6 +106,8 @@ class ChipperCommand implements Validateable
       histOp(nullable:true, blank:true)
       histLinearClip(nullable:true, blank:true)
       histLinearNormClip(nullable:true, blank:true)
+      histCenterClip(nullable:true, blank:true)
+      histBiasFactor(nullable:true, blank:true)
       imageSpaceScaleX(nullable:true, blank:true)
       imageSpaceScaleY(nullable:true, blank:true)
       keepBands(nullable:true, blank:true)
@@ -125,7 +131,7 @@ class ChipperCommand implements Validateable
       tileSize(nullable:true, blank:true)
       upIsUp(nullable:true, blank:true)
       combinerType(nullable:true, blank:true)
-
+      gamma(nullable:true,blank:true)
       outputFormat(nullable:true, blank:true)
       transparent(nullable:true, blank:true)
    }
