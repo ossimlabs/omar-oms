@@ -1,15 +1,20 @@
 package omar.oms
 
-// import grails.transaction.Transactional
+import grails.gorm.transactions.Transactional
 import omar.core.HttpStatus
 import javax.imageio.ImageIO
 
 import org.springframework.util.FastByteArrayOutputStream
 
+@Transactional(readOnly=true)
 class ChipperService {
-    static transactional = false
 
     def getTile(ChipperCommand cmd) {
+      
+println '*' * 50
+println cmd
+println '*' * 50
+
       HashMap chipperOptions = cmd?.toChipperOptions()
       HashMap result = [:]
       HashMap chipperResult = [:]
