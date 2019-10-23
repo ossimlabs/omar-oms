@@ -1,8 +1,6 @@
 /**
  * Created by sbortman on 12/10/15.
  */
-//= require jquery-2.2.0.min.js
-//= require omar-openlayers.js
 //= require_self
 
 var ImageSpace = (function ()
