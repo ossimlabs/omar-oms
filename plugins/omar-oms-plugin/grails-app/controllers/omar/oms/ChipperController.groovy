@@ -3,7 +3,11 @@ package omar.oms
 import omar.core.BindUtil
 import omar.core.HttpStatus
 
-import io.swagger.annotations.*
+import io.swagger.annotations.Api
+import io.swagger.annotations.ApiOperation
+import io.swagger.annotations.ApiImplicitParam
+import io.swagger.annotations.ApiImplicitParams
+
 
 @Api( value = "/chipper",
       description = "API operations for Chipper"

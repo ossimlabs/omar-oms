@@ -2,24 +2,37 @@
 grails:
     profile: web-plugin
     codegen:
-        defaultPackage: omar.oms
-    spring:
-        transactionManagement:
-            proxies: false
+        defaultPackage: omar.oms.plugin
+    gorm:
+        reactor:
+            # Whether to translate GORM events into Reactor events
+            # Disabled by default for performance reasons
+            events: false
 info:
     app:
         name: '@info.app.name@'
         version: '@info.app.version@'
         grailsVersion: '@info.app.grailsVersion@'
 spring:
+    jmx:
+        unique-names: true
+    main:
+        banner-mode: "off"
     groovy:
         template:
             check-template-location: false
-# Spring Actuator Endpoints are Disabled by Default
-endpoints:
-    enabled: false
-    jmx:
-        enabled: true
+    devtools:
+        restart:
+            additional-exclude:
+                - '*.gsp'
+                - '**/*.gsp'
+                - '*.gson'
+                - '**/*.gson'
+                - 'logback.groovy'
+                - '*.properties'
+management:
+    endpoints:
+        enabled-by-default: false
 
 ---
 grails:
@@ -70,17 +83,10 @@ grails:
             htmlcodec: xml
             codecs:
                 expression: html
-                scriptlets: html
+                scriptlet: html
                 taglib: none
                 staticparts: none
-endpoints:
-    jmx:
-        unique-names: true
-
-omar:
-  oms:
-    # getRasterFilesUrl is the location for getting the raster files associated with
-    # an ID.
-    # The data manager is typically on the omar-stager-app service.  Uncomment and put the location
-    # of your service
-    # getRasterFilesUrl: "http://omar-stager-app:8080/omar-stager/dataManager/getRasterFiles"
+management:
+    endpoints:
+        jmx:
+            unique-names: true

@@ -10,7 +10,7 @@ import joms.oms.MapProjection
 import joms.oms.ossimEcefPoint
 import omar.core.HttpStatus
 
-import grails.transaction.Transactional
+import grails.gorm.transactions.Transactional
 
 @Transactional
 class ImageGeometryService {
