@@ -1,25 +1,13 @@
-// assets {
-//   minifyJs = true
-//   minifyCss = true
-//   includes = ["fonts/*"]
-//   excludes = ["**/*-debug.js", "**/*-deps.js", "**/*.gz", "**/*.txt", "**/*.less", "**/*.html", "**/i18n/**", "**/",
-//       ".grunt/**", "**/locale/**", "webjars/jquery/2.1.4/src/intro.js", "webjars/jquery/2.1.4/src/outro.js"]
-// }
-
-// sourceSets.main.output.classesDir = 'build/classes/groovy/main'
-// io.ossim.gradleDefaults.Variables.setAdditionalVariables(project)
-// io.ossim.gradleDefaults.Variables.setVersionVariables(project)
-// dockerBuildDir="${rootProject.projectDir}/docker"
-// version "${buildVersion}-${buildVersionTag}"
-// jarDestination = "${projectDir}/build/libs/${project.name}-${version}.jar"
-// io.ossim.gradleDefaults.Docker.addDockerTasks(project, dockerRegistryUrl, dockerRegistryUsername, dockerRegistryPassword, name, dockerImageTag, dockerBuildDir, jarDestination, ["BASE_IMAGE": "${dockerRegistryUrl}/${dockerBaseImage}:${dockerFromTag}"])
-// io.ossim.gradleDefaults.Openshift.addOpenshiftTasks(project, openshiftUrl, openshiftUsername, openshiftPassword, openshiftProjectName, openshiftServiceName,  dockerRegistryUrl, name, dockerImageTag)
-
 grails {
-  plugins {
-        compile project(':omar-oms-plugin')
-  }
+    plugins {
+        compile project( ":${ rootProject.name }-plugin" )
+        if ( System.getenv('O2_INLINE_BUILD') ) {
+        //    compile project(":omar-core-plugin")
+        }
+    }
 }
-
 dependencies {
+    if ( ! System.getenv('O2_INLINE_BUILD') ) {
+    // compile "io.ossim.omar.plugins:omar-core-plugin:+"
+    }
 }
