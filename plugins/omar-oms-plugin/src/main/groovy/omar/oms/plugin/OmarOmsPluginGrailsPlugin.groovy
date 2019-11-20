@@ -1,18 +1,21 @@
-package omar.oms
+package omar.oms.plugin
 
 import grails.plugins.*
 
-class OmarOmsGrailsPlugin extends Plugin {
+import omar.oms.InfoGetterPool
+import omar.oms.XmlParserPool
+
+class OmarOmsPluginGrailsPlugin extends Plugin {
 
     // the version or versions of Grails the plugin is designed for
-    def grailsVersion = "3.1.10 > *"
+    def grailsVersion = "4.0.0 > *"
     // resources that are excluded from plugin packaging
     def pluginExcludes = [
         "grails-app/views/error.gsp"
     ]
 
     // TODO Fill in these fields
-    def title = "Omar Oms" // Headline display name of the plugin
+    def title = "Omar Oms Plugin" // Headline display name of the plugin
     def author = "Your name"
     def authorEmail = ""
     def description = '''\
@@ -21,7 +24,7 @@ Brief summary/description of the plugin.
     def profiles = ['web']
 
     // URL to the plugin's documentation
-    def documentation = "http://grails.org/plugin/omar-oms"
+    def documentation = "http://grails.org/plugin/omar-oms-plugin"
 
     // Extra (optional) plugin metadata
 
@@ -40,13 +43,11 @@ Brief summary/description of the plugin.
     // Online location of the plugin's browseable source code.
 //    def scm = [ url: "http://svn.codehaus.org/grails-plugins/" ]
 
-  Closure doWithSpring()
-  {
-    { ->
-      infoGetterPool( InfoGetterPool, 8 )
-      parserPool( XmlParserPool, 32 )
+    Closure doWithSpring() { {->
+            infoGetterPool( InfoGetterPool, 8 )
+            parserPool( XmlParserPool, 32 )
+         }
     }
-  }
 
     void doWithDynamicMethods() {
         // TODO Implement registering dynamic methods to classes (optional)

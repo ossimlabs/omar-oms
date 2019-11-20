@@ -1,39 +1,8 @@
 ---
-# Define the production database values.
-environments:
-  production:
-    dataSource:
-      url: jdbc:h2:mem:testDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
-
-omar:
-  oms:
-    getRasterFilesUrl: "http://omar-stager-app:8080/omar-stager/dataManager/getRasterFiles"
-
-# Set the context path for the application.
-server:
-  contextPath: /omar-oms
-
-# Define the http protocols that swagger will use
-swagger:
-  schemes:
-    - HTTPS
-    - HTTP
-
-logging:
-  config: classpath:logback.groovy
-
----
 grails:
-    cors:
-      enabled: true
-    resources:
-        pattern: '/**'
     profile: web
     codegen:
-        defaultPackage: omar.oms
-    spring:
-        transactionManagement:
-            proxies: false
+        defaultPackage: omar.oms.app
     gorm:
         reactor:
             # Whether to translate GORM events into Reactor events
@@ -45,31 +14,25 @@ info:
         version: '@info.app.version@'
         grailsVersion: '@info.app.grailsVersion@'
 spring:
+    jmx:
+        unique-names: true
     main:
         banner-mode: "off"
     groovy:
         template:
             check-template-location: false
-
-# Spring Actuator Endpoints are Disabled by Default
-endpoints:
-  enabled: true
-  health:
-    enabled: true
-  actuator:
-    sensitive: false
-  beans:
-    sensitive: false
-  metrics:
-    sensitive: false
-  configprops:
-    sensitive: false
-  trace:
-    sensitive: false
-  mappings:
-    sensitive: false
-  env:
-    sensitive: false
+    devtools:
+        restart:
+            additional-exclude:
+                - '*.gsp'
+                - '**/*.gsp'
+                - '*.gson'
+                - '**/*.gson'
+                - 'logback.groovy'
+                - '*.properties'
+management:
+    endpoints:
+        enabled-by-default: false
 
 ---
 grails:
@@ -120,12 +83,13 @@ grails:
             htmlcodec: xml
             codecs:
                 expression: html
-                scriptlets: html
+                scriptlet: html
                 taglib: none
                 staticparts: none
-endpoints:
-    jmx:
-        unique-names: true
+management:
+    endpoints:
+        jmx:
+            unique-names: true
 
 ---
 hibernate:
@@ -151,9 +115,8 @@ environments:
             url: jdbc:h2:mem:testDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
     production:
         dataSource:
-            dbCreate: update
-            # This is defined above.
-            #url: jdbc:h2:./prodDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
+            dbCreate: none
+            url: jdbc:h2:./prodDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
             properties:
                 jmxEnabled: true
                 initialSize: 5
@@ -172,3 +135,69 @@ environments:
                 testOnReturn: false
                 jdbcInterceptors: ConnectionState
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
+---
+server:
+    servlet:
+        context-path: /omar-oms
+    contextPath: ${server.servlet.context-path}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    env:
+      enabled: true
+      sensitive: false
+    health:
+      enabled: true
+    
+grails:
+    cors:
+        enabled: true
+    resources:
+        pattern: '/**'
+    servlet:
+        version: 3.0
+---
+spring:
+  application:
+    name: omar-oms
+  cloud:
+    discovery:
+      enabled: ${SPRING_CLOUD_DISCOVERY_ENABLED:false}
+    service-registry:
+      auto-registration:
+        enabled: ${spring.cloud.discovery.enabled}
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://omar-eureka-server:8761/omar-eureka-server/eureka}
+  instance:
+    preferIpAddress: true
+
+---
+# Define the production database values.
+environments:
+  production:
+    dataSource:
+      url: jdbc:h2:mem:testDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
+
+omar:
+  oms:
+    getRasterFilesUrl: "http://omar-stager-app:8080/omar-stager/dataManager/getRasterFiles"
+
+# Set the context path for the application.
+server:
+  contextPath: /omar-oms
+
+# Define the http protocols that swagger will use
+swagger:
+  schemes:
+    - HTTPS
+    - HTTP
+
+logging:
+  config: classpath:logback.groovy    
