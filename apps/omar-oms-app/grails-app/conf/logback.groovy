@@ -22,6 +22,14 @@ appender('STDOUT', ConsoleAppender) {
     }
 }
 
+// This appender is used to only print the message, such as when printing JSON to
+// be parsed by Elasticsearch
+appender('JSON', ConsoleAppender) {
+    encoder(PatternLayoutEncoder) {
+        pattern = "%msg%n"
+    }
+}
+
 def targetDir = BuildSettings.TARGET_DIR
 if (Environment.isDevelopmentMode() && targetDir != null) {
     appender("FULL_STACKTRACE", FileAppender) {
@@ -35,4 +43,4 @@ if (Environment.isDevelopmentMode() && targetDir != null) {
     logger("StackTrace", ERROR, ['FULL_STACKTRACE'], false)
 }
 root(ERROR, ['STDOUT'])
-logger('omar', INFO, ['STDOUT'], false)
+logger('omar', INFO, ['JSON'], false)
