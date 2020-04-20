@@ -1,12 +1,12 @@
 package omar.oms
 
-import grails.test.mixin.TestFor
+// import grails.test.mixin.TestFor
 import spock.lang.Specification
 
 /**
  * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
  */
-@TestFor(ImageSpaceService)
+// @TestFor(ImageSpaceService)
 class ImageSpaceServiceSpec extends Specification {
 
     def setup() {
@@ -17,6 +17,6 @@ class ImageSpaceServiceSpec extends Specification {
 
     void "test something"() {
         expect:"fix me"
-            true 
+            true
     }
 }

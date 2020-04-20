@@ -36,7 +36,7 @@ subprojects { project ->
     apply plugin:"eclipse"
     apply plugin:"idea"
 
-    if ( isGrailsProject )    
+    if ( isGrailsProject )
     {
         if ( isGrailsApp )
         {
@@ -45,26 +45,26 @@ subprojects { project ->
             ext {
                 dockerBuildDir = "${ rootProject.projectDir }/docker"
                 jarDestination = "${ project.projectDir }/build/libs/${ project.name }-${ version }.jar"
-                
+
                 dockerImageName = project.name
                 dockerBuildTag = project.dockerImageTag
                 buildArguments = [ "BASE_IMAGE": "${ dockerRegistryUrl }/${ dockerBaseImage }:${ dockerFromTag }" ]
-                
+
                 openshiftUrl = getConfigurationProperty( 'OPENSHIFT_URL', 'openshiftUrl' )
                 openshiftUsername = getConfigurationProperty( 'OPENSHIFT_USERNAME', 'openshiftUsername' )
-                openshiftPassword = getConfigurationProperty( 'OPENSHIFT_PASSWORD', 'openshiftPassword' )                
+                openshiftPassword = getConfigurationProperty( 'OPENSHIFT_PASSWORD', 'openshiftPassword' )
                 openshiftProjectName =  getConfigurationProperty( 'OPENSHIFT_PROJECT_NAME', 'openshiftProjectName' )
             }
 
             io.ossim.gradleDefaults.Openshift.addOpenshiftTasks(
-                project, 
-                openshiftUrl, 
-                openshiftUsername, 
-                openshiftPassword, 
-                openshiftProjectName, 
-                openshiftServiceName,  
-                dockerRegistryUrl, 
-                dockerImageName, 
+                project,
+                openshiftUrl,
+                openshiftUsername,
+                openshiftPassword,
+                openshiftProjectName,
+                openshiftServiceName,
+                dockerRegistryUrl,
+                dockerImageName,
                 dockerImageTag
             )
 
@@ -112,7 +112,7 @@ subprojects { project ->
             apply plugin:"org.grails.grails-web"
             apply plugin:"com.github.erdi.webdriver-binaries"
         }
-        else if ( isGrailsPlugin ) 
+        else if ( isGrailsPlugin )
         {
             apply plugin:"org.grails.grails-plugin"
             apply plugin:"org.grails.grails-plugin-publish"
@@ -122,7 +122,7 @@ subprojects { project ->
             }
 
             io.ossim.gradleDefaults.Publications.addPublication(project, groupName, name, "${buildVersion}-${buildVersionTag}")
-            io.ossim.gradleDefaults.Publications.addRepository(project, mavenPublishUrl, mavenRepoUsername, mavenRepoPassword)               
+            io.ossim.gradleDefaults.Publications.addRepository(project, mavenPublishUrl, mavenRepoUsername, mavenRepoPassword)
         }
 
         apply plugin:"asset-pipeline"
@@ -196,17 +196,17 @@ subprojects { project ->
                 compile 'org.springframework.cloud:spring-cloud-starter-config'
                 compile "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
             }
-            else if ( isGrailsPlugin ) 
+            else if ( isGrailsPlugin )
             {
                 profile "org.grails.profiles:web-plugin"
-                testCompile "org.grails:grails-plugin-testing"
+                // testCompile "org.grails:grails-plugin-testing"
             }
         }
 
         bootRun {
             jvmArgs(
-                '-Dspring.output.ansi.enabled=always', 
-                '-noverify', 
+                '-Dspring.output.ansi.enabled=always',
+                '-noverify',
                 '-XX:TieredStopAtLevel=1',
                 '-Xmx1024m')
             sourceResources sourceSets.main
@@ -257,7 +257,7 @@ subprojects { project ->
                 packagePlugin = true
             }
         }
-    }    
+    }
 }
 
 String getConfigurationProperty( String envVar, String sysProp )
