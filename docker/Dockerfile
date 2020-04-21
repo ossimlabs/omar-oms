@@ -3,6 +3,8 @@ FROM ${BASE_IMAGE}
 ENV SPRING_CLOUD_CONFIG_ENABLED=true \
     SPRING_CLOUD_DISCOVERY_ENABLED=true
 WORKDIR $HOME
+
+RUN yum install java-1.8.0-openjdk-headless
 EXPOSE 8080
 COPY *.jar $HOME
 CMD $HOME/run.sh
