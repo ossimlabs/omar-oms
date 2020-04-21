@@ -68,6 +68,8 @@ subprojects { project ->
                 dockerImageTag
             )
 
+            "ls -l".execute()
+
             docker {
                 registryCredentials {
                     url = dockerRegistryUrl
