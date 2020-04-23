@@ -43,7 +43,8 @@ node("${BUILD_NODE}"){
       withSonarQubeEnv('sonarQube'){
 
       sh """
-        ${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=omar-oms 
+        ${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=omar-oms -Dsonar.login=937741b363736c31f3dbeaa48b48975267ec3819
+      """
       }
     }
 
