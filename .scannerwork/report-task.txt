@@ -1,0 +1,6 @@
+projectKey=omar-oms
+serverUrl=https://sonarqube.ossim.io
+serverVersion=8.2.0.32929
+dashboardUrl=https://sonarqube.ossim.io/dashboard?id=omar-oms
+ceTaskId=AXGn5lE04Lf6-8Sr7Xfe
+ceTaskUrl=https://sonarqube.ossim.io/api/ce/task?id=AXGn5lE04Lf6-8Sr7Xfe

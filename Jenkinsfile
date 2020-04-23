@@ -39,8 +39,10 @@ node("${BUILD_NODE}"){
         archiveArtifacts "apps/*/build/libs/*.jar"
     }
     stage ("SonarQube"){
+      def scannerHome = tool 'SonarQube Scanner 2.8'
+
       sh """
-        ./gradlew sonarqube -Dsonar.projectKey=omar-oms  -Dsonar.host.url=https://sonarqube.ossim.io/ -Dsonar.login=937741b363736c31f3dbeaa48b48975267ec3819
+        sonar-scanner -Dsonar.projectKey=omar-oms  -Dsonar.host.url=https://sonarqube.ossim.io/ -Dsonar.login=937741b363736c31f3dbeaa48b48975267ec3819
       """
     }
 
