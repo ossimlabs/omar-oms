@@ -1,0 +1,48 @@
+{{- if (pluck "createPVs" .Values .Values.global) }}
+
+{{- $dict := ( coalesce .Values.volumes.ossimData .Values.global.volumes.ossimData ) }}
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: "{{ .Release.Namespace }}-{{ .Values.appName }}-ossim-data-pv"
+spec:
+  capacity:
+    storage: {{ $dict.size }}
+
+  {{- if (len $dict.accessModes) gt 0 }}
+  accessModes:
+    {{- range $item := $dict.accessModes }}
+    - {{ $item }}
+    {{- end }}
+  {{- end }}
+
+  {{- if eq $dict.type "nfs" }}
+  nfs:
+    path: {{ $dict.nfsMountPoint }}
+    server: {{ $dict.nfsServer }}
+  {{- end }}
+  persistentVolumeReclaimPolicy: Retain
+
+---
+  
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: "{{ .Values.appName }}-ossim-data-pvc"
+spec:
+
+  {{- if (len $dict.accessModes) gt 0 }}
+  accessModes:
+    {{- range $item := $dict.accessModes }}
+    - {{ $item }}
+    {{- end }}
+  {{- end }}
+
+  storageClassName: ""
+  resources:
+    requests:
+      storage: {{ $dict.size }}
+  volumeName: "{{ .Release.Namespace }}-{{ .Values.appName }}-ossim-data-pv"
+
+{{- end }}

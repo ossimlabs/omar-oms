@@ -14,7 +14,7 @@ podTemplate(
   containers: [
     containerTemplate(
       name: 'docker',
-      image: 'docker:19.03.8',
+      image: 'docker:19.03.11',
       ttyEnabled: true,
       command: 'cat',
       privileged: true
@@ -22,6 +22,12 @@ podTemplate(
     containerTemplate(
       image: "${DOCKER_REGISTRY_DOWNLOAD_URL}/omar-builder:latest",
       name: 'builder',
+      command: 'cat',
+      ttyEnabled: true
+    ),
+    containerTemplate(
+      image: "${DOCKER_REGISTRY_DOWNLOAD_URL}/alpine/helm:3.2.3",
+      name: 'helm',
       command: 'cat',
       ttyEnabled: true
     )
@@ -63,7 +69,7 @@ podTemplate(
           archiveArtifacts "apps/*/build/libs/*.jar"
         }
       }
-    stage ("Publish Nexus"){	
+    stage ("Publish Nexus"){
       container('builder'){
           withCredentials([[$class: 'UsernamePasswordMultiBinding',
                           credentialsId: 'nexusCredentials',
@@ -81,7 +87,7 @@ podTemplate(
       container('docker') {
         withDockerRegistry(credentialsId: 'dockerCredentials', url: "https://${DOCKER_REGISTRY_DOWNLOAD_URL}") {  //TODO
           sh """
-            docker build -t "${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}"/omar-mensa-app:${BRANCH_NAME} ./docker
+            docker build --network=host -t "${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}"/omar-mensa-app:${BRANCH_NAME} ./docker
           """
         }
       }
@@ -94,6 +100,21 @@ podTemplate(
           }
         }
       }
+      stage('Package chart'){
+      container('helm') {
+        sh """
+            mkdir packaged-chart
+            helm package -d packaged-chart chart
+          """
+      }
+    }
+    stage('Upload chart'){
+      container('builder') {
+        withCredentials([usernameColonPassword(credentialsId: 'helmCredentials', variable: 'HELM_CREDENTIALS')]) {
+          sh "curl -u ${HELM_CREDENTIALS} ${HELM_UPLOAD_URL} --upload-file packaged-chart/*.tgz -v"
+        }
+      }
+    }
     }
     stage("Clean Workspace"){
       if ("${CLEAN_WORKSPACE}" == "true")
