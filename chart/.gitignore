@@ -1,0 +1,4 @@
+registry-credentials.yml
+packaged-chart
+.lock
+charts/*.tgz
