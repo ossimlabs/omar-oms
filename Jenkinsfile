@@ -91,16 +91,17 @@ podTemplate(
           """
         }
       }
-      stage('Docker push'){
-        container('docker') {
-          withDockerRegistry(credentialsId: 'dockerCredentials', url: "https://${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}") {
-          sh """
-              docker push "${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}"/omar-mensa-app:${BRANCH_NAME}
-          """
-          }
+    }
+    stage('Docker push'){
+      container('docker') {
+        withDockerRegistry(credentialsId: 'dockerCredentials', url: "https://${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}") {
+        sh """
+            docker push "${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}"/omar-mensa-app:${BRANCH_NAME}
+        """
         }
       }
-      stage('Package chart'){
+    }
+    stage('Package chart'){
       container('helm') {
         sh """
             mkdir packaged-chart
@@ -114,7 +115,6 @@ podTemplate(
           sh "curl -u ${HELM_CREDENTIALS} ${HELM_UPLOAD_URL} --upload-file packaged-chart/*.tgz -v"
         }
       }
-    }
     }
     stage("Clean Workspace"){
       if ("${CLEAN_WORKSPACE}" == "true")
