@@ -6,7 +6,7 @@ properties([
     pipelineTriggers([
             [$class: "GitHubPushTrigger"]
     ]),
-    [$class: 'GithubProjectProperty', displayName: '', projectUrlStr: 'https://github.com/ossimlabs/omar-mensa'],
+    [$class: 'GithubProjectProperty', displayName: '', projectUrlStr: 'https://github.com/ossimlabs/omar-oms'],
     buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '3', daysToKeepStr: '', numToKeepStr: '20')),
     disableConcurrentBuilds()
 ])
@@ -57,6 +57,13 @@ podTemplate(
           }
           load "common-variables.groovy"
       }
+
+      stage('SonarQube Analysis') {
+          withSonarQubeEnv() {
+              sh "./gradlew sonarqube"
+          }
+      }
+
       stage('Build') {
         container('builder') {
           sh """
