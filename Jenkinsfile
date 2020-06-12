@@ -6,7 +6,7 @@ properties([
     pipelineTriggers([
             [$class: "GitHubPushTrigger"]
     ]),
-    [$class: 'GithubProjectProperty', displayName: '', projectUrlStr: 'https://github.com/ossimlabs/omar-oms'],
+    [$class: 'GithubProjectProperty', displayName: '', projectUrlStr: 'https://github.com/ossimlabs/omar-mensa'],
     buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '3', daysToKeepStr: '', numToKeepStr: '20')),
     disableConcurrentBuilds()
 ])
@@ -59,8 +59,14 @@ podTemplate(
       }
 
       stage('SonarQube Analysis') {
-          withSonarQubeEnv() {
-              sh "./gradlew sonarqube"
+          def scannerHome = tool ${SONARQUBE_SCANNER_VERSION}
+
+          withSonarQubeEnv('sonarqube'){
+              sh """
+                ${scannerHome}/bin/sonar-scanner \
+                -Dsonar.projectKey=omar-oms \
+                -Dsonar.login=
+              """
           }
       }
 
