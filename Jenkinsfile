@@ -65,7 +65,7 @@ podTemplate(
               withSonarQubeEnv('sonarqube'){
                   sh """
                     ${scannerHome}/bin/sonar-scanner \
-                    -Dsonar.projectKey=omar-geoscript \
+                    -Dsonar.projectKey=omar-oms \
                     -Dsonar.login=${SONARQUBE_TOKEN}
                   """
               }
