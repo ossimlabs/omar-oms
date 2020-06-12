@@ -59,14 +59,16 @@ podTemplate(
       }
 
       stage('SonarQube Analysis') {
-          def scannerHome = tool "${SONARQUBE_SCANNER_VERSION}"
+          nodejs(nodeJSInstallationName: "${NODEJS_VERSION}") {
+              def scannerHome = tool "${SONARQUBE_SCANNER_VERSION}"
 
-          withSonarQubeEnv('sonarqube'){
-              sh """
-                ${scannerHome}/bin/sonar-scanner \
-                -Dsonar.projectKey=omar-oms \
-                -Dsonar.login=${SONARQUBE_TOKEN}
-              """
+              withSonarQubeEnv('sonarqube'){
+                  sh """
+                    ${scannerHome}/bin/sonar-scanner \
+                    -Dsonar.projectKey=omar-geoscript \
+                    -Dsonar.login=${SONARQUBE_TOKEN}
+                  """
+              }
           }
       }
 
