@@ -59,7 +59,7 @@ podTemplate(
       }
 
       stage('SonarQube Analysis') {
-          def scannerHome = tool ${SONARQUBE_SCANNER_VERSION}
+          def scannerHome = tool "${SONARQUBE_SCANNER_VERSION}"
 
           withSonarQubeEnv('sonarqube'){
               sh """
