@@ -65,7 +65,7 @@ podTemplate(
               sh """
                 ${scannerHome}/bin/sonar-scanner \
                 -Dsonar.projectKey=omar-oms \
-                -Dsonar.login=
+                -Dsonar.login=${SONARQUBE_TOKEN}
               """
           }
       }
