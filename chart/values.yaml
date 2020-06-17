@@ -1,0 +1,92 @@
+# Default values for omar-oms-app.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicas: 1
+
+appName: omar-oms
+
+global:
+  dockerRepository: nexus-docker-private-group.ossim.io
+  imagePullSecret:
+    registry: null
+    username: null
+    password: null
+  hostname: omar-dev.ossim.io
+
+  createIngress: true
+  useTls: false
+  useTLSClientAuth: false
+  sslCertSecretName: null
+  authSslCertSecretName: null
+
+  createImagePullSecret: true
+  useImagePullSecret: true
+  createHpa: true
+  createPVs: true
+
+  useSpringConfigServer: false
+
+  volumes:
+    ossimData:
+      type: null
+      nfsServer: null
+      nfsMountPoint: null
+      accessModes:
+        - ReadWriteMany
+      size: 1
+
+volumes:
+  ossimData: null
+
+# These variables can be overridden because of the use of the 'pluck' function:
+# - createIngress
+# - useTls
+# - useTlsClientAuth
+# - createImagePullSecret
+# - createHpa
+# - createPVs
+# - useSpringConfigServer
+
+resources:
+  limits:
+    cpu: 3000m
+    memory: 3000Mi
+  requests:
+    cpu: 500m
+    memory: 500Mi
+
+minReplicas: 5
+maxReplicas: 20
+targetCpu: 90
+    
+image:
+  name: omar-oms-app
+  tag: dev
+  pullPolicy: Always
+
+ingressPath: /omar-oms
+internalPort: 8080
+externalPort: 8080
+
+livenessProbe:
+  failureThreshold: 3
+  initialDelaySeconds: 30
+  periodSeconds: 15
+  successThreshold: 1
+  timeoutSeconds: 380
+
+readinessProbe:
+  failureThreshold: 15
+  initialDelaySeconds: 30
+  periodSeconds: 25
+  successThreshold: 1
+  timeoutSeconds: 3
+  path: /omar-oms/actuator/health
+
+terminationGracePeriodSeconds: 30
+
+envVars:
+  SPRING_CLOUD_CONFIG_LABEL: master
+  BUCKETS: o2-test-data
+  JAVA_OPTS: "-server -Xms256m -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:MaxRAMFraction=1 -XX:+CMSClassUnloadingEnabled -XX:+UseGCOverheadLimit -Djava.awt.headless=true -XshowSettings:vm -Djava.security.egd=file:/dev/./urandom"

@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels: {}
+  name: {{ .Values.appName }}
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.appName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appName }}
+    spec:
+      initContainers:
+      {{- if (pluck "useSpringConfigServer" .Values .Values.global | first) }}
+      - name: wait-for-config-server
+        image: busybox:1.28
+        command: ['sh', '-c', "until wget omar-config-server:8888/omar-config-server/omar-oms.yml; do echo waiting for config server; sleep 2; done"]
+      {{- end }}
+      containers:
+      - name:  {{ .Values.appName }}
+        env:
+        {{- include "omar-oms.envVars" . | nindent 8 }}
+        image: "{{ .Values.global.dockerRepository }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        livenessProbe:
+          failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+          initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+          successThreshold: {{ .Values.livenessProbe.successThreshold }}
+          timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+          tcpSocket:
+            port: {{ .Values.internalPort }}
+        readinessProbe:
+          failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+          initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+          successThreshold: {{ .Values.readinessProbe.successThreshold }}
+          timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+          httpGet:
+            path: {{ .Values.readinessProbe.path }}
+            port: {{ .Values.internalPort }}
+            scheme: HTTP
+        ports:
+        - containerPort: {{ .Values.internalPort }}
+          protocol: TCP
+        resources:
+          limits:
+            cpu: {{ .Values.resources.limits.cpu }}
+            memory: {{ .Values.resources.limits.memory }}
+          requests:
+            cpu: {{ .Values.resources.requests.cpu }}
+            memory: {{ .Values.resources.requests.memory }}
+        terminationMessagePath: /dev/termination-log
+        volumeMounts:
+        - mountPath: /data
+          name: ossim-data
+        {{- include "omar-oms.volumeMounts" . | indent 8 }}
+      dnsPolicy: ClusterFirst
+      {{- if .Values.global.useImagePullSecret }}
+      imagePullSecrets:
+        - name: {{ .Values.appName }}-pull-secret
+      {{- end }}
+      restartPolicy: Always
+      securityContext: {}
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
+      volumes:
+      - name: ossim-data
+        persistentVolumeClaim:
+          claimName: "{{ .Values.appName }}-ossim-data-pvc"
+      {{- include "omar-oms.volumes" . | indent 6 }}
