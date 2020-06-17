@@ -11,3 +11,4 @@ out/
 .settings
 .classpath
 prodDb.mv.db
+bin
