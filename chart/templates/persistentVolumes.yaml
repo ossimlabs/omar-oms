@@ -1,26 +1,27 @@
 {{- if (pluck "createPVs" .Values .Values.global) }}
 
-{{- $dict := ( coalesce .Values.volumes.ossimData .Values.global.volumes.ossimData ) }}
+{{- range $volumeName := .Values.volumeNames }}
+{{- $volumeDict := index $.Values.global.volumes $volumeName }}
 ---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: "{{ .Release.Namespace }}-{{ .Values.appName }}-ossim-data-pv"
+  name: "{{ $.Release.Namespace }}-{{ $.Values.appName }}-{{ $volumeName }}-pv"
 spec:
   capacity:
-    storage: {{ $dict.size }}
+    storage: {{ $volumeDict.size }}
 
-  {{- if (len $dict.accessModes) gt 0 }}
+  {{- if (len $volumeDict.accessModes) gt 0 }}
   accessModes:
-    {{- range $item := $dict.accessModes }}
+    {{- range $item := $volumeDict.accessModes }}
     - {{ $item }}
     {{- end }}
   {{- end }}
 
-  {{- if eq $dict.type "nfs" }}
+  {{- if eq $volumeDict.type "nfs" }}
   nfs:
-    path: {{ $dict.nfsMountPoint }}
-    server: {{ $dict.nfsServer }}
+    path: {{ $volumeDict.nfsMountPoint }}
+    server: {{ $volumeDict.nfsServer }}
   {{- end }}
   persistentVolumeReclaimPolicy: Retain
 
@@ -29,12 +30,12 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: "{{ .Values.appName }}-ossim-data-pvc"
+  name: "{{ $.Values.appName }}-{{ $volumeName }}-pvc"
 spec:
 
-  {{- if (len $dict.accessModes) gt 0 }}
+  {{- if (len $volumeDict.accessModes) gt 0 }}
   accessModes:
-    {{- range $item := $dict.accessModes }}
+    {{- range $item := $volumeDict.accessModes }}
     - {{ $item }}
     {{- end }}
   {{- end }}
@@ -42,7 +43,8 @@ spec:
   storageClassName: ""
   resources:
     requests:
-      storage: {{ $dict.size }}
-  volumeName: "{{ .Release.Namespace }}-{{ .Values.appName }}-ossim-data-pv"
+      storage: {{ $volumeDict.size }}
+  volumeName: "{{ $.Release.Namespace }}-{{ $.Values.appName }}-{{ $volumeName }}-pv"
 
+{{- end }}
 {{- end }}
