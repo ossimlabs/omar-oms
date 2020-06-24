@@ -28,7 +28,7 @@ global:
   useSpringConfigServer: false
 
   volumes:
-    ossimData:
+    ossim-data:
       type: null
       nfsServer: null
       nfsMountPoint: null
