@@ -36,7 +36,8 @@ global:
         - ReadWriteMany
       size: 1
 
-volumeNames: []
+volumeNames:
+  - ossim-data
 
 # These variables can be overridden because of the use of the 'pluck' function:
 # - createIngress
