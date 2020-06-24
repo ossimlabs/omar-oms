@@ -10,6 +10,12 @@
   {{- end }}
 {{- end -}}
 
+
+
+
+
+{{/* Templates for the volumeMounts section */}}
+
 {{- define "omar-oms.volumeMounts.configmaps" -}}
 {{- range $configmap := .Values.configmaps}}
 - name: {{ $configmap.internalName | quote }}
@@ -20,9 +26,27 @@
 {{- end -}}
 {{- end -}}
 
+{{- define "omar-oms.volumeMounts.pvcs" -}}
+{{- range $volumeName := .Values.volumeNames }}
+{{- $volumeDict := index $.Values.global.volumes $volumeName }}
+- name: {{ $volumeName }}
+  mountPath: {{ $volumeDict.mountPath }}
+  {{- if $volumeDict.subPath }}
+  subPath: {{ $volumeDict.subPath | quote }}
+  {{- end }}
+{{- end -}}
+{{- end -}}
+
 {{- define "omar-oms.volumeMounts" -}}
 {{- include "omar-oms.volumeMounts.configmaps" . -}}
+{{- include "omar-oms.volumeMounts.pvcs" . -}}
 {{- end -}}
+
+
+
+
+
+{{/* Templates for the volumes section */}}
 
 {{- define "omar-oms.volumes.configmaps" -}}
 {{- range $configmap := .Values.configmaps}}
@@ -32,6 +56,16 @@
 {{- end -}}
 {{- end -}}
 
+{{- define "omar-oms.volumes.pvcs" -}}
+{{- range $volumeName := .Values.volumeNames }}
+{{- $volumeDict := index $.Values.global.volumes $volumeName }}
+- name: {{ $volumeName }}
+  persistentVolumeClaim:
+    claimName: "{{ $.Values.appName }}-{{ $volumeName }}-pvc"
+{{- end -}}
+{{- end -}}
+
 {{- define "omar-oms.volumes" -}}
 {{- include "omar-oms.volumes.configmaps" . -}}
+{{- include "omar-oms.volumes.pvcs" . -}}
 {{- end -}}
