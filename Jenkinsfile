@@ -84,6 +84,13 @@ podTemplate(
           archiveArtifacts "apps/*/build/libs/*.jar"
         }
       }
+      stage ("Generate Swagger Spec") {
+                          sh """
+                          ./gradlew :omar-oms-plugin:generateSwaggerDocs \
+                              -PossimMavenProxy=${MAVEN_DOWNLOAD_URL}
+                          """
+                          archiveArtifacts "plugins/*/build/swaggerSpec.json"
+                      }
     stage ("Publish Nexus"){
       container('builder'){
           withCredentials([[$class: 'UsernamePasswordMultiBinding',
@@ -98,13 +105,7 @@ podTemplate(
           }
         }
 
-         stage ("Generate Swagger Spec") {
-                    sh """
-                    ./gradlew :omar-oms-plugin:generateSwaggerDocs \
-                        -PossimMavenProxy=${MAVEN_DOWNLOAD_URL}
-                    """
-                    archiveArtifacts "plugins/*/build/swaggerSpec.json"
-                }
+
     }
     stage('Docker build') {
       container('docker') {
