@@ -57,13 +57,15 @@ podTemplate(
           }
           load "common-variables.groovy"
       }
-       stage ("Generate Swagger Spec") {
-                                sh """
-                                ./gradlew :omar-oms-plugin:generateSwaggerDocs \
-                                    -PossimMavenProxy=${MAVEN_DOWNLOAD_URL}
-                                """
-                                 archiveArtifacts "plugins/*/build/swaggerSpec.json"
-                            }
+      stage ("Generate Swagger Spec") {
+        container('builder') {
+            sh """
+                ./gradlew :omar-oms-plugin:generateSwaggerDocs \
+                -PossimMavenProxy=${MAVEN_DOWNLOAD_URL}
+            """
+            archiveArtifacts "plugins/*/build/swaggerSpec.json"
+        }
+      }
 
       stage('SonarQube Analysis') {
           nodejs(nodeJSInstallationName: "${NODEJS_VERSION}") {
