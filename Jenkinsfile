@@ -92,8 +92,8 @@ podTemplate(
         stage ("Run Cypress Test") {
             container('cypress') {
                 sh """
-                npx cypress run \
-                    -PossimMavenProxy=${MAVEN_DOWNLOAD_URL}
+                npm i -g xunit-viewer
+                xunit-viewer -r results -o results/omar-oms-test-results.html
                 """
                 junit 'results/*.xml'
                 archiveArtifacts "results/*.xml"
