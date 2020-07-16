@@ -97,6 +97,8 @@ podTemplate(
                 """
                 junit 'results/*.xml'
                 archiveArtifacts "results/*.xml"
+                archiveArtifacts "results/*.html"
+                s3Upload(file:'results/omar-oms-test-results.html', bucket:'ossimlabs', path:'cypressTests/')
             }
         }
 
