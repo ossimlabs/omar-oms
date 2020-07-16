@@ -30,6 +30,13 @@ podTemplate(
       name: 'helm',
       command: 'cat',
       ttyEnabled: true
+    ),
+    containerTemplate(
+      name: 'cypress',
+      image: "${DOCKER_REGISTRY_DOWNLOAD_URL}/omar-cypress:12.14.1",
+      ttyEnabled: true,
+      command: 'cat',
+      privileged: true
     )
   ],
   volumes: [
