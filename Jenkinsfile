@@ -84,7 +84,7 @@ podTemplate(
         stage ("Generate Swagger Spec") {
           container('builder') {
                 sh """
-                ./gradlew :omar-wfs-plugin:generateSwaggerDocs \
+                ./gradlew :omar-oms-plugin:generateSwaggerDocs \
                     -PossimMavenProxy=${MAVEN_DOWNLOAD_URL}
                 """
                 archiveArtifacts "plugins/*/build/swaggerSpec.json"
