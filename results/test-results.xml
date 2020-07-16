@@ -1,0 +1,783 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="0" tests="8" failures="8">
+  <testsuite name="Root Suite" timestamp="2020-07-15T20:33:40" tests="0" file="cypress/integration/APITesting.js" failures="0" time="0">
+  </testsuite>
+  <testsuite name="Automated tests for the omar-oms methods" timestamp="2020-07-15T20:33:40" tests="8" failures="8" time="0">
+    <testcase name="Automated tests for the omar-oms methods Should test 200 code for psm default values" time="0" classname="Should test 200 code for psm default values">
+      <failure message="`cy.request()` failed on:
+
+https://omar.ossim.io/omar-oms/chipper/psm
+
+The response we received from your web server was:
+
+  &gt; 400: Bad Request
+
+This was considered a failure because the status code was not `2xx` or `3xx`.
+
+If you do not want status codes to cause failures pass the option: `failOnStatusCode: false`
+
+-----------------------------------------------------------
+
+The request we sent was:
+
+Method: GET
+URL: https://omar.ossim.io/omar-oms/chipper/psm
+Headers: {
+  &quot;Connection&quot;: &quot;keep-alive&quot;,
+  &quot;user-agent&quot;: &quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Cypress/4.10.0 Chrome/80.0.3987.165 Electron/8.3.1 Safari/537.36&quot;,
+  &quot;accept&quot;: &quot;*/*&quot;,
+  &quot;accept-encoding&quot;: &quot;gzip, deflate&quot;
+}
+
+-----------------------------------------------------------
+
+The response we got was:
+
+Status: 400 - Bad Request
+Headers: {
+  &quot;server&quot;: &quot;nginx/1.17.10&quot;,
+  &quot;date&quot;: &quot;Wed, 15 Jul 2020 20:33:41 GMT&quot;,
+  &quot;content-type&quot;: &quot;text/plain&quot;,
+  &quot;content-length&quot;: &quot;62&quot;,
+  &quot;connection&quot;: &quot;keep-alive&quot;,
+  &quot;strict-transport-security&quot;: &quot;max-age=15724800; includeSubDomains&quot;
+}
+Body: Parameter values are invalid. Please check the paramter format
+
+
+https://on.cypress.io/request" type="CypressError"><![CDATA[CypressError: `cy.request()` failed on:
+
+https://omar.ossim.io/omar-oms/chipper/psm
+
+The response we received from your web server was:
+
+  > 400: Bad Request
+
+This was considered a failure because the status code was not `2xx` or `3xx`.
+
+If you do not want status codes to cause failures pass the option: `failOnStatusCode: false`
+
+-----------------------------------------------------------
+
+The request we sent was:
+
+Method: GET
+URL: https://omar.ossim.io/omar-oms/chipper/psm
+Headers: {
+  "Connection": "keep-alive",
+  "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Cypress/4.10.0 Chrome/80.0.3987.165 Electron/8.3.1 Safari/537.36",
+  "accept": "*/*",
+  "accept-encoding": "gzip, deflate"
+}
+
+-----------------------------------------------------------
+
+The response we got was:
+
+Status: 400 - Bad Request
+Headers: {
+  "server": "nginx/1.17.10",
+  "date": "Wed, 15 Jul 2020 20:33:41 GMT",
+  "content-type": "text/plain",
+  "content-length": "62",
+  "connection": "keep-alive",
+  "strict-transport-security": "max-age=15724800; includeSubDomains"
+}
+Body: Parameter values are invalid. Please check the paramter format
+
+
+https://on.cypress.io/request
+    at https://omar.ossim.io/__cypress/runner/cypress_runner.js:157527:21
+    at tryCatcher (https://omar.ossim.io/__cypress/runner/cypress_runner.js:10130:23)
+    at Promise._settlePromiseFromHandler (https://omar.ossim.io/__cypress/runner/cypress_runner.js:8065:31)
+    at Promise._settlePromise (https://omar.ossim.io/__cypress/runner/cypress_runner.js:8122:18)
+    at Promise._settlePromise0 (https://omar.ossim.io/__cypress/runner/cypress_runner.js:8167:10)
+    at Promise._settlePromises (https://omar.ossim.io/__cypress/runner/cypress_runner.js:8247:18)
+    at _drainQueueStep (https://omar.ossim.io/__cypress/runner/cypress_runner.js:4837:12)
+    at _drainQueue (https://omar.ossim.io/__cypress/runner/cypress_runner.js:4830:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://omar.ossim.io/__cypress/runner/cypress_runner.js:4846:5)
+    at Async.drainQueues (https://omar.ossim.io/__cypress/runner/cypress_runner.js:4716:14)
+From Your Spec Code:
+    at Context.eval (https://omar.ossim.io/__cypress/tests?p=cypress/integration/APITesting.js:22:12)]]></failure>
+    </testcase>
+    <testcase name="Automated tests for the omar-oms methods Should test response header for psm" time="0" classname="Should test response header for psm">
+      <failure message="`cy.request()` failed on:
+
+https://omar.ossim.io/omar-oms/chipper/psm
+
+The response we received from your web server was:
+
+  &gt; 400: Bad Request
+
+This was considered a failure because the status code was not `2xx` or `3xx`.
+
+If you do not want status codes to cause failures pass the option: `failOnStatusCode: false`
+
+-----------------------------------------------------------
+
+The request we sent was:
+
+Method: GET
+URL: https://omar.ossim.io/omar-oms/chipper/psm
+Headers: {
+  &quot;Connection&quot;: &quot;keep-alive&quot;,
+  &quot;user-agent&quot;: &quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Cypress/4.10.0 Chrome/80.0.3987.165 Electron/8.3.1 Safari/537.36&quot;,
+  &quot;accept&quot;: &quot;*/*&quot;,
+  &quot;accept-encoding&quot;: &quot;gzip, deflate&quot;
+}
+
+-----------------------------------------------------------
+
+The response we got was:
+
+Status: 400 - Bad Request
+Headers: {
+  &quot;server&quot;: &quot;nginx/1.17.10&quot;,
+  &quot;date&quot;: &quot;Wed, 15 Jul 2020 20:33:41 GMT&quot;,
+  &quot;content-type&quot;: &quot;text/plain&quot;,
+  &quot;content-length&quot;: &quot;62&quot;,
+  &quot;connection&quot;: &quot;keep-alive&quot;,
+  &quot;strict-transport-security&quot;: &quot;max-age=15724800; includeSubDomains&quot;
+}
+Body: Parameter values are invalid. Please check the paramter format
+
+
+https://on.cypress.io/request" type="CypressError"><![CDATA[CypressError: `cy.request()` failed on:
+
+https://omar.ossim.io/omar-oms/chipper/psm
+
+The response we received from your web server was:
+
+  > 400: Bad Request
+
+This was considered a failure because the status code was not `2xx` or `3xx`.
+
+If you do not want status codes to cause failures pass the option: `failOnStatusCode: false`
+
+-----------------------------------------------------------
+
+The request we sent was:
+
+Method: GET
+URL: https://omar.ossim.io/omar-oms/chipper/psm
+Headers: {
+  "Connection": "keep-alive",
+  "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Cypress/4.10.0 Chrome/80.0.3987.165 Electron/8.3.1 Safari/537.36",
+  "accept": "*/*",
+  "accept-encoding": "gzip, deflate"
+}
+
+-----------------------------------------------------------
+
+The response we got was:
+
+Status: 400 - Bad Request
+Headers: {
+  "server": "nginx/1.17.10",
+  "date": "Wed, 15 Jul 2020 20:33:41 GMT",
+  "content-type": "text/plain",
+  "content-length": "62",
+  "connection": "keep-alive",
+  "strict-transport-security": "max-age=15724800; includeSubDomains"
+}
+Body: Parameter values are invalid. Please check the paramter format
+
+
+https://on.cypress.io/request
+    at https://omar.ossim.io/__cypress/runner/cypress_runner.js:157527:21
+    at tryCatcher (https://omar.ossim.io/__cypress/runner/cypress_runner.js:10130:23)
+    at Promise._settlePromiseFromHandler (https://omar.ossim.io/__cypress/runner/cypress_runner.js:8065:31)
+    at Promise._settlePromise (https://omar.ossim.io/__cypress/runner/cypress_runner.js:8122:18)
+    at Promise._settlePromise0 (https://omar.ossim.io/__cypress/runner/cypress_runner.js:8167:10)
+    at Promise._settlePromises (https://omar.ossim.io/__cypress/runner/cypress_runner.js:8247:18)
+    at _drainQueueStep (https://omar.ossim.io/__cypress/runner/cypress_runner.js:4837:12)
+    at _drainQueue (https://omar.ossim.io/__cypress/runner/cypress_runner.js:4830:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://omar.ossim.io/__cypress/runner/cypress_runner.js:4846:5)
+    at Async.drainQueues (https://omar.ossim.io/__cypress/runner/cypress_runner.js:4716:14)
+From Your Spec Code:
+    at Context.eval (https://omar.ossim.io/__cypress/tests?p=cypress/integration/APITesting.js:27:12)]]></failure>
+    </testcase>
+    <testcase name="Automated tests for the omar-oms methods Should test 200 code for ortho default values" time="0" classname="Should test 200 code for ortho default values">
+      <failure message="`cy.request()` failed on:
+
+https://omar.ossim.io/omar-oms/chipper/ortho
+
+The response we received from your web server was:
+
+  &gt; 400: Bad Request
+
+This was considered a failure because the status code was not `2xx` or `3xx`.
+
+If you do not want status codes to cause failures pass the option: `failOnStatusCode: false`
+
+-----------------------------------------------------------
+
+The request we sent was:
+
+Method: GET
+URL: https://omar.ossim.io/omar-oms/chipper/ortho
+Headers: {
+  &quot;Connection&quot;: &quot;keep-alive&quot;,
+  &quot;user-agent&quot;: &quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Cypress/4.10.0 Chrome/80.0.3987.165 Electron/8.3.1 Safari/537.36&quot;,
+  &quot;accept&quot;: &quot;*/*&quot;,
+  &quot;accept-encoding&quot;: &quot;gzip, deflate&quot;
+}
+
+-----------------------------------------------------------
+
+The response we got was:
+
+Status: 400 - Bad Request
+Headers: {
+  &quot;server&quot;: &quot;nginx/1.17.10&quot;,
+  &quot;date&quot;: &quot;Wed, 15 Jul 2020 20:33:42 GMT&quot;,
+  &quot;content-type&quot;: &quot;text/plain&quot;,
+  &quot;content-length&quot;: &quot;62&quot;,
+  &quot;connection&quot;: &quot;keep-alive&quot;,
+  &quot;strict-transport-security&quot;: &quot;max-age=15724800; includeSubDomains&quot;
+}
+Body: Parameter values are invalid. Please check the paramter format
+
+
+https://on.cypress.io/request" type="CypressError"><![CDATA[CypressError: `cy.request()` failed on:
+
+https://omar.ossim.io/omar-oms/chipper/ortho
+
+The response we received from your web server was:
+
+  > 400: Bad Request
+
+This was considered a failure because the status code was not `2xx` or `3xx`.
+
+If you do not want status codes to cause failures pass the option: `failOnStatusCode: false`
+
+-----------------------------------------------------------
+
+The request we sent was:
+
+Method: GET
+URL: https://omar.ossim.io/omar-oms/chipper/ortho
+Headers: {
+  "Connection": "keep-alive",
+  "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Cypress/4.10.0 Chrome/80.0.3987.165 Electron/8.3.1 Safari/537.36",
+  "accept": "*/*",
+  "accept-encoding": "gzip, deflate"
+}
+
+-----------------------------------------------------------
+
+The response we got was:
+
+Status: 400 - Bad Request
+Headers: {
+  "server": "nginx/1.17.10",
+  "date": "Wed, 15 Jul 2020 20:33:42 GMT",
+  "content-type": "text/plain",
+  "content-length": "62",
+  "connection": "keep-alive",
+  "strict-transport-security": "max-age=15724800; includeSubDomains"
+}
+Body: Parameter values are invalid. Please check the paramter format
+
+
+https://on.cypress.io/request
+    at https://omar.ossim.io/__cypress/runner/cypress_runner.js:157527:21
+    at tryCatcher (https://omar.ossim.io/__cypress/runner/cypress_runner.js:10130:23)
+    at Promise._settlePromiseFromHandler (https://omar.ossim.io/__cypress/runner/cypress_runner.js:8065:31)
+    at Promise._settlePromise (https://omar.ossim.io/__cypress/runner/cypress_runner.js:8122:18)
+    at Promise._settlePromise0 (https://omar.ossim.io/__cypress/runner/cypress_runner.js:8167:10)
+    at Promise._settlePromises (https://omar.ossim.io/__cypress/runner/cypress_runner.js:8247:18)
+    at _drainQueueStep (https://omar.ossim.io/__cypress/runner/cypress_runner.js:4837:12)
+    at _drainQueue (https://omar.ossim.io/__cypress/runner/cypress_runner.js:4830:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://omar.ossim.io/__cypress/runner/cypress_runner.js:4846:5)
+    at Async.drainQueues (https://omar.ossim.io/__cypress/runner/cypress_runner.js:4716:14)
+From Your Spec Code:
+    at Context.eval (https://omar.ossim.io/__cypress/tests?p=cypress/integration/APITesting.js:22:12)]]></failure>
+    </testcase>
+    <testcase name="Automated tests for the omar-oms methods Should test response header for ortho" time="0" classname="Should test response header for ortho">
+      <failure message="`cy.request()` failed on:
+
+https://omar.ossim.io/omar-oms/chipper/ortho
+
+The response we received from your web server was:
+
+  &gt; 400: Bad Request
+
+This was considered a failure because the status code was not `2xx` or `3xx`.
+
+If you do not want status codes to cause failures pass the option: `failOnStatusCode: false`
+
+-----------------------------------------------------------
+
+The request we sent was:
+
+Method: GET
+URL: https://omar.ossim.io/omar-oms/chipper/ortho
+Headers: {
+  &quot;Connection&quot;: &quot;keep-alive&quot;,
+  &quot;user-agent&quot;: &quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Cypress/4.10.0 Chrome/80.0.3987.165 Electron/8.3.1 Safari/537.36&quot;,
+  &quot;accept&quot;: &quot;*/*&quot;,
+  &quot;accept-encoding&quot;: &quot;gzip, deflate&quot;
+}
+
+-----------------------------------------------------------
+
+The response we got was:
+
+Status: 400 - Bad Request
+Headers: {
+  &quot;server&quot;: &quot;nginx/1.17.10&quot;,
+  &quot;date&quot;: &quot;Wed, 15 Jul 2020 20:33:42 GMT&quot;,
+  &quot;content-type&quot;: &quot;text/plain&quot;,
+  &quot;content-length&quot;: &quot;62&quot;,
+  &quot;connection&quot;: &quot;keep-alive&quot;,
+  &quot;strict-transport-security&quot;: &quot;max-age=15724800; includeSubDomains&quot;
+}
+Body: Parameter values are invalid. Please check the paramter format
+
+
+https://on.cypress.io/request" type="CypressError"><![CDATA[CypressError: `cy.request()` failed on:
+
+https://omar.ossim.io/omar-oms/chipper/ortho
+
+The response we received from your web server was:
+
+  > 400: Bad Request
+
+This was considered a failure because the status code was not `2xx` or `3xx`.
+
+If you do not want status codes to cause failures pass the option: `failOnStatusCode: false`
+
+-----------------------------------------------------------
+
+The request we sent was:
+
+Method: GET
+URL: https://omar.ossim.io/omar-oms/chipper/ortho
+Headers: {
+  "Connection": "keep-alive",
+  "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Cypress/4.10.0 Chrome/80.0.3987.165 Electron/8.3.1 Safari/537.36",
+  "accept": "*/*",
+  "accept-encoding": "gzip, deflate"
+}
+
+-----------------------------------------------------------
+
+The response we got was:
+
+Status: 400 - Bad Request
+Headers: {
+  "server": "nginx/1.17.10",
+  "date": "Wed, 15 Jul 2020 20:33:42 GMT",
+  "content-type": "text/plain",
+  "content-length": "62",
+  "connection": "keep-alive",
+  "strict-transport-security": "max-age=15724800; includeSubDomains"
+}
+Body: Parameter values are invalid. Please check the paramter format
+
+
+https://on.cypress.io/request
+    at https://omar.ossim.io/__cypress/runner/cypress_runner.js:157527:21
+    at tryCatcher (https://omar.ossim.io/__cypress/runner/cypress_runner.js:10130:23)
+    at Promise._settlePromiseFromHandler (https://omar.ossim.io/__cypress/runner/cypress_runner.js:8065:31)
+    at Promise._settlePromise (https://omar.ossim.io/__cypress/runner/cypress_runner.js:8122:18)
+    at Promise._settlePromise0 (https://omar.ossim.io/__cypress/runner/cypress_runner.js:8167:10)
+    at Promise._settlePromises (https://omar.ossim.io/__cypress/runner/cypress_runner.js:8247:18)
+    at _drainQueueStep (https://omar.ossim.io/__cypress/runner/cypress_runner.js:4837:12)
+    at _drainQueue (https://omar.ossim.io/__cypress/runner/cypress_runner.js:4830:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://omar.ossim.io/__cypress/runner/cypress_runner.js:4846:5)
+    at Async.drainQueues (https://omar.ossim.io/__cypress/runner/cypress_runner.js:4716:14)
+From Your Spec Code:
+    at Context.eval (https://omar.ossim.io/__cypress/tests?p=cypress/integration/APITesting.js:27:12)]]></failure>
+    </testcase>
+    <testcase name="Automated tests for the omar-oms methods Should test 200 code for chip default values" time="0" classname="Should test 200 code for chip default values">
+      <failure message="`cy.request()` failed on:
+
+https://omar.ossim.io/omar-oms/chipper/chip
+
+The response we received from your web server was:
+
+  &gt; 400: Bad Request
+
+This was considered a failure because the status code was not `2xx` or `3xx`.
+
+If you do not want status codes to cause failures pass the option: `failOnStatusCode: false`
+
+-----------------------------------------------------------
+
+The request we sent was:
+
+Method: GET
+URL: https://omar.ossim.io/omar-oms/chipper/chip
+Headers: {
+  &quot;Connection&quot;: &quot;keep-alive&quot;,
+  &quot;user-agent&quot;: &quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Cypress/4.10.0 Chrome/80.0.3987.165 Electron/8.3.1 Safari/537.36&quot;,
+  &quot;accept&quot;: &quot;*/*&quot;,
+  &quot;accept-encoding&quot;: &quot;gzip, deflate&quot;
+}
+
+-----------------------------------------------------------
+
+The response we got was:
+
+Status: 400 - Bad Request
+Headers: {
+  &quot;server&quot;: &quot;nginx/1.17.10&quot;,
+  &quot;date&quot;: &quot;Wed, 15 Jul 2020 20:33:43 GMT&quot;,
+  &quot;content-type&quot;: &quot;text/plain&quot;,
+  &quot;content-length&quot;: &quot;62&quot;,
+  &quot;connection&quot;: &quot;keep-alive&quot;,
+  &quot;strict-transport-security&quot;: &quot;max-age=15724800; includeSubDomains&quot;
+}
+Body: Parameter values are invalid. Please check the paramter format
+
+
+https://on.cypress.io/request" type="CypressError"><![CDATA[CypressError: `cy.request()` failed on:
+
+https://omar.ossim.io/omar-oms/chipper/chip
+
+The response we received from your web server was:
+
+  > 400: Bad Request
+
+This was considered a failure because the status code was not `2xx` or `3xx`.
+
+If you do not want status codes to cause failures pass the option: `failOnStatusCode: false`
+
+-----------------------------------------------------------
+
+The request we sent was:
+
+Method: GET
+URL: https://omar.ossim.io/omar-oms/chipper/chip
+Headers: {
+  "Connection": "keep-alive",
+  "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Cypress/4.10.0 Chrome/80.0.3987.165 Electron/8.3.1 Safari/537.36",
+  "accept": "*/*",
+  "accept-encoding": "gzip, deflate"
+}
+
+-----------------------------------------------------------
+
+The response we got was:
+
+Status: 400 - Bad Request
+Headers: {
+  "server": "nginx/1.17.10",
+  "date": "Wed, 15 Jul 2020 20:33:43 GMT",
+  "content-type": "text/plain",
+  "content-length": "62",
+  "connection": "keep-alive",
+  "strict-transport-security": "max-age=15724800; includeSubDomains"
+}
+Body: Parameter values are invalid. Please check the paramter format
+
+
+https://on.cypress.io/request
+    at https://omar.ossim.io/__cypress/runner/cypress_runner.js:157527:21
+    at tryCatcher (https://omar.ossim.io/__cypress/runner/cypress_runner.js:10130:23)
+    at Promise._settlePromiseFromHandler (https://omar.ossim.io/__cypress/runner/cypress_runner.js:8065:31)
+    at Promise._settlePromise (https://omar.ossim.io/__cypress/runner/cypress_runner.js:8122:18)
+    at Promise._settlePromise0 (https://omar.ossim.io/__cypress/runner/cypress_runner.js:8167:10)
+    at Promise._settlePromises (https://omar.ossim.io/__cypress/runner/cypress_runner.js:8247:18)
+    at _drainQueueStep (https://omar.ossim.io/__cypress/runner/cypress_runner.js:4837:12)
+    at _drainQueue (https://omar.ossim.io/__cypress/runner/cypress_runner.js:4830:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://omar.ossim.io/__cypress/runner/cypress_runner.js:4846:5)
+    at Async.drainQueues (https://omar.ossim.io/__cypress/runner/cypress_runner.js:4716:14)
+From Your Spec Code:
+    at Context.eval (https://omar.ossim.io/__cypress/tests?p=cypress/integration/APITesting.js:22:12)]]></failure>
+    </testcase>
+    <testcase name="Automated tests for the omar-oms methods Should test response header for chip" time="0" classname="Should test response header for chip">
+      <failure message="`cy.request()` failed on:
+
+https://omar.ossim.io/omar-oms/chipper/chip
+
+The response we received from your web server was:
+
+  &gt; 400: Bad Request
+
+This was considered a failure because the status code was not `2xx` or `3xx`.
+
+If you do not want status codes to cause failures pass the option: `failOnStatusCode: false`
+
+-----------------------------------------------------------
+
+The request we sent was:
+
+Method: GET
+URL: https://omar.ossim.io/omar-oms/chipper/chip
+Headers: {
+  &quot;Connection&quot;: &quot;keep-alive&quot;,
+  &quot;user-agent&quot;: &quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Cypress/4.10.0 Chrome/80.0.3987.165 Electron/8.3.1 Safari/537.36&quot;,
+  &quot;accept&quot;: &quot;*/*&quot;,
+  &quot;accept-encoding&quot;: &quot;gzip, deflate&quot;
+}
+
+-----------------------------------------------------------
+
+The response we got was:
+
+Status: 400 - Bad Request
+Headers: {
+  &quot;server&quot;: &quot;nginx/1.17.10&quot;,
+  &quot;date&quot;: &quot;Wed, 15 Jul 2020 20:33:43 GMT&quot;,
+  &quot;content-type&quot;: &quot;text/plain&quot;,
+  &quot;content-length&quot;: &quot;62&quot;,
+  &quot;connection&quot;: &quot;keep-alive&quot;,
+  &quot;strict-transport-security&quot;: &quot;max-age=15724800; includeSubDomains&quot;
+}
+Body: Parameter values are invalid. Please check the paramter format
+
+
+https://on.cypress.io/request" type="CypressError"><![CDATA[CypressError: `cy.request()` failed on:
+
+https://omar.ossim.io/omar-oms/chipper/chip
+
+The response we received from your web server was:
+
+  > 400: Bad Request
+
+This was considered a failure because the status code was not `2xx` or `3xx`.
+
+If you do not want status codes to cause failures pass the option: `failOnStatusCode: false`
+
+-----------------------------------------------------------
+
+The request we sent was:
+
+Method: GET
+URL: https://omar.ossim.io/omar-oms/chipper/chip
+Headers: {
+  "Connection": "keep-alive",
+  "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Cypress/4.10.0 Chrome/80.0.3987.165 Electron/8.3.1 Safari/537.36",
+  "accept": "*/*",
+  "accept-encoding": "gzip, deflate"
+}
+
+-----------------------------------------------------------
+
+The response we got was:
+
+Status: 400 - Bad Request
+Headers: {
+  "server": "nginx/1.17.10",
+  "date": "Wed, 15 Jul 2020 20:33:43 GMT",
+  "content-type": "text/plain",
+  "content-length": "62",
+  "connection": "keep-alive",
+  "strict-transport-security": "max-age=15724800; includeSubDomains"
+}
+Body: Parameter values are invalid. Please check the paramter format
+
+
+https://on.cypress.io/request
+    at https://omar.ossim.io/__cypress/runner/cypress_runner.js:157527:21
+    at tryCatcher (https://omar.ossim.io/__cypress/runner/cypress_runner.js:10130:23)
+    at Promise._settlePromiseFromHandler (https://omar.ossim.io/__cypress/runner/cypress_runner.js:8065:31)
+    at Promise._settlePromise (https://omar.ossim.io/__cypress/runner/cypress_runner.js:8122:18)
+    at Promise._settlePromise0 (https://omar.ossim.io/__cypress/runner/cypress_runner.js:8167:10)
+    at Promise._settlePromises (https://omar.ossim.io/__cypress/runner/cypress_runner.js:8247:18)
+    at _drainQueueStep (https://omar.ossim.io/__cypress/runner/cypress_runner.js:4837:12)
+    at _drainQueue (https://omar.ossim.io/__cypress/runner/cypress_runner.js:4830:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://omar.ossim.io/__cypress/runner/cypress_runner.js:4846:5)
+    at Async.drainQueues (https://omar.ossim.io/__cypress/runner/cypress_runner.js:4716:14)
+From Your Spec Code:
+    at Context.eval (https://omar.ossim.io/__cypress/tests?p=cypress/integration/APITesting.js:27:12)]]></failure>
+    </testcase>
+    <testcase name="Automated tests for the omar-oms methods Should test 200 code for getInfo default values" time="0" classname="Should test 200 code for getInfo default values">
+      <failure message="`cy.request()` failed on:
+
+https://omar.ossim.io/omar-oms/dataInfo/getInfo
+
+The response we received from your web server was:
+
+  &gt; 400: Bad Request
+
+This was considered a failure because the status code was not `2xx` or `3xx`.
+
+If you do not want status codes to cause failures pass the option: `failOnStatusCode: false`
+
+-----------------------------------------------------------
+
+The request we sent was:
+
+Method: GET
+URL: https://omar.ossim.io/omar-oms/dataInfo/getInfo
+Headers: {
+  &quot;Connection&quot;: &quot;keep-alive&quot;,
+  &quot;user-agent&quot;: &quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Cypress/4.10.0 Chrome/80.0.3987.165 Electron/8.3.1 Safari/537.36&quot;,
+  &quot;accept&quot;: &quot;*/*&quot;,
+  &quot;accept-encoding&quot;: &quot;gzip, deflate&quot;
+}
+
+-----------------------------------------------------------
+
+The response we got was:
+
+Status: 400 - Bad Request
+Headers: {
+  &quot;server&quot;: &quot;nginx/1.17.10&quot;,
+  &quot;date&quot;: &quot;Wed, 15 Jul 2020 20:33:44 GMT&quot;,
+  &quot;content-type&quot;: &quot;text/plain;charset=utf-8&quot;,
+  &quot;transfer-encoding&quot;: &quot;chunked&quot;,
+  &quot;connection&quot;: &quot;keep-alive&quot;,
+  &quot;strict-transport-security&quot;: &quot;max-age=15724800; includeSubDomains&quot;
+}
+Body: Unable to get information for null
+
+
+https://on.cypress.io/request" type="CypressError"><![CDATA[CypressError: `cy.request()` failed on:
+
+https://omar.ossim.io/omar-oms/dataInfo/getInfo
+
+The response we received from your web server was:
+
+  > 400: Bad Request
+
+This was considered a failure because the status code was not `2xx` or `3xx`.
+
+If you do not want status codes to cause failures pass the option: `failOnStatusCode: false`
+
+-----------------------------------------------------------
+
+The request we sent was:
+
+Method: GET
+URL: https://omar.ossim.io/omar-oms/dataInfo/getInfo
+Headers: {
+  "Connection": "keep-alive",
+  "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Cypress/4.10.0 Chrome/80.0.3987.165 Electron/8.3.1 Safari/537.36",
+  "accept": "*/*",
+  "accept-encoding": "gzip, deflate"
+}
+
+-----------------------------------------------------------
+
+The response we got was:
+
+Status: 400 - Bad Request
+Headers: {
+  "server": "nginx/1.17.10",
+  "date": "Wed, 15 Jul 2020 20:33:44 GMT",
+  "content-type": "text/plain;charset=utf-8",
+  "transfer-encoding": "chunked",
+  "connection": "keep-alive",
+  "strict-transport-security": "max-age=15724800; includeSubDomains"
+}
+Body: Unable to get information for null
+
+
+https://on.cypress.io/request
+    at https://omar.ossim.io/__cypress/runner/cypress_runner.js:157527:21
+    at tryCatcher (https://omar.ossim.io/__cypress/runner/cypress_runner.js:10130:23)
+    at Promise._settlePromiseFromHandler (https://omar.ossim.io/__cypress/runner/cypress_runner.js:8065:31)
+    at Promise._settlePromise (https://omar.ossim.io/__cypress/runner/cypress_runner.js:8122:18)
+    at Promise._settlePromise0 (https://omar.ossim.io/__cypress/runner/cypress_runner.js:8167:10)
+    at Promise._settlePromises (https://omar.ossim.io/__cypress/runner/cypress_runner.js:8247:18)
+    at _drainQueueStep (https://omar.ossim.io/__cypress/runner/cypress_runner.js:4837:12)
+    at _drainQueue (https://omar.ossim.io/__cypress/runner/cypress_runner.js:4830:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://omar.ossim.io/__cypress/runner/cypress_runner.js:4846:5)
+    at Async.drainQueues (https://omar.ossim.io/__cypress/runner/cypress_runner.js:4716:14)
+From Your Spec Code:
+    at Context.eval (https://omar.ossim.io/__cypress/tests?p=cypress/integration/APITesting.js:22:12)]]></failure>
+    </testcase>
+    <testcase name="Automated tests for the omar-oms methods Should test response header for getInfo" time="0" classname="Should test response header for getInfo">
+      <failure message="`cy.request()` failed on:
+
+https://omar.ossim.io/omar-oms/dataInfo/getInfo
+
+The response we received from your web server was:
+
+  &gt; 400: Bad Request
+
+This was considered a failure because the status code was not `2xx` or `3xx`.
+
+If you do not want status codes to cause failures pass the option: `failOnStatusCode: false`
+
+-----------------------------------------------------------
+
+The request we sent was:
+
+Method: GET
+URL: https://omar.ossim.io/omar-oms/dataInfo/getInfo
+Headers: {
+  &quot;Connection&quot;: &quot;keep-alive&quot;,
+  &quot;user-agent&quot;: &quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Cypress/4.10.0 Chrome/80.0.3987.165 Electron/8.3.1 Safari/537.36&quot;,
+  &quot;accept&quot;: &quot;*/*&quot;,
+  &quot;accept-encoding&quot;: &quot;gzip, deflate&quot;
+}
+
+-----------------------------------------------------------
+
+The response we got was:
+
+Status: 400 - Bad Request
+Headers: {
+  &quot;server&quot;: &quot;nginx/1.17.10&quot;,
+  &quot;date&quot;: &quot;Wed, 15 Jul 2020 20:33:44 GMT&quot;,
+  &quot;content-type&quot;: &quot;text/plain;charset=utf-8&quot;,
+  &quot;transfer-encoding&quot;: &quot;chunked&quot;,
+  &quot;connection&quot;: &quot;keep-alive&quot;,
+  &quot;strict-transport-security&quot;: &quot;max-age=15724800; includeSubDomains&quot;
+}
+Body: Unable to get information for null
+
+
+https://on.cypress.io/request" type="CypressError"><![CDATA[CypressError: `cy.request()` failed on:
+
+https://omar.ossim.io/omar-oms/dataInfo/getInfo
+
+The response we received from your web server was:
+
+  > 400: Bad Request
+
+This was considered a failure because the status code was not `2xx` or `3xx`.
+
+If you do not want status codes to cause failures pass the option: `failOnStatusCode: false`
+
+-----------------------------------------------------------
+
+The request we sent was:
+
+Method: GET
+URL: https://omar.ossim.io/omar-oms/dataInfo/getInfo
+Headers: {
+  "Connection": "keep-alive",
+  "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Cypress/4.10.0 Chrome/80.0.3987.165 Electron/8.3.1 Safari/537.36",
+  "accept": "*/*",
+  "accept-encoding": "gzip, deflate"
+}
+
+-----------------------------------------------------------
+
+The response we got was:
+
+Status: 400 - Bad Request
+Headers: {
+  "server": "nginx/1.17.10",
+  "date": "Wed, 15 Jul 2020 20:33:44 GMT",
+  "content-type": "text/plain;charset=utf-8",
+  "transfer-encoding": "chunked",
+  "connection": "keep-alive",
+  "strict-transport-security": "max-age=15724800; includeSubDomains"
+}
+Body: Unable to get information for null
+
+
+https://on.cypress.io/request
+    at https://omar.ossim.io/__cypress/runner/cypress_runner.js:157527:21
+    at tryCatcher (https://omar.ossim.io/__cypress/runner/cypress_runner.js:10130:23)
+    at Promise._settlePromiseFromHandler (https://omar.ossim.io/__cypress/runner/cypress_runner.js:8065:31)
+    at Promise._settlePromise (https://omar.ossim.io/__cypress/runner/cypress_runner.js:8122:18)
+    at Promise._settlePromise0 (https://omar.ossim.io/__cypress/runner/cypress_runner.js:8167:10)
+    at Promise._settlePromises (https://omar.ossim.io/__cypress/runner/cypress_runner.js:8247:18)
+    at _drainQueueStep (https://omar.ossim.io/__cypress/runner/cypress_runner.js:4837:12)
+    at _drainQueue (https://omar.ossim.io/__cypress/runner/cypress_runner.js:4830:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://omar.ossim.io/__cypress/runner/cypress_runner.js:4846:5)
+    at Async.drainQueues (https://omar.ossim.io/__cypress/runner/cypress_runner.js:4716:14)
+From Your Spec Code:
+    at Context.eval (https://omar.ossim.io/__cypress/tests?p=cypress/integration/APITesting.js:27:12)]]></failure>
+    </testcase>
+  </testsuite>
+</testsuites>
