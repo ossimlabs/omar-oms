@@ -81,6 +81,27 @@ podTemplate(
           }
       }
 
+        stage ("Generate Swagger Spec") {
+          container('builder') {
+                sh """
+                ./gradlew :omar-wfs-plugin:generateSwaggerDocs \
+                    -PossimMavenProxy=${MAVEN_DOWNLOAD_URL}
+                """
+                archiveArtifacts "plugins/*/build/swaggerSpec.json"
+            }
+          }
+
+        stage ("Run Cypress Test") {
+            container('cypress') {
+                sh """
+                npx cypress run \
+                    -PossimMavenProxy=${MAVEN_DOWNLOAD_URL}
+                """
+                junit 'results/*.xml'
+                archiveArtifacts "results/*.xml"
+            }
+        }
+
       stage('Build') {
         container('builder') {
           sh """
