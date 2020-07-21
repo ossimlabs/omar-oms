@@ -86,6 +86,7 @@ podTemplate(
             container('builder') {
                 sh """
                 npm install cypress
+                apt-get install xvfb
                 npx cypress run
                 npm i -g xunit-viewer
                 xunit-viewer -r results -o results/omar-oms-test-results.html
