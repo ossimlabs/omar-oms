@@ -30,6 +30,13 @@ podTemplate(
       name: 'helm',
       command: 'cat',
       ttyEnabled: true
+    ),
+    containerTemplate(
+      name: 'cypress',
+      image: "${DOCKER_REGISTRY_DOWNLOAD_URL}/omar-cypress:12.14.1",
+      ttyEnabled: true,
+      command: 'cat',
+      privileged: true
     )
   ],
   volumes: [
@@ -57,15 +64,6 @@ podTemplate(
           }
           load "common-variables.groovy"
       }
-      stage ("Generate Swagger Spec") {
-        container('builder') {
-            sh """
-                ./gradlew :omar-oms-plugin:generateSwaggerDocs \
-                -PossimMavenProxy=${MAVEN_DOWNLOAD_URL}
-            """
-            archiveArtifacts "plugins/*/build/swaggerSpec.json"
-        }
-      }
 
       stage('SonarQube Analysis') {
           nodejs(nodeJSInstallationName: "${NODEJS_VERSION}") {
@@ -80,6 +78,29 @@ podTemplate(
               }
           }
       }
+
+        stage ("Generate Swagger Spec") {
+          container('builder') {
+                sh """
+                ./gradlew :omar-oms-plugin:generateSwaggerDocs \
+                    -PossimMavenProxy=${MAVEN_DOWNLOAD_URL}
+                """
+                archiveArtifacts "plugins/*/build/swaggerSpec.json"
+            }
+          }
+
+        stage ("Run Cypress Test") {
+            container('cypress') {
+                sh """
+                npm i -g xunit-viewer
+                xunit-viewer -r results -o results/omar-oms-test-results.html
+                """
+                junit 'results/*.xml'
+                archiveArtifacts "results/*.xml"
+                archiveArtifacts "results/*.html"
+                s3Upload(file:'results/omar-oms-test-results.html', bucket:'ossimlabs', path:'cypressTests/')
+            }
+        }
 
       stage('Build') {
         container('builder') {
