@@ -30,6 +30,13 @@ podTemplate(
       name: 'helm',
       command: 'cat',
       ttyEnabled: true
+    ),
+    containerTemplate(
+      name: 'cypress',
+      image: "${DOCKER_REGISTRY_DOWNLOAD_URL}/omar-cypress:12.14.1",
+      ttyEnabled: true,
+      command: 'cat',
+      privileged: true
     )
   ],
   volumes: [
@@ -83,11 +90,8 @@ podTemplate(
           }
 
         stage ("Run Cypress Test") {
-            container('builder') {
+            container('cypress') {
                 sh """
-                npm install cypress
-                apt-get install xvfb
-                npx cypress run
                 npm i -g xunit-viewer
                 xunit-viewer -r results -o results/omar-oms-test-results.html
                 """
