@@ -1177,9 +1177,9 @@ https://on.cypress.io/request
 From Your Spec Code:
     at Context.eval (https://omar.ossim.io/__cypress/tests?p=cypress/integration/APITesting.js:26:12)]]></failure>
     </testcase>
-    <testcase name="FAKE" time="0.1" classname="Should test 200 code for getInfo default values">
+    <testcase name="FAKE" time="0.1" classname="FAKE">
     </testcase>
-    <testcase name="FAKE" time="0.059" classname="Should test response header for getInfo">
+    <testcase name="FAKE" time="0.059" classname="FAKE">
     </testcase>
   </testsuite>
 </testsuites>
