@@ -92,7 +92,7 @@ podTemplate(
         stage ("Run Cypress Test") {
             container('cypress') {
                 sh """
-                npx cypress run
+                cypress run --headless
                 npm i -g xunit-viewer
                 xunit-viewer -r results -o results/omar-oms-test-results.html
                 """
