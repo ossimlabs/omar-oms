@@ -1,1 +1,0 @@
-This folder needs to be in place (and apparently have something in it) in order for Jenkins to populate it with the correct xml results file
