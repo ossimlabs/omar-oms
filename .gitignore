@@ -20,3 +20,4 @@ cypress/videos/
 cypress/fixtures/
 cypress/plugins/
 cypress/support/
+results/
