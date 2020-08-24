@@ -30,6 +30,13 @@ podTemplate(
       name: 'helm',
       command: 'cat',
       ttyEnabled: true
+    ),
+    containerTemplate(
+      name: 'cypress',
+      image: "${DOCKER_REGISTRY_DOWNLOAD_URL}/cypress/included:4.9.0",
+      ttyEnabled: true,
+      command: 'cat',
+      privileged: true
     )
   ],
   volumes: [
@@ -72,6 +79,35 @@ podTemplate(
           }
       }
 
+        stage ("Generate Swagger Spec") {
+          container('builder') {
+                sh """
+                ./gradlew :omar-oms-plugin:generateSwaggerDocs \
+                    -PossimMavenProxy=${MAVEN_DOWNLOAD_URL}
+                """
+                archiveArtifacts "plugins/*/build/swaggerSpec.json"
+            }
+          }
+
+        stage ("Run Cypress Test") {
+            container('cypress') {
+                try {
+                    sh """
+                    cypress run --headless
+                    """
+                } catch (err) {
+                    sh """
+                    npm i -g xunit-viewer
+                    xunit-viewer -r results -o results/omar-oms-test-results.html
+                    """
+                    junit 'results/*.xml'
+                    archiveArtifacts "results/*.xml"
+                    archiveArtifacts "results/*.html"
+                    s3Upload(file:'results/omar-oms-test-results.html', bucket:'ossimlabs', path:'cypressTests/')
+                }
+            }
+        }
+
       stage('Build') {
         container('builder') {
           sh """
@@ -84,6 +120,7 @@ podTemplate(
           archiveArtifacts "apps/*/build/libs/*.jar"
         }
       }
+
     stage ("Publish Nexus"){
       container('builder'){
           withCredentials([[$class: 'UsernamePasswordMultiBinding',
@@ -97,12 +134,14 @@ podTemplate(
             """
           }
         }
+
+
     }
     stage('Docker build') {
       container('docker') {
         withDockerRegistry(credentialsId: 'dockerCredentials', url: "https://${DOCKER_REGISTRY_DOWNLOAD_URL}") {  //TODO
           sh """
-            docker build --build-arg BASE_IMAGE=${DOCKER_REGISTRY_DOWNLOAD_URL}/ossim-runtime-minimal-alpine:dev --network=host -t "${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}"/omar-oms-app:${BRANCH_NAME} ./docker
+            docker build --build-arg BASE_IMAGE=${DOCKER_REGISTRY_DOWNLOAD_URL}/ossim-alpine-runtime:dev --network=host -t "${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}"/omar-oms-app:${BRANCH_NAME} ./docker
           """
         }
       }
