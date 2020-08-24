@@ -20,7 +20,7 @@ class DataInfoController {
                 produces="application/xml",
                 httpMethod="GET")
   @ApiImplicitParams([
-          @ApiImplicitParam(name = 'filename', value = 'filename', defaultValue = '', paramType = 'query', dataType = 'string', required=true),
+          @ApiImplicitParam(name = 'filename', value = 'filename', defaultValue = '/data/s3/adhoc/16SEP08110841-M1BS-055998376010_01_P006.TIF', paramType = 'query', dataType = 'string', required=true),
           @ApiImplicitParam(name = 'entry', value = 'Entry', defaultValue = '0', paramType = 'query', dataType = 'integer', required=false)
   ])
    def getInfo()

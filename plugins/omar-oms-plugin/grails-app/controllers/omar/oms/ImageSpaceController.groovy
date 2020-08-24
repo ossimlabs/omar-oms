@@ -12,6 +12,9 @@ import io.swagger.annotations.*
 )
 import grails.async.web.AsyncController
 
+@Api(value = "/imageSpace",
+        description = "API operations in image space."
+)
 class ImageSpaceController implements AsyncController
 {
   def imageSpaceService

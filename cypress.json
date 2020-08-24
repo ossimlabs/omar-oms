@@ -1,0 +1,9 @@
+{
+  "baseUrl": "https://omar.ossim.io/omar-oms",
+  "reporter": "junit",
+  "video": false,
+  "reporterOptions": {
+    "mochaFile": "results/test-results.xml",
+    "toConsole": false
+  }
+}
