@@ -1,0 +1,24 @@
+{
+  "info": {
+    "title": "Test Parameters",
+    "format": {
+      "name": {
+        "method": ["get", "post", "delete", "etc..."],
+        "endpoint": "/controller/endpoint",
+        "in": ["query", "body"],
+        "parameters": [{"parameterName1": "value1", "parameterName2": "value2"}, { "body": {} }]
+      }
+    }
+  },
+  "tests": {
+    "getInfo": {
+      "method": "get",
+      "endpoint": "/dataInfo/getInfo",
+      "in": "query",
+      "parameters": {
+        "filename": "/data/s3/adhoc/16SEP08110841-M1BS-055998376010_01_P006.TIF",
+        "entry": 0
+      }
+    }
+  }
+}

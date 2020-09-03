@@ -89,24 +89,25 @@ podTemplate(
             }
           }
 
-        stage ("Run Cypress Test") {
+          stage ("Run Cypress Test") {
             container('cypress') {
                 try {
-                    sh """
-                    cypress run --headless
-                    """
+                sh """
+                cypress run --headless
+                """
                 } catch (err) {
-                    sh """
-                    npm i -g xunit-viewer
-                    xunit-viewer -r results -o results/omar-oms-test-results.html
-                    """
-                    junit 'results/*.xml'
-                    archiveArtifacts "results/*.xml"
-                    archiveArtifacts "results/*.html"
-                    s3Upload(file:'results/omar-oms-test-results.html', bucket:'ossimlabs', path:'cypressTests/')
                 }
+                sh """
+                npm i -g xunit-viewer
+                xunit-viewer -r results -o results/omar-oms-test-results.html
+                """
+                junit 'results/*.xml'
+                archiveArtifacts "results/*.xml"
+                archiveArtifacts "results/*.html"
+                s3Upload(file:'results/omar-oms-test-results.html', bucket:'ossimlabs', path:'cypressTests/')
             }
         }
+
 
       stage('Build') {
         container('builder') {
