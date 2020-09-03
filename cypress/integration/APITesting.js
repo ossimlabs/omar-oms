@@ -1,38 +1,32 @@
-let json = require('../../plugins/omar-oms-plugin/build/swaggerSpec.json');
-let paths = Object.keys(json.paths);
-let methods, innerJson, name, parameters, request;
+let json = require('../../testParameters.json');
+let tests = Object.keys(json.tests);
+let innerJson, method, endpoint, query, parameters, request, keys;
 
-describe('Automated tests for the omar-oms methods', () => {
-    paths.forEach((path) => {
-
-            methods = Object.keys(json.paths[path]);
-            methods.forEach((method) => {
-            innerJson = json.paths[path][method];
-            name = innerJson["operationId"];
-            parameters = innerJson["parameters"]
+describe('Automated tests for the omar-oms API endpoints', () => {
+    tests.forEach((test) => {
+        innerJson = json.tests[test];
+        method = innerJson["method"];
+        endpoint = innerJson["endpoint"];
+        query = innerJson["in"] === "query";
+        parameters = Object.keys(innerJson["parameters"]);
+        if(query) {
             request = "?"
             parameters.forEach((parameter) => {
-
-                if(parameter["default"])
-                    request = request + parameter["name"] + "=" + parameter["default"] + "&";
-                else if(parameter["enum"])
-                    request = request + parameter["name"] + "=" + parameter["enum"][0] + "&";
+                request = request + parameter + "=" + innerJson.parameters[parameter] + "&";
             })
-
             request = request.substring(0, request.length - 1);
-            it(`Should test 200 code for ${name} default values`, () => {
-                cy.request(method, path + request)
+            it(`Should test 200 code for ${test} default values`, () => {
+                cy.request(method, endpoint + request)
                     .then((response) => {
                         expect(response.status).to.eq(200)
                     })
             })
-            it(`Should test response header for ${name}`, () => {
-                 cy.request(method, path + request)
-                     .then((response) => {
-                         expect(response).to.have.property("headers")
-
-                   })
-               })
+            it(`Should test response header for ${test}`, () => {
+                cy.request(method, endpoint + request)
+                    .then((response) => {
+                        expect(response).to.have.property("headers")
+                    })
             })
-        })
+        }
     })
+})
