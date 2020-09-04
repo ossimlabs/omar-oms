@@ -49,9 +49,30 @@ podTemplate(
 {
   node(POD_LABEL){
 
-      stage("Checkout branch $BRANCH_NAME")
+      stage("Checkout branch")
       {
-          checkout(scm)
+        
+        scmVars = checkout(scm)
+    
+        GIT_BRANCH_NAME = scmVars.GIT_BRANCH
+        BRANCH_NAME = """${sh(returnStdout: true, script: "echo ${GIT_BRANCH_NAME} | awk -F'/' '{print \$2}'").trim()}"""
+        sh """
+        touch buildVersion.txt
+        grep buildVersion gradle.properties | cut -d "=" -f2 > "buildVersion.txt"
+        """
+        preVERSION = readFile "buildVersion.txt"
+        VERSION = preVERSION.substring(0, preVERSION.indexOf('\n'))
+
+        GIT_TAG_NAME = "omar-oms" + "-" + VERSION
+        ARTIFACT_NAME = "ArtifactName"
+
+        script {
+          if (BRANCH_NAME != 'master') {
+            buildName "${VERSION} - ${BRANCH_NAME}-SNAPSHOT"
+          } else {
+            buildName "${VERSION} - ${BRANCH_NAME}"
+          }
+        }
       }
 
       stage("Load Variables")
@@ -63,6 +84,23 @@ podTemplate(
             flatten: true])
           }
           load "common-variables.groovy"
+          
+        switch (BRANCH_NAME) {
+        case "master":
+          TAG_NAME = VERSION
+          break
+
+        case "dev":
+          TAG_NAME = "latest"
+          break
+
+        default:
+          TAG_NAME = BRANCH_NAME
+          break
+      }
+
+    DOCKER_IMAGE_PATH = "${DOCKER_REGISTRY_PRIVATE_UPLOAD_URL}/omar-oms"
+    
       }
 
       stage('SonarQube Analysis') {
@@ -89,25 +127,24 @@ podTemplate(
             }
           }
 
-          stage ("Run Cypress Test") {
+        stage ("Run Cypress Test") {
             container('cypress') {
                 try {
-                sh """
-                cypress run --headless
-                """
+                    sh """
+                    cypress run --headless
+                    """
                 } catch (err) {
+                    sh """
+                    npm i -g xunit-viewer
+                    xunit-viewer -r results -o results/omar-oms-test-results.html
+                    """
+                    junit 'results/*.xml'
+                    archiveArtifacts "results/*.xml"
+                    archiveArtifacts "results/*.html"
+                    s3Upload(file:'results/omar-oms-test-results.html', bucket:'ossimlabs', path:'cypressTests/')
                 }
-                sh """
-                npm i -g xunit-viewer
-                xunit-viewer -r results -o results/omar-oms-test-results.html
-                """
-                junit 'results/*.xml'
-                archiveArtifacts "results/*.xml"
-                archiveArtifacts "results/*.html"
-                s3Upload(file:'results/omar-oms-test-results.html', bucket:'ossimlabs', path:'cypressTests/')
             }
         }
-
 
       stage('Build') {
         container('builder') {
@@ -142,7 +179,7 @@ podTemplate(
       container('docker') {
         withDockerRegistry(credentialsId: 'dockerCredentials', url: "https://${DOCKER_REGISTRY_DOWNLOAD_URL}") {  //TODO
           sh """
-            docker build --build-arg BASE_IMAGE=${DOCKER_REGISTRY_DOWNLOAD_URL}/ossim-alpine-runtime:dev --network=host -t "${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}"/omar-oms-app:${BRANCH_NAME} ./docker
+            docker build --build-arg BASE_IMAGE=${DOCKER_REGISTRY_DOWNLOAD_URL}/ossim-alpine-runtime:dev --network=host -t "${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}"/omar-oms-app:"${VERSION}" ./docker
           """
         }
       }
@@ -151,7 +188,7 @@ podTemplate(
       container('docker') {
         withDockerRegistry(credentialsId: 'dockerCredentials', url: "https://${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}") {
         sh """
-            docker push "${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}"/omar-oms-app:${BRANCH_NAME}
+            docker push "${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}"/omar-oms-app:"${VERSION}"
         """
         }
       }
