@@ -149,21 +149,21 @@ class ChipperController {
 
     Gamma correction value.  Good values between lighter .01  to darker 2  """)
    @ApiImplicitParams([
-          @ApiImplicitParam(name = 'images[0].file', value = 'filename', defaultValue = '/data/s3/adhoc/16SEP08110841-M1BS-055998376010_01_P006.TIF', paramType = 'query', dataType = 'string', required=true),
-          @ApiImplicitParam(name = 'images[0].entry', value = 'Image entry in the file', defaultValue = '0', paramType = 'query', dataType = 'integer', required=false),
+          @ApiImplicitParam(name = 'images[0].file', value = 'filename', defaultValue = '/data/s3/adhoc/16SEP08110842-P1BS-055998376010_01_P007.TIF', paramType = 'query', dataType = 'string', required=true),
+          @ApiImplicitParam(name = 'images[0].entry', value = 'Image entry in the file', defaultValue = '', paramType = 'query', dataType = 'integer', required=false),
           @ApiImplicitParam(name = 'images[0].ovr', value = 'Location of overview', defaultValue = '', paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'images[0].hist', value = 'Location of histogram', defaultValue = '', paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'images[0].geom', value = 'Location of geometry', defaultValue = '', paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'operation', value = '', defaultValue = 'none', allowableValues= "chip", paramType = 'query', dataType = 'string', required=false),
-          @ApiImplicitParam(name = 'nullPixelFlip', value = 'Flip interior null pixels to valid', allowableValues="true,false", defaultValue="true", paramType = 'query', dataType = 'boolean', required=false),
+          @ApiImplicitParam(name = 'nullPixelFlip', value = 'Flip interior null pixels to valid', allowableValues="true,false", defaultValue="", paramType = 'query', dataType = 'boolean', required=false),
           @ApiImplicitParam(name = 'brightness', value = 'Brightness Operation',defaultValue="0.0", paramType = 'query', dataType = 'number', required=false),
           @ApiImplicitParam(name = 'contrast', value = 'Contrast Operation',defaultValue="1.0",  paramType = 'query', dataType = 'number', required=false),
           @ApiImplicitParam(name = 'sharpenMode', value = '', defaultValue = '', allowableValues="light,heavy",paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'sharpenPercent', value = 'Sharpen Percent (0..1)', defaultValue="0", paramType = 'query', dataType = 'number', required=false),
           @ApiImplicitParam(name = 'thumbnailResolution', value = '', defaultValue = '',  paramType = 'query', dataType = 'integer', required=false),
-          @ApiImplicitParam(name = 'cutBboxXywh', value = 'Cut image box separated by commas: **x**,**y**,**width**,**height**', defaultValue = 'MULTIPOLYGON(((2.3536 48.6252,2.3637 48.6256,2.3737 48.626,2.3838 48.6263,2.3938 48.6267,2.4038 48.6271,2.4139 48.6274,2.4239 48.6278,2.4339 48.6281,2.444 48.6285,2.454 48.6289,2.464 48.6292,2.4741 48.6296,2.4841 48.63,2.4942 48.6303,2.5042 48.6307,2.5142 48.6311,2.5243 48.6314,2.5343 48.6318,2.5443 48.6321,2.5544 48.6325,2.5644 48.6329,2.5744 48.6332,2.5845 48.6336,2.5945 48.634,2.6045 48.6343,2.6045 48.6285,2.6044 48.6227,2.6044 48.6168,2.6043 48.611,2.6043 48.6052,2.6042 48.5994,2.6042 48.5936,2.6041 48.5877,2.6041 48.5819,2.604 48.5761,2.604 48.5703,2.6039 48.5644,2.6039 48.5586,2.6038 48.5528,2.6038 48.547,2.6037 48.5412,2.6037 48.5353,2.6036 48.5295,2.6036 48.5237,2.6035 48.5179,2.6035 48.512,2.6034 48.5062,2.6034 48.5004,2.6033 48.4946,2.6032 48.4888,2.5932 48.4884,2.5832 48.488,2.5732 48.4877,2.5632 48.4873,2.5531 48.487,2.5431 48.4866,2.5331 48.4863,2.5231 48.4859,2.513 48.4856,2.503 48.4852,2.493 48.4849,2.483 48.4845,2.473 48.4842,2.4629 48.4838,2.4529 48.4835,2.4429 48.4831,2.4329 48.4828,2.4228 48.4824,2.4128 48.4821,2.4028 48.4817,2.3928 48.4814,2.3828 48.481,2.3727 48.4807,2.3627 48.4803,2.3527 48.48,2.3527 48.4858,2.3528 48.4916,2.3528 48.4974,2.3528 48.5032,2.3529 48.509,2.3529 48.5148,2.353 48.5207,2.353 48.5265,2.353 48.5323,2.3531 48.5381,2.3531 48.5439,2.3531 48.5497,2.3532 48.5555,2.3532 48.5613,2.3533 48.5671,2.3533 48.5729,2.3533 48.5788,2.3534 48.5846,2.3534 48.5904,2.3535 48.5962,2.3535 48.602,2.3535 48.6078,2.3536 48.6136,2.3536 48.6194,2.3536 48.6252)))',  paramType = 'query', dataType = 'string', required=false),
+          @ApiImplicitParam(name = 'cutBboxXywh', value = 'Cut image box separated by commas: **x**,**y**,**width**,**height**', defaultValue = '20351.9945,10350.8278,512,512',  paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'rrds', value = 'Reduced resolution', defaultValue = '0', paramType = 'query', dataType = 'integer', required=false),
-          @ApiImplicitParam(name = 'histOp', value = 'Histogram Operation',defaultValue = 'none',allowableValues="none,linear,auto-minmax,auto-percentile,std-stretch-1,std-stretch-2,std-stretch-3", paramType = 'query', dataType = 'string', required=false),
+          @ApiImplicitParam(name = 'histOp', value = 'Histogram Operation',defaultValue = '',allowableValues="none,linear,auto-minmax,auto-percentile,std-stretch-1,std-stretch-2,std-stretch-3", paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'histBiasFactor', value = 'bias adjustment for auto calculations (defaults to the identity = 1) range is 0..2', defaultValue="1", paramType = 'query', dataType = 'number', required=false),
           @ApiImplicitParam(name = 'histLinearClip', value = 'Histogram clip comma separated: **low**,**high** ',defaultValue = '',allowableValues="", paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'histLinearNormClip', value = 'Histogram normalized clip comma separated: **low**,**high**',defaultValue = '',allowableValues="", paramType = 'query', dataType = 'string', required=false),
@@ -172,7 +172,7 @@ class ChipperController {
           @ApiImplicitParam(name = 'outputRadiometry', value = 'Output radiometry', defaultValue = 'ossim_uint8', allowableValues="ossim_uint8,ossim_uint11,ossim_uint16,ossim_sint16,ossim_float32,ossim_float64", paramType = 'query', dataType = 'string', required=true),
           @ApiImplicitParam(name = 'bands', value = 'Bands', defaultValue = '',  paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'resamplerFilter', value = 'Which resampling engine to use', defaultValue = '',  allowableValues= "nearest-neighbor, bilinear, cubic, gaussian, blackman, bspline, hanning, hamming, hermite, mitchell, quadratic, sinc, magic", paramType = 'query', dataType = 'string', required=false),
-          @ApiImplicitParam(name = 'outputFormat', value = 'Output format', defaultValue = '',  allowableValues= "image/jpeg,image/png,image/gif,image/tiff", paramType = 'query', dataType = 'string', required=false),
+          @ApiImplicitParam(name = 'outputFormat', value = 'Output format', defaultValue = 'image/jpeg',  allowableValues= "image/jpeg,image/png,image/gif,image/tiff", paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'keepBands', value = 'Determine if we auto adjust bands or not', defaultValue = "false", paramType = 'query', dataType = 'boolean', required=false),
           @ApiImplicitParam(name = 'padThumbnail', value = 'Add padding to the output to make it square', defaultValue = "false", paramType = 'query', dataType = 'boolean', required=false),
           @ApiImplicitParam(name = 'transparent', value = 'Enable transparent if the outputFormat supports it', defaultValue = "true", paramType = 'query', dataType = 'boolean', required=false),
@@ -290,7 +290,7 @@ class ChipperController {
 
     Gamma correction value.  Good values between lighter .01  to darker 2  """)
    @ApiImplicitParams([
-          @ApiImplicitParam(name = 'images[0].file', value = 'filename', defaultValue = '', paramType = 'query', dataType = 'string', required=true),
+          @ApiImplicitParam(name = 'images[0].file', value = 'filename', defaultValue = '/data/s3/adhoc/16SEP08110842-P1BS-055998376010_01_P007.TIF', paramType = 'query', dataType = 'string', required=true),
           @ApiImplicitParam(name = 'images[0].entry', value = 'Image entry in the file', defaultValue = '', paramType = 'query', dataType = 'integer', required=false),
           @ApiImplicitParam(name = 'images[0].ovr', value = 'Location of overview', defaultValue = '', paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'images[0].hist', value = 'Location of histogram', defaultValue = '', paramType = 'query', dataType = 'string', required=false),
@@ -301,9 +301,9 @@ class ChipperController {
           @ApiImplicitParam(name = 'contrast', value = 'Contrast Operation',defaultValue="1.0",  paramType = 'query', dataType = 'number', required=true),
           @ApiImplicitParam(name = 'sharpenMode', value = '', defaultValue = '', allowableValues="light,heavy",paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'thumbnailResolution', value = '', defaultValue = '',  paramType = 'query', dataType = 'integer', required=false),
-          @ApiImplicitParam(name = 'cutWidth', value = 'Cut width in pixels', defaultValue = '',  paramType = 'query', dataType = 'integer', required=false),
-          @ApiImplicitParam(name = 'cutHeight', value = 'Cut height in pixels', defaultValue = '',  paramType = 'query', dataType = 'integer', required=false),
-          @ApiImplicitParam(name = 'cutWmsBbox', value = 'Cut wms bbox format', defaultValue = '',  paramType = 'query', dataType = 'string', required=false),
+          @ApiImplicitParam(name = 'cutWidth', value = 'Cut width in pixels', defaultValue = '556',  paramType = 'query', dataType = 'integer', required=false),
+          @ApiImplicitParam(name = 'cutHeight', value = 'Cut height in pixels', defaultValue = '556',  paramType = 'query', dataType = 'integer', required=false),
+          @ApiImplicitParam(name = 'cutWmsBbox', value = 'Cut wms bbox format', defaultValue = '20351.9945,10350.8278,512,512',  paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'histOp', value = 'Histogram Operation',defaultValue = '',allowableValues="none,linear,auto-minmax,auto-percentile,std-stretch-1,std-stretch-2,std-stretch-3", paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'histBiasFactor', value = 'bias adjustment for auto calculations (defaults to the identity = 1) range is 0..2', defaultValue="1", paramType = 'query', dataType = 'number', required=false),
           @ApiImplicitParam(name = 'histLinearClip', value = 'Histogram clip comma separated: **low**,**high** ',defaultValue = '',allowableValues="", paramType = 'query', dataType = 'string', required=false),
@@ -314,7 +314,7 @@ class ChipperController {
           @ApiImplicitParam(name = 'outputRadiometry', value = 'Output radiometry', defaultValue = 'ossim_uint8', allowableValues="ossim_uint8,ossim_uint11,ossim_uint16,ossim_sint16,ossim_float32,ossim_float64", paramType = 'query', dataType = 'string', required=true),
           @ApiImplicitParam(name = 'bands', value = 'Bands', defaultValue = '',  paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'resamplerFilter', value = 'Which resampling engine to use', defaultValue = '',  allowableValues= "nearest-neighbor, bilinear, cubic, gaussian, blackman, bspline, hanning, hamming, hermite, mitchell, quadratic, sinc, magic", paramType = 'query', dataType = 'string', required=false),
-          @ApiImplicitParam(name = 'outputFormat', value = 'Output format', defaultValue = '',  allowableValues= "image/jpeg,image/png,image/gif,image/tiff", paramType = 'query', dataType = 'string', required=false),
+          @ApiImplicitParam(name = 'outputFormat', value = 'Output format', defaultValue = 'image/jpeg',  allowableValues= "image/jpeg,image/png,image/gif,image/tiff", paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'keepBands', value = 'Determine if we auto adjust bands or not', defaultValue = "false", paramType = 'query', dataType = 'boolean', required=false),
           @ApiImplicitParam(name = 'padThumbnail', value = 'Add padding to the output to make it square', defaultValue = "false", paramType = 'query', dataType = 'boolean', required=false),
           @ApiImplicitParam(name = 'transparent', value = 'Enable transparent if the outputFormat supports it', defaultValue = "true", paramType = 'query', dataType = 'boolean', required=false),
@@ -324,149 +324,149 @@ class ChipperController {
      runChipperCommand("ortho")
    }
 
-    @ApiOperation(value = "Get ortho chip from the passed in image file name",
-            produces="image/png,image/jpeg,image/gif,image/tiff,text/plain",
-            httpMethod="GET",
-            notes = """
-*   **images**
-
-    Is an array of objects of the form images[0].file = **filename** and an optional images[0].entry = **entry**
-
-*   **operation**
-
-    Is fixed to the value ortho
-
-*   **nullPixelFlip**
-
-    Flips null interior pixels to valid
-
-*   **brightness**
-
-    Allows one to control the brightness of the image. This is expressed as a normalized value between -1 and 1.
-
-*   **contrast**
-
-    Allows one to control the contrast of an image. This is a multiplier.
-
-*   **sharpenMode**
-
-    Sharpen mode can take on the values none, light, or heavy.
-
-*   **thumbnailResolution**
-
-    Specify the resolution of the thumbnail. The valie is assumed square so only one dimension is needed. Setting the value to 512 will output to a 512x512 image.
-
-*   **cutWidth**
-
-    This is usually specified in conjuction with a geo spatial cut bos such as **cutWmsBbox** where the cutWidth is specified in pixels
-
-*   **cutHeight**
-
-    This is usually specified in conjuction with a geo spatial cut bos such as **cutWmsBbox** where the cutHeight is specified in pixels
-
-*   **cutWmsBbox**
-
-    Is a comma separated list of floating point values in the form of **minLon**,**minLat**,**maxLon**,**maxLat** and the values depend on the SRS projection used If its 3857 then it's in meters **minX**,**minY**,**maxX**,**maxY**
-
-*   **histOp**
-
-    Histogram operations used can be none, auto-minmax, auto-percentile, std-stretch-1, std-stretch-2, or std-stretch-3
-
-*   **histBiasFactor**
-
-   Used as a bias factor in the auto clip calculations.  Currently only used for auto min max clip adjustmjents.  You can add a small bias to control how the clip  points
-   are located during the aut calculations
-
-*   **histLinearClip**
-
-    Is a comma separated pair of low then high value.  **Example:** 8,180 defines a low clip of pixel value 8 and a high clip of pixel value 180.
-
-*   **histLinearNormClip**
-
-    Is a comma separated pair of low then high normalized values.  **Example:** .2,.8 defines a low clip of a normalized penetration of .2 or 20% and high 
-    clip of .8 which is calculated as a penetration of 80 percent from start of the histogram bins or you can read it as a 20% penetration from the end 
-    of the histogram bins.
-
-*   **histCenterClip**
-
-    You can adjust the center value used in the min max clip.  The value ranges from 0 to 1 and defaults to 0.5.  Closer to 0 the more the center will be shifted to the min value causing
-    the image to become brighter. If the value gets closer to 1 the closer to the max clip it will be causing the overall image to become darker.
-
-*   **histCenter**
-
-    Histogram should be calculated based on the center of the request
-
-*   **srs**
-
-    This is the SRS code. This can be EPSG:4326 (Geographic) EPSG:3857 (Global Mercator/Google mercator)
-
-*   **outputRadiometry**
-
-    Defines the output radiometry.
-
-*   **bands**
-
-    This defines an output band list that is a comma separated value of integers with band index 1's based. So a value of 1,1,1 will output three bands with all being the first band of the input image. If you have a 3 band input image you can reverse them by doing 3,2,1. Commas are required.
-
-*   **resamplerFilter**
-
-    We have exposed different filtering capabilities. Values can be any of the following nearest-neighbor, bilinear, cubic, gaussian, blackman, bspline, hanning, hamming, hermite, mitchell, quadratic, sinc, magic
-
-*   **outputFormat**
-
-    Output format can be image/jpeg, image/png, image/gif, or image/tiff
-
-*   **keepBands**
-
-    This is a flag that will allow the bands to be kept as specified. So if you wnat a 10 band output then you must void setUp() the **keepBands** to true and then specify the **outputFormat** to be image/tiff
-
-*   **padThumbnail**
-
-    Allows one to enable padding of thumbnail products so it matches the size.
-
-*   **transparent**
-
-    Enables transparent output if the **outputFormat** supports it    
-
-*   **gamma**
-
-    Gamma correction value.  Good values between lighter .01  to darker 2  """)
-    @ApiImplicitParams([
-            @ApiImplicitParam(name = 'images[0].file', value = 'first filename', defaultValue = '', paramType = 'query', dataType = 'string', required=true),
-            @ApiImplicitParam(name = 'images[0].entry', value = 'Image entry in the first file', defaultValue = '', paramType = 'query', dataType = 'integer', required=false),
-            @ApiImplicitParam(name = 'images[0].ovr', value = 'Location of first overview', defaultValue = '', paramType = 'query', dataType = 'string', required=false),
-            @ApiImplicitParam(name = 'images[0].hist', value = 'Location of first histogram', defaultValue = '', paramType = 'query', dataType = 'string', required=false),
-            @ApiImplicitParam(name = 'images[0].geom', value = 'Location of first geometry', defaultValue = '', paramType = 'query', dataType = 'string', required=false),
-            @ApiImplicitParam(name = 'images[1].file', value = 'second filename', defaultValue = '', paramType = 'query', dataType = 'string', required=true),
-            @ApiImplicitParam(name = 'images[1].entry', value = 'Image entry in the second file', defaultValue = '', paramType = 'query', dataType = 'integer', required=false),
-            @ApiImplicitParam(name = 'images[1].ovr', value = 'Location of second overview', defaultValue = '', paramType = 'query', dataType = 'string', required=false),
-            @ApiImplicitParam(name = 'images[1].hist', value = 'Location of second histogram', defaultValue = '', paramType = 'query', dataType = 'string', required=false),
-            @ApiImplicitParam(name = 'images[1].geom', value = 'Location of second geometry', defaultValue = '', paramType = 'query', dataType = 'string', required=false),
-            @ApiImplicitParam(name = 'operation', value = '', defaultValue = 'none', allowableValues= "ortho", paramType = 'query', dataType = 'string', required=false),
-            @ApiImplicitParam(name = 'nullPixelFlip', value = 'Flip interior null pixels to valid', allowableValues="true,false", defaultValue="", paramType = 'query', dataType = 'boolean', required=false),
-            @ApiImplicitParam(name = 'brightness', value = 'Brightness Operation',defaultValue="0.0", paramType = 'query', dataType = 'number', required=true),
-            @ApiImplicitParam(name = 'contrast', value = 'Contrast Operation',defaultValue="1.0",  paramType = 'query', dataType = 'number', required=true),
-            @ApiImplicitParam(name = 'sharpenMode', value = '', defaultValue = '', allowableValues="light,heavy",paramType = 'query', dataType = 'string', required=false),
-            @ApiImplicitParam(name = 'thumbnailResolution', value = '', defaultValue = '',  paramType = 'query', dataType = 'integer', required=false),
-            @ApiImplicitParam(name = 'cutWidth', value = 'Cut width in pixels', defaultValue = '',  paramType = 'query', dataType = 'integer', required=false),
-            @ApiImplicitParam(name = 'cutHeight', value = 'Cut height in pixels', defaultValue = '',  paramType = 'query', dataType = 'integer', required=false),
-            @ApiImplicitParam(name = 'cutWmsBbox', value = 'Cut wms bbox format', defaultValue = '',  paramType = 'query', dataType = 'string', required=false),
-            @ApiImplicitParam(name = 'histOp', value = 'Histogram Operation',defaultValue = '',allowableValues="none,auto-minmax,auto-percentile,std-stretch-1,std-stretch-2,std-stretch-3", paramType = 'query', dataType = 'string', required=false),
-            @ApiImplicitParam(name = 'histBiasFactor', value = 'bias adjustment for auto calculations (defaults to the identity = 1) range is 0..2', defaultValue="1", paramType = 'query', dataType = 'number', required=false),
-            @ApiImplicitParam(name = 'histLinearClip', value = 'Histogram clip comma separated: **low**,**high** ',defaultValue = '',allowableValues="", paramType = 'query', dataType = 'string', required=false),
-            @ApiImplicitParam(name = 'histLinearNormClip', value = 'Histogram normalized clip comma separated: **low**,**high**',defaultValue = '',allowableValues="", paramType = 'query', dataType = 'string', required=false),            
-            @ApiImplicitParam(name = 'histCenterClip', value = 'Adjust center for min max clip (defaults to 0.5) range is 0..1', defaultValue="0.5", paramType = 'query', dataType = 'number', required=false),
-            @ApiImplicitParam(name = 'histCenter', value = 'Histogram Center Calculation',defaultValue = '',allowableValues="true,false", paramType = 'query', dataType = 'boolean', required=false),
-            @ApiImplicitParam(name = 'srs', value = 'srs', defaultValue = '',  allowableValues="EPSG:4326, EPSG:3857", paramType = 'query', dataType = 'string', required=false),
-            @ApiImplicitParam(name = 'outputRadiometry', value = 'Output radiometry', defaultValue = 'ossim_uint8', allowableValues="ossim_uint8,ossim_uint11,ossim_uint16,ossim_sint16,ossim_float32,ossim_float64", paramType = 'query', dataType = 'string', required=true),
-            @ApiImplicitParam(name = 'bands', value = 'Bands', defaultValue = '',  paramType = 'query', dataType = 'string', required=false),
-            @ApiImplicitParam(name = 'resamplerFilter', value = 'Which resampling engine to use', defaultValue = '',  allowableValues= "nearest-neighbor, bilinear, cubic, gaussian, blackman, bspline, hanning, hamming, hermite, mitchell, quadratic, sinc, magic", paramType = 'query', dataType = 'string', required=false),
-            @ApiImplicitParam(name = 'outputFormat', value = 'Output format', defaultValue = '',  allowableValues= "image/jpeg,image/png,image/gif,image/tiff", paramType = 'query', dataType = 'string', required=false),
-            @ApiImplicitParam(name = 'keepBands', value = 'Determine if we auto adjust bands or not', defaultValue = "false", paramType = 'query', dataType = 'boolean', required=false),
-            @ApiImplicitParam(name = 'padThumbnail', value = 'Add padding to the output to make it square', defaultValue = "false", paramType = 'query', dataType = 'boolean', required=false),
-            @ApiImplicitParam(name = 'transparent', value = 'Enable transparent if the outputFormat supports it', defaultValue = "true", paramType = 'query', dataType = 'boolean', required=false),
-            @ApiImplicitParam(name = 'gamma', value = 'Gamma correction', defaultValue = "", paramType = 'query', dataType = 'number', required=false)
-    ])
+//    @ApiOperation(value = "Get ortho chip from the passed in image file name",
+//            produces="image/png,image/jpeg,image/gif,image/tiff,text/plain",
+//            httpMethod="GET",
+//            notes = """
+//*   **images**
+//
+//    Is an array of objects of the form images[0].file = **filename** and an optional images[0].entry = **entry**
+//
+//*   **operation**
+//
+//    Is fixed to the value ortho
+//
+//*   **nullPixelFlip**
+//
+//    Flips null interior pixels to valid
+//
+//*   **brightness**
+//
+//    Allows one to control the brightness of the image. This is expressed as a normalized value between -1 and 1.
+//
+//*   **contrast**
+//
+//    Allows one to control the contrast of an image. This is a multiplier.
+//
+//*   **sharpenMode**
+//
+//    Sharpen mode can take on the values none, light, or heavy.
+//
+//*   **thumbnailResolution**
+//
+//    Specify the resolution of the thumbnail. The valie is assumed square so only one dimension is needed. Setting the value to 512 will output to a 512x512 image.
+//
+//*   **cutWidth**
+//
+//    This is usually specified in conjuction with a geo spatial cut bos such as **cutWmsBbox** where the cutWidth is specified in pixels
+//
+//*   **cutHeight**
+//
+//    This is usually specified in conjuction with a geo spatial cut bos such as **cutWmsBbox** where the cutHeight is specified in pixels
+//
+//*   **cutWmsBbox**
+//
+//    Is a comma separated list of floating point values in the form of **minLon**,**minLat**,**maxLon**,**maxLat** and the values depend on the SRS projection used If its 3857 then it's in meters **minX**,**minY**,**maxX**,**maxY**
+//
+//*   **histOp**
+//
+//    Histogram operations used can be none, auto-minmax, auto-percentile, std-stretch-1, std-stretch-2, or std-stretch-3
+//
+//*   **histBiasFactor**
+//
+//   Used as a bias factor in the auto clip calculations.  Currently only used for auto min max clip adjustmjents.  You can add a small bias to control how the clip  points
+//   are located during the aut calculations
+//
+//*   **histLinearClip**
+//
+//    Is a comma separated pair of low then high value.  **Example:** 8,180 defines a low clip of pixel value 8 and a high clip of pixel value 180.
+//
+//*   **histLinearNormClip**
+//
+//    Is a comma separated pair of low then high normalized values.  **Example:** .2,.8 defines a low clip of a normalized penetration of .2 or 20% and high
+//    clip of .8 which is calculated as a penetration of 80 percent from start of the histogram bins or you can read it as a 20% penetration from the end
+//    of the histogram bins.
+//
+//*   **histCenterClip**
+//
+//    You can adjust the center value used in the min max clip.  The value ranges from 0 to 1 and defaults to 0.5.  Closer to 0 the more the center will be shifted to the min value causing
+//    the image to become brighter. If the value gets closer to 1 the closer to the max clip it will be causing the overall image to become darker.
+//
+//*   **histCenter**
+//
+//    Histogram should be calculated based on the center of the request
+//
+//*   **srs**
+//
+//    This is the SRS code. This can be EPSG:4326 (Geographic) EPSG:3857 (Global Mercator/Google mercator)
+//
+//*   **outputRadiometry**
+//
+//    Defines the output radiometry.
+//
+//*   **bands**
+//
+//    This defines an output band list that is a comma separated value of integers with band index 1's based. So a value of 1,1,1 will output three bands with all being the first band of the input image. If you have a 3 band input image you can reverse them by doing 3,2,1. Commas are required.
+//
+//*   **resamplerFilter**
+//
+//    We have exposed different filtering capabilities. Values can be any of the following nearest-neighbor, bilinear, cubic, gaussian, blackman, bspline, hanning, hamming, hermite, mitchell, quadratic, sinc, magic
+//
+//*   **outputFormat**
+//
+//    Output format can be image/jpeg, image/png, image/gif, or image/tiff
+//
+//*   **keepBands**
+//
+//    This is a flag that will allow the bands to be kept as specified. So if you wnat a 10 band output then you must void setUp() the **keepBands** to true and then specify the **outputFormat** to be image/tiff
+//
+//*   **padThumbnail**
+//
+//    Allows one to enable padding of thumbnail products so it matches the size.
+//
+//*   **transparent**
+//
+//    Enables transparent output if the **outputFormat** supports it
+//
+//*   **gamma**
+//
+//    Gamma correction value.  Good values between lighter .01  to darker 2  """)
+//    @ApiImplicitParams([
+//            @ApiImplicitParam(name = 'images[0].file', value = 'first filename', defaultValue = '', paramType = 'query', dataType = 'string', required=true),
+//            @ApiImplicitParam(name = 'images[0].entry', value = 'Image entry in the first file', defaultValue = '', paramType = 'query', dataType = 'integer', required=false),
+//            @ApiImplicitParam(name = 'images[0].ovr', value = 'Location of first overview', defaultValue = '', paramType = 'query', dataType = 'string', required=false),
+//            @ApiImplicitParam(name = 'images[0].hist', value = 'Location of first histogram', defaultValue = '', paramType = 'query', dataType = 'string', required=false),
+//            @ApiImplicitParam(name = 'images[0].geom', value = 'Location of first geometry', defaultValue = '', paramType = 'query', dataType = 'string', required=false),
+//            @ApiImplicitParam(name = 'images[1].file', value = 'second filename', defaultValue = '', paramType = 'query', dataType = 'string', required=true),
+//            @ApiImplicitParam(name = 'images[1].entry', value = 'Image entry in the second file', defaultValue = '', paramType = 'query', dataType = 'integer', required=false),
+//            @ApiImplicitParam(name = 'images[1].ovr', value = 'Location of second overview', defaultValue = '', paramType = 'query', dataType = 'string', required=false),
+//            @ApiImplicitParam(name = 'images[1].hist', value = 'Location of second histogram', defaultValue = '', paramType = 'query', dataType = 'string', required=false),
+//            @ApiImplicitParam(name = 'images[1].geom', value = 'Location of second geometry', defaultValue = '', paramType = 'query', dataType = 'string', required=false),
+//            @ApiImplicitParam(name = 'operation', value = '', defaultValue = 'none', allowableValues= "ortho", paramType = 'query', dataType = 'string', required=false),
+//            @ApiImplicitParam(name = 'nullPixelFlip', value = 'Flip interior null pixels to valid', allowableValues="true,false", defaultValue="", paramType = 'query', dataType = 'boolean', required=false),
+//            @ApiImplicitParam(name = 'brightness', value = 'Brightness Operation',defaultValue="0.0", paramType = 'query', dataType = 'number', required=true),
+//            @ApiImplicitParam(name = 'contrast', value = 'Contrast Operation',defaultValue="1.0",  paramType = 'query', dataType = 'number', required=true),
+//            @ApiImplicitParam(name = 'sharpenMode', value = '', defaultValue = '', allowableValues="light,heavy",paramType = 'query', dataType = 'string', required=false),
+//            @ApiImplicitParam(name = 'thumbnailResolution', value = '', defaultValue = '',  paramType = 'query', dataType = 'integer', required=false),
+//            @ApiImplicitParam(name = 'cutWidth', value = 'Cut width in pixels', defaultValue = '',  paramType = 'query', dataType = 'integer', required=false),
+//            @ApiImplicitParam(name = 'cutHeight', value = 'Cut height in pixels', defaultValue = '',  paramType = 'query', dataType = 'integer', required=false),
+//            @ApiImplicitParam(name = 'cutWmsBbox', value = 'Cut wms bbox format', defaultValue = '',  paramType = 'query', dataType = 'string', required=false),
+//            @ApiImplicitParam(name = 'histOp', value = 'Histogram Operation',defaultValue = '',allowableValues="none,auto-minmax,auto-percentile,std-stretch-1,std-stretch-2,std-stretch-3", paramType = 'query', dataType = 'string', required=false),
+//            @ApiImplicitParam(name = 'histBiasFactor', value = 'bias adjustment for auto calculations (defaults to the identity = 1) range is 0..2', defaultValue="1", paramType = 'query', dataType = 'number', required=false),
+//            @ApiImplicitParam(name = 'histLinearClip', value = 'Histogram clip comma separated: **low**,**high** ',defaultValue = '',allowableValues="", paramType = 'query', dataType = 'string', required=false),
+//            @ApiImplicitParam(name = 'histLinearNormClip', value = 'Histogram normalized clip comma separated: **low**,**high**',defaultValue = '',allowableValues="", paramType = 'query', dataType = 'string', required=false),
+//            @ApiImplicitParam(name = 'histCenterClip', value = 'Adjust center for min max clip (defaults to 0.5) range is 0..1', defaultValue="0.5", paramType = 'query', dataType = 'number', required=false),
+//            @ApiImplicitParam(name = 'histCenter', value = 'Histogram Center Calculation',defaultValue = '',allowableValues="true,false", paramType = 'query', dataType = 'boolean', required=false),
+//            @ApiImplicitParam(name = 'srs', value = 'srs', defaultValue = '',  allowableValues="EPSG:4326, EPSG:3857", paramType = 'query', dataType = 'string', required=false),
+//            @ApiImplicitParam(name = 'outputRadiometry', value = 'Output radiometry', defaultValue = 'ossim_uint8', allowableValues="ossim_uint8,ossim_uint11,ossim_uint16,ossim_sint16,ossim_float32,ossim_float64", paramType = 'query', dataType = 'string', required=true),
+//            @ApiImplicitParam(name = 'bands', value = 'Bands', defaultValue = '',  paramType = 'query', dataType = 'string', required=false),
+//            @ApiImplicitParam(name = 'resamplerFilter', value = 'Which resampling engine to use', defaultValue = '',  allowableValues= "nearest-neighbor, bilinear, cubic, gaussian, blackman, bspline, hanning, hamming, hermite, mitchell, quadratic, sinc, magic", paramType = 'query', dataType = 'string', required=false),
+//            @ApiImplicitParam(name = 'outputFormat', value = 'Output format', defaultValue = '',  allowableValues= "image/jpeg,image/png,image/gif,image/tiff", paramType = 'query', dataType = 'string', required=false),
+//            @ApiImplicitParam(name = 'keepBands', value = 'Determine if we auto adjust bands or not', defaultValue = "false", paramType = 'query', dataType = 'boolean', required=false),
+//            @ApiImplicitParam(name = 'padThumbnail', value = 'Add padding to the output to make it square', defaultValue = "false", paramType = 'query', dataType = 'boolean', required=false),
+//            @ApiImplicitParam(name = 'transparent', value = 'Enable transparent if the outputFormat supports it', defaultValue = "true", paramType = 'query', dataType = 'boolean', required=false),
+//            @ApiImplicitParam(name = 'gamma', value = 'Gamma correction', defaultValue = "", paramType = 'query', dataType = 'number', required=false)
+//    ])
     def psm(){
         runChipperCommand("psm")
     }
