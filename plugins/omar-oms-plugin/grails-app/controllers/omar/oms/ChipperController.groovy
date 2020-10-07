@@ -1,7 +1,6 @@
 package omar.oms
 
 import omar.core.BindUtil
-import omar.core.HttpStatus
 
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
@@ -513,10 +512,10 @@ class ChipperController {
           a[b?.key] = b?.value?.toString()
           a
        }
-       println initOps
+       log.info initOps
        render contentType: 'text/plain', text: ChipperUtil.executeChipper(initOps)
      } else {
-       println 'ERROR'
+       log.info 'ERROR'
        render contentType: 'text/plain', text: false
      }
    }

@@ -6,8 +6,6 @@ import joms.oms.ossimGpt
 import joms.oms.GeodeticEvaluator
 import joms.oms.ossimString
 import joms.oms.ossimElevationAccuracyInfo
-import joms.oms.MapProjection
-import joms.oms.ossimEcefPoint
 import omar.core.HttpStatus
 
 import grails.gorm.transactions.Transactional
