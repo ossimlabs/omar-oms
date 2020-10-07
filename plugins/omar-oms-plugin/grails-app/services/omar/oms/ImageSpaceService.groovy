@@ -217,8 +217,9 @@ class ImageSpaceService
       chipperCommand.sharpenMode = cmd.sharpenMode
       chipperCommand.resamplerFilter = cmd.resamplerFilter
       chipperCommand.nullPixelFlip = cmd.nullPixelFlip
-      if(cmd.transparent == null) chipperCommand.transparent = true
-      else {
+      if(cmd.transparent == null) {
+        chipperCommand.transparent = true
+      }else {
         chipperCommand.transparent = cmd.transparent
       }
       if(cmd.outputFormat) chipperCommand.outputFormat = cmd.outputFormat
