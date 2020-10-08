@@ -73,12 +73,12 @@ class OmsImage
       }
       else
       {
-        println 'getChip: bad'
+        log.info 'getChip: bad'
       }
     }
     else
     {
-      println 'initialize: bad'
+      log.info 'initialize: bad'
     }
 
     def dataBuffer = new DataBufferByte( buffer, buffer.size() )
