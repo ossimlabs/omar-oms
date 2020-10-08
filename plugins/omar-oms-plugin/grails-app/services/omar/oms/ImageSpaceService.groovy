@@ -354,7 +354,6 @@ class ImageSpaceService
       if(getRasterFilesUrl)
       {
         Boolean addQuestion = !getRasterFilesUrl?.endsWith("?")
-        String question = ""
         def slurper = new JsonSlurper()
         if(id)
         {

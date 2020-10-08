@@ -6,13 +6,13 @@ import javax.media.jai.ImageLayout
 import javax.media.jai.JAI
 import javax.media.jai.ParameterBlockJAI
 import javax.media.jai.PlanarImage
-import java.awt.Graphics
+
 import java.awt.Graphics2D
-import java.awt.Image
+
 import java.awt.Point
 import java.awt.RenderingHints
 import java.awt.image.BufferedImage
-import java.awt.image.Raster
+
 
 import org.springframework.util.FastByteArrayOutputStream
 
