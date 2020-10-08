@@ -3,9 +3,7 @@ package omar.oms
 import groovy.json.JsonSlurper
 import groovy.json.JsonBuilder
 import org.ossim.oms.util.ImageGenerator
-import org.ossim.oms.util.TransparentFilter
 
-import javax.imageio.ImageTypeSpecifier
 import java.awt.Point
 import java.awt.Transparency
 import java.awt.color.ColorSpace
@@ -16,19 +14,14 @@ import java.awt.image.DataBuffer
 import java.awt.image.Raster
 import java.awt.image.RenderedImage
 import groovy.util.logging.Slf4j
-import java.awt.image.IndexColorModel
 
 import joms.oms.Chipper
 import joms.oms.ossimMemoryImageSource
-import joms.oms.ossimImageDataRefPtr
 
 import omar.core.DateUtil
-
 import org.ossim.oms.image.omsRenderedImage
 import org.ossim.oms.image.omsImageSource
-
 import java.awt.image.SampleModel
-import java.awt.image.WritableRaster
 
 /**
  * Created by sbortman on 1/15/16.
@@ -110,19 +103,11 @@ class ChipperUtil
     if ( chipper.initialize( opts ) )
     {
       log.debug "initialize: good"
-      //println 'initialize: good'
-      if ( chipper.getChip( buffer, buffer.length, hints.transparent ) > 1 )
-      {
-        //println 'getChip: good'
-      }
-      else
-      {
-        // println 'getChip: bad'
-      }
+      
     }
     else
     {
-      // println 'initialize: bad'
+      log.debug  "initialize: bad"
     }
 
     chipper.delete()
@@ -142,7 +127,7 @@ class ChipperUtil
     }
     else
     {
-      // println 'initialize: bad'
+      log.debug  "initialize: bad"
     }
 
     chipper.delete()
