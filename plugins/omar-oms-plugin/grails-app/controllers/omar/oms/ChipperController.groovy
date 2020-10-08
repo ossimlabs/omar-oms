@@ -512,7 +512,7 @@ class ChipperController {
           a[b?.key] = b?.value?.toString()
           a
        }
-       log.info initOps
+       log.info initOps as String
        render contentType: 'text/plain', text: ChipperUtil.executeChipper(initOps)
      } else {
        log.info 'ERROR'
