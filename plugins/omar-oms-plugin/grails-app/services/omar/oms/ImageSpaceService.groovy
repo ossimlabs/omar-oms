@@ -10,7 +10,6 @@ import java.awt.Font
 import java.awt.font.TextLayout
 import java.awt.image.BufferedImage
 import javax.imageio.ImageIO
-import java.net.URL
 
 import joms.oms.ImageModel
 import joms.oms.Info
@@ -185,9 +184,6 @@ class ImageSpaceService
   def getTile(GetTileCommand cmd)
   {
 
-    def imageInfo
-    def imageEntry
-
     def result = [status     : HttpStatus.NOT_FOUND,
                   contentType: "text/plain",
                   buffer     : "Unable to service tile".bytes]
@@ -221,8 +217,11 @@ class ImageSpaceService
       chipperCommand.sharpenMode = cmd.sharpenMode
       chipperCommand.resamplerFilter = cmd.resamplerFilter
       chipperCommand.nullPixelFlip = cmd.nullPixelFlip
-      if(cmd.transparent == null) chipperCommand.transparent = true
-      else chipperCommand.transparent = cmd.transparent
+      if(cmd.transparent == null) {
+        chipperCommand.transparent = true
+      }else {
+        chipperCommand.transparent = cmd.transparent
+      }
       if(cmd.outputFormat) chipperCommand.outputFormat = cmd.outputFormat
       if (cmd.bands)
       {
@@ -355,7 +354,6 @@ class ImageSpaceService
       if(getRasterFilesUrl)
       {
         Boolean addQuestion = !getRasterFilesUrl?.endsWith("?")
-        String question = ""
         def slurper = new JsonSlurper()
         if(id)
         {

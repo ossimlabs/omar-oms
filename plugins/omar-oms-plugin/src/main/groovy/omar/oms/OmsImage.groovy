@@ -63,22 +63,22 @@ class OmsImage
     def numBands = ( hints.transparent ) ? 4 : 3
     def buffer = new byte[hints.width * hints.height * numBands]
 
-//    println buffer.size()
+    // log.info buffer.size() as String
 
     if ( chipper.initialize( opts ) )
     {
       if ( chipper.getChip( buffer, buffer.length, hints.transparent ) > 1 )
       {
-//        println 'getChip: good'
+        // log.info 'getChip: good'
       }
       else
       {
-        println 'getChip: bad'
+        log.error 'getChip: bad'
       }
     }
     else
     {
-      println 'initialize: bad'
+      log.error 'initialize: bad'
     }
 
     def dataBuffer = new DataBufferByte( buffer, buffer.size() )
