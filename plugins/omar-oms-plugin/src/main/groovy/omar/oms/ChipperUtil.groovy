@@ -107,7 +107,7 @@ class ChipperUtil
     }
     else
     {
-      log.debug  "initialize: bad"
+      log.error  "initialize: bad"
     }
 
     chipper.delete()
@@ -127,7 +127,7 @@ class ChipperUtil
     }
     else
     {
-      log.debug  "initialize: bad"
+      log.error  "initialize: bad"
     }
 
     chipper.delete()
