@@ -515,7 +515,7 @@ class ChipperController {
        log.info initOps as String
        render contentType: 'text/plain', text: ChipperUtil.executeChipper(initOps)
      } else {
-       log.info 'ERROR'
+       log.error 'ERROR'
        render contentType: 'text/plain', text: false
      }
    }
