@@ -31,7 +31,7 @@ class ImageGeometryService {
                 ellLine)
         def typeString = new ossimString()
         String projType
-        Double nPoints = ellSamp.size()
+        // Double nPoints = ellSamp.size()
         try{
             if (errorPropAvailable)
             {

@@ -157,8 +157,6 @@ class JaiImage
   {
     int srcW = img.width
     int srcH = img.height
-    int x = 0
-    int y = 0
     int tgtW = w
     int tgtH = h
     def maxSize = Math.max(srcW, srcH);
