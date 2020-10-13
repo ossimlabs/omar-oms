@@ -25,12 +25,14 @@ class InfoGetterPoolableObjectFactory implements PoolableObjectFactory
   {
   }
   
+  @Override
   public Object makeObject()
   {
     return new InfoGetter()
   }
   
-  public boolean validateObject()
+  @Override
+  public boolean validateObject(Object o)
   {
     return true
   }
