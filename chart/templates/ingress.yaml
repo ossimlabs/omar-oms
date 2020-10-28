@@ -22,6 +22,6 @@ spec:
       paths:
       - path: {{ .Values.ingressPath }}
         backend:
-          serviceName: {{ .Values.appName }}
+          serviceName: {{ .Values.appName }}-app
           servicePort: {{ .Values.internalPort }}
 {{- end }}
