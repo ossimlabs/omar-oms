@@ -16,21 +16,23 @@ class InfoGetterPoolableObjectFactory implements PoolableObjectFactory
     infoGetter?.cleanup()
     infoGetter = null
   }
-
+  @Override
   public void activateObject(Object infoGetter)
   {
   }
-
+  @Override
   public void passivateObject(Object infoGetter)
   {
   }
-
+  
+  @Override
   public Object makeObject()
   {
     return new InfoGetter()
   }
-
-  public boolean validateObject(Object infoGetter)
+  
+  @Override
+  public boolean validateObject(Object o)
   {
     return true
   }
