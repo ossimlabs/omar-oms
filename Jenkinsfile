@@ -123,7 +123,7 @@ podTemplate(
               }
           }
       }
-
+/*
         stage ("Generate Swagger Spec") {
           container('builder') {
                 sh """
@@ -133,7 +133,6 @@ podTemplate(
                 archiveArtifacts "plugins/*/build/swaggerSpec.json"
             }
           }
-
         stage ("Run Cypress Test") {
             container('cypress') {
                 try {
@@ -152,6 +151,7 @@ podTemplate(
                 }
             }
         }
+*/
 
       stage('Build') {
         container('builder') {
@@ -240,7 +240,7 @@ podTemplate(
     stage('New Deploy'){
         container('kubectl-aws-helm') {
             withAWS(
-            credentials: 'Jenkins-AWS-IAM',
+            credentials: 'Jenkins IAM User',
             region: 'us-east-1'){
                 if (BRANCH_NAME == 'master'){
                     //insert future instructions here
