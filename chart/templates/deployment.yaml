@@ -19,6 +19,12 @@ spec:
         image: busybox:1.28
         command: ['sh', '-c', "until wget omar-config-server:8888/omar-config-server/omar-oms.yml; do echo waiting for config server; sleep 2; done"]
       {{- end }}
+      {{- if .Values.extraInitContainers }}
+      {{ toYaml .Values.extraInitContainers | indent 6 }}
+      {{- end }}
+      {{- if .Values.sideCars }}
+      {{ toYaml .Values.sideCars | indent 6 }}
+      {{- end }}
       containers:
       - name:  {{ .Values.appName }}
         env:
