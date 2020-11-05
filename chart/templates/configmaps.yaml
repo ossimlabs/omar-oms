@@ -1,0 +1,150 @@
+
+{{- /*
+This template allows for generating configmaps from files and
+directories, both templated and untemplated, as well as binary
+files and directories.
+
+It supports:
+  file: a single file
+  files: [ a list of files ]
+  dir: a single dir
+  dirs: [ a list of dirs ]
+  binaryFile: a single binary file
+  binaryFiles: [ a list of binary files ]
+  binaryDir: a single dir of binary files
+  binaryDirs: [ a list of dirs of binary files ]
+
+If template: true is specified, then the files (not binary) will
+be treated as templates and passed through the `tpl` function
+
+*/ -}}
+{{- range $configmapName, $configmapDict := .Values.configmaps }}
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $configmapName}}
+data:
+
+{{- /* Add an individual file */ -}}
+{{- if $configmapDict.file }}
+
+  {{- $configmapDict.file | base | nindent 2 }}: |+
+  {{- /* Template the file if specified, else inject it raw */ -}}
+  {{- if $configmapDict.template }}
+    {{- tpl ($.Files.Get $configmapDict.file) $ | nindent 4 }}
+  {{- else }}
+    {{- $.Files.Get $configmapDict.file | nindent 4 }}
+  {{- end }}
+
+{{- end }}
+
+
+
+{{- /* Add multiple individual files */ -}}
+{{- if $configmapDict.files }}
+  {{- range $filename := $configmapDict.files }}
+
+    {{- $filename | base | nindent 2 }}: |+
+    {{- /* Template the file if specified, else inject it raw */ -}}
+    {{- if $configmapDict.template }}
+      {{- tpl ($.Files.Get $filename) $ | nindent 4 }}
+    {{- else }}
+      {{- $.Files.Get $filename | nindent 4 }}
+    {{- end }}
+
+  {{- end }}
+{{- end }}
+
+
+
+{{- /* Add all files in a directory */ -}}
+{{- if $configmapDict.dir }}
+  {{- $path := printf "%s/*" $configmapDict.dir }}
+  {{- range $subpath, $bytes := $.Files.Glob $path }}
+
+    {{- $subpath | base | nindent 2 }}: |+
+    {{- /* Template each file if specified, else inject it raw */ -}}
+    {{- if $configmapDict.template }}
+      {{- tpl ($.Files.Get $subpath) $ | nindent 4 }}
+    {{- else }}
+      {{- $.Files.Get $subpath | nindent 4 }}
+    {{- end }}
+
+  {{- end }}
+{{- end }}
+
+
+
+{{- /* Add all files in multiple directories */ -}}
+{{- if $configmapDict.dirs }}
+  {{- range $dirname := $configmapDict.dirs }}
+
+    {{- $path := printf "%s/*" $dirname }}
+    {{- range $subpath, $bytes := $.Files.Glob $path }}
+
+      {{- $subpath | base | nindent 2 }}: |+
+      {{- /* Template each file if specified, else inject it raw */ -}}
+      {{- if $configmapDict.template }}
+        {{- tpl ($.Files.Get $subpath) $ | nindent 4 }}
+      {{- else }}
+        {{- $.Files.Get $subpath | nindent 4 }}
+      {{- end }}
+
+    {{- end }}
+
+  {{- end }}
+{{- end }}
+
+binaryData:
+
+{{- /* Add an individual binary file */ -}}
+{{- if $configmapDict.binaryFile }}
+
+  {{- $configmapDict.binaryFile | base | nindent 2 }}: |+
+  {{- $.Files.Get $configmapDict.binaryFile | b64enc | nindent 4 }}
+
+{{- end }}
+
+
+
+{{- /* Add multiple binary files */ -}}
+{{- if $configmapDict.binaryFiles }}
+  {{- range $filename := $configmapDict.binaryFiles }}  
+
+  {{- $filename | base | nindent 2 }}: |+
+      {{- $.Files.Get $filename | b64enc | nindent 4 }}
+
+  {{- end }}
+{{- end }}
+
+
+
+{{- /* Add all binary files in a directory */ -}}
+{{- if $configmapDict.binaryDir }}
+
+  {{- $path := printf "%s/*" $configmapDict.binaryDir }}
+  {{- range $subpath, $bytes := $.Files.Glob $path }}
+    {{- $subpath | base | nindent 2 }}: |+
+      {{- $.Files.Get $subpath | b64enc | nindent 4 }}
+  {{- end }}
+
+{{- end }}
+
+
+
+{{- /* Add all binary files in multiple directory */ -}}
+{{- if $configmapDict.binaryDirs }}
+  {{- range $dirname := $configmapDict.binaryDirs }}
+
+    {{- $path := printf "%s/*" $dirname }}
+    {{- range $subpath, $bytes := $.Files.Glob $path }}
+      {{- $subpath | base | nindent 2 }}: |+
+        {{- $.Files.Get $subpath | b64enc | nindent 4 }}
+    {{- end }}
+
+  {{- end }}
+{{- end }}
+
+{{- end }}
