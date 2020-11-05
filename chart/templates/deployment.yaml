@@ -20,11 +20,11 @@ spec:
         command: ['sh', '-c', "until wget omar-config-server:8888/omar-config-server/omar-oms.yml; do echo waiting for config server; sleep 2; done"]
       {{- end }}
       {{- if .Values.extraInitContainers }}
-      {{ toYaml .Values.extraInitContainers | indent 6 }}
+      {{- toYaml .Values.extraInitContainers |  nindent 6 }}
       {{- end }}
       containers:
       {{- if .Values.sideCars }}
-      {{ toYaml .Values.sideCars | indent 6 }}
+      {{- toYaml .Values.sideCars |  nindent 6 }}
       {{- end }}
       - name:  {{ .Values.appName }}
         env:
