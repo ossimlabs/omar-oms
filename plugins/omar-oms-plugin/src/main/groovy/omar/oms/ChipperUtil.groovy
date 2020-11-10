@@ -94,8 +94,9 @@ class ChipperUtil
     return image
   }
 
-  static void runChipper(Map<String,String> opts, Map<String,Object> hints, byte[] buffer)
+  static void runChipper(Map<String,String> opts , Map<String,Object> hints, byte[] buffer)
   {
+
     log.trace "runChipper: Entered.................."
     def chipper = new Chipper()
 
@@ -103,7 +104,6 @@ class ChipperUtil
     if ( chipper.initialize( opts ) )
     {
       log.debug "initialize: good"
-      
     }
     else
     {
@@ -220,7 +220,7 @@ class ChipperUtil
   static def chipperResultToImage(HashMap chipperResult, HashMap hints = [:])
   {
     def image
-    Boolean keepBands = hints?.keepBands
+//    Boolean keepBands = hints?.keepBands ->not being used
 
     if(hints.keepBands)
     {
@@ -229,7 +229,7 @@ class ChipperUtil
         // The only type we will support raw band output is TIFF.
         // this way we can send back the raw tiff without modification
         //
-        keepBands = false;
+//        keepBands = false; ->not being used
       }
     }
     if ( chipperResult.raster )
@@ -253,7 +253,7 @@ class ChipperUtil
       }
       catch ( e )
       {
-        e.printStackTrace()
+        log.error e.toString()
       }
     }
     image 

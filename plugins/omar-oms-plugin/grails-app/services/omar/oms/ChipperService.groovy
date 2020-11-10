@@ -23,11 +23,6 @@ log.info'*' * 50
 
       if( cmd.validate() ) {
          if ( !new File( cmd.images[ 0 ].file ).exists() ) {
-            chipperResult.status = HttpStatus.BAD_REQUEST
-            chipperResult.statusMessage = "File not found."
-            chipperResult.contentType = "text/plain"
-         }
-         else {
             if( cmd.transparent != null ) {
                 hints.transparent = cmd.transparent
             }
@@ -57,6 +52,12 @@ log.info'*' * 50
                 chipperResult.image = null
             }
         }
+          else
+         {
+             chipperResult.status = HttpStatus.BAD_REQUEST
+             chipperResult.statusMessage = "File not found."
+             chipperResult.contentType = "text/plain"
+         }
      }
       else {
         chipperResult.statusMessage = "Parameter values are invalid. Please check the paramter format"
