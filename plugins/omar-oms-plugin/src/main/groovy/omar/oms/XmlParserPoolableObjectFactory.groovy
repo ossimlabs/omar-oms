@@ -28,16 +28,16 @@ class XmlParserPoolableObjectFactory implements PoolableObjectFactory
   {
   }
 
-  public boolean validateObject( Object obj )
+  public boolean validateObject( Object o )
   {
     return true;
   }
 
-  void activateObject( Object o )
+  void activateObject( Object o)
   {
   }
 
-  void passivateObject( Object o )
+  void passivateObject(Object o)
   {
   }
 }
