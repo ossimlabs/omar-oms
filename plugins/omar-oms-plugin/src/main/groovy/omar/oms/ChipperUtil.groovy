@@ -225,16 +225,16 @@ class ChipperUtil
     def image
 //    Boolean keepBands = hints?.keepBands ->not being used
 
-    if(hints.keepBands)
-    {
-      if(!hints.type.contains("tiff"))
-      {
-        // The only type we will support raw band output is TIFF.
-        // this way we can send back the raw tiff without modification
-        //
+//    if(hints.keepBands)
+//    {
+//      if(!hints.type.contains("tiff"))
+//      {
+//         //The only type we will support raw band output is TIFF.
+//         //this way we can send back the raw tiff without modification
+//
 //        keepBands = false; ->not being used
-      }
-    }
+//      }
+//    }
     if ( chipperResult.raster )
     {
       if ( (!hints.keepBands) && (chipperResult.raster.numBands > 3 ))

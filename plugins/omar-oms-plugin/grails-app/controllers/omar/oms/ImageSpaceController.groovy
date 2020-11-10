@@ -96,7 +96,7 @@ class ImageSpaceController implements AsyncController
        if(result.buffer?.length) response.contentLength = result.buffer.length
 
         if ( result.status == 500) {
-            throw new Exception( new String(result.buffer) )
+            throw new IllegalArgumentException( new String(result.buffer) )
         }
 
        if(outputStream)
