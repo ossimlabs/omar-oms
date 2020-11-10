@@ -110,6 +110,9 @@ class ChipperUtil
       log.error  "initialize: bad"
     }
 
+    log.trace "runChipper hints: ${hints}"
+    log.trace "runChipper buffer: ${buffer}"
+
     chipper.delete()
 
     log.trace "runChipper: Leaving.................."

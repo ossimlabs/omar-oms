@@ -43,7 +43,7 @@ class JaiImage
 
     modifiedImage
   }
-  static def reformatImage(def image, int tileWidth = 256, int tileHeight = 256)
+  static def reformatImage(def image /*, int tileWidth = 256, int tileHeight = 256*/)
   {
     def imageLayout = new ImageLayout( image )
 
