@@ -6,13 +6,13 @@ import javax.media.jai.ImageLayout
 import javax.media.jai.JAI
 import javax.media.jai.ParameterBlockJAI
 import javax.media.jai.PlanarImage
-import java.awt.Graphics
+
 import java.awt.Graphics2D
-import java.awt.Image
+
 import java.awt.Point
 import java.awt.RenderingHints
 import java.awt.image.BufferedImage
-import java.awt.image.Raster
+
 
 import org.springframework.util.FastByteArrayOutputStream
 
@@ -157,8 +157,6 @@ class JaiImage
   {
     int srcW = img.width
     int srcH = img.height
-    int x = 0
-    int y = 0
     int tgtW = w
     int tgtH = h
     def maxSize = Math.max(srcW, srcH);

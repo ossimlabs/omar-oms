@@ -29,7 +29,7 @@ global:
 
   volumes:
     ossim-data:
-      type: null
+      type: ""
       nfsServer: null
       nfsMountPoint: null
       accessModes:
@@ -61,7 +61,7 @@ maxReplicas: 20
 targetCpu: 90
     
 image:
-  name: omar-oms-app
+  name: omar-oms
   tag: dev
   pullPolicy: Always
 
@@ -90,3 +90,13 @@ envVars:
   SPRING_CLOUD_CONFIG_LABEL: master
   BUCKETS: o2-test-data
   JAVA_OPTS: "-server -Xms256m -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:MaxRAMFraction=1 -XX:+CMSClassUnloadingEnabled -XX:+UseGCOverheadLimit -Djava.awt.headless=true -XshowSettings:vm -Djava.security.egd=file:/dev/./urandom"
+
+configmaps: {}
+
+extraVolumes: []
+
+extraVolumeMounts: []
+
+extraInitContainers: []
+
+sideCars: []
