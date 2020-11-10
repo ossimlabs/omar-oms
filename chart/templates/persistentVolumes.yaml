@@ -11,7 +11,7 @@ spec:
   capacity:
     storage: {{ $volumeDict.size }}
 
-  {{- if (len $volumeDict.accessModes) gt 0 }}
+  {{- if gt (len $volumeDict.accessModes) 0 }}
   accessModes:
     {{- range $item := $volumeDict.accessModes }}
     - {{ $item }}
@@ -33,7 +33,7 @@ metadata:
   name: "{{ $.Values.appName }}-{{ $volumeName }}-pvc"
 spec:
 
-  {{- if (len $volumeDict.accessModes) gt 0 }}
+  {{- if gt (len $volumeDict.accessModes) 0 }}
   accessModes:
     {{- range $item := $volumeDict.accessModes }}
     - {{ $item }}
