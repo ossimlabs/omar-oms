@@ -183,7 +183,7 @@ podTemplate(
       container('docker') {
         withDockerRegistry(credentialsId: 'dockerCredentials', url: "https://${DOCKER_REGISTRY_DOWNLOAD_URL}") {  //TODO
             sh """
-                docker build --build-arg BASE_IMAGE=${DOCKER_REGISTRY_DOWNLOAD_URL}/ossim-alpine-runtime:1.4 --network=host -t "${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}"/omar-oms:"${VERSION}".a ./docker
+                docker build --build-arg BASE_IMAGE=${DOCKER_REGISTRY_DOWNLOAD_URL}/ossim-alpine-runtime:1.4 --network=host -t "${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}"/omar-oms:"${VERSION}" ./docker
             """
         }
       }
@@ -199,13 +199,13 @@ podTemplate(
             }
             else if (BRANCH_NAME == 'dev') {
                 sh """
-                    docker tag "${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}"/omar-oms:"${VERSION}".a "${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}"/omar-oms:dev
-                    docker push "${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}"/omar-oms:"${VERSION}".a
+                    docker tag "${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}"/omar-oms:"${VERSION}" "${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}"/omar-oms:dev
                     docker push "${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}"/omar-oms:dev
                 """
             }
             else {
                 sh """
+                    docker tag "${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}"/omar-oms:"${VERSION}" "${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}"/omar-oms:"${VERSION}".a 
                     docker push "${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}"/omar-oms:"${VERSION}".a           
                 """
             }
