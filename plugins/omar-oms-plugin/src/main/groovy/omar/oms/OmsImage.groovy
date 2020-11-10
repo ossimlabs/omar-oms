@@ -69,7 +69,7 @@ class OmsImage
     {
       if ( chipper.getChip( buffer, buffer.length, hints.transparent ) > 1 )
       {
-        // log.info 'getChip: good'
+        log.info 'getChip: good'
       }
       else
       {

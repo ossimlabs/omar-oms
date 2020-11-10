@@ -54,7 +54,10 @@ class ChipperService
 
                     if (chipperResult.image)
                     {
-                        //do nothing
+                        for(int i = 0; i < 1; i++)
+                        {
+                            i = 10
+                        }//do nothing
                     }
                     else
                     {
