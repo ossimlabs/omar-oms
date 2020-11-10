@@ -25,7 +25,13 @@ class ChipperService
 
         if (cmd.validate())
         {
-            if (!new File(cmd.images[0].file).exists())
+            if (new File(cmd.images[0].file).exists())
+            {
+                chipperResult.status = HttpStatus.BAD_REQUEST
+                chipperResult.statusMessage = "File not found."
+                chipperResult.contentType = "text/plain"
+            }
+            else
             {
                 if (cmd.transparent != null)
                 {
@@ -46,7 +52,11 @@ class ChipperService
                     chipperResult.contentType = "image/${outputFormat?.split("/")[-1]}"
                     chipperResult.format = outputFormat?.split("/")[-1]
 
-                    if (!chipperResult.image)
+                    if (chipperResult.image)
+                    {
+                        //do nothing
+                    }
+                    else
                     {
                         chipperResult.status = HttpStatus.BAD_REQUEST
                         chipperResult.statusMessage = "Unable to create an image."
@@ -60,12 +70,6 @@ class ChipperService
                     chipperResult.contentType = "text/plain"
                     chipperResult.image = null
                 }
-            }
-            else
-            {
-                chipperResult.status = HttpStatus.BAD_REQUEST
-                chipperResult.statusMessage = "File not found."
-                chipperResult.contentType = "text/plain"
             }
         }
         else
