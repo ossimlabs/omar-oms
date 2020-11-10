@@ -4,6 +4,8 @@ import grails.converters.JSON
 import omar.core.BindUtil
 import omar.core.HttpStatus
 
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 import io.swagger.annotations.*
 
@@ -17,6 +19,8 @@ import grails.async.web.AsyncController
 )
 class ImageSpaceController implements AsyncController
 {
+    final Logger logger = LoggerFactory.getLogger("myLogger")
+
   def imageSpaceService
 
   def index(/*GetTileCommand cmd*/)
@@ -102,10 +106,10 @@ class ImageSpaceController implements AsyncController
     }
     catch ( e )
     {
-      e.printStackTrace()
+        logger.trace("There was an error in ImageSpaceController line 109", e)
 
        response.status = HttpStatus.INTERNAL_SERVER_ERROR
-       log.debug(e.message)
+       logger.debug(e.message)
     }
     finally{
        if(outputStream!=null)
