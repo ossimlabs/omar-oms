@@ -39,12 +39,12 @@ class XmlParserPoolableObjectFactory implements PoolableObjectFactory
   void activateObject( Object o)
   {
     if(o == null)
-      System.out.println("Object is null");
+      o;
   }
 
   void passivateObject(Object o)
   {
     if(o == null)
-      System.out.println("Object is null");
+      o;
   }
 }
