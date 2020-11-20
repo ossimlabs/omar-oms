@@ -12,10 +12,9 @@ class ChipperService
 
     def getTile(ChipperCommand cmd)
     {
+        println "Running getTile with ChipperCommand"
 
-        log.info '*' * 50
-        log.info cmd as String
-        log.info '*' * 50
+        log.info
 
         HashMap chipperOptions = cmd?.toChipperOptions()
         HashMap result = [:]

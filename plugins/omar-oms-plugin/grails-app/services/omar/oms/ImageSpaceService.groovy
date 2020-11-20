@@ -129,7 +129,6 @@ class ImageSpaceService
 
     for ( def i = kwl.iterator; !i.end(); )
     {
-      //println "${i.key}: ${i.value}"
 
       def names = i.key.split( '\\.' )
       def prev = data
@@ -381,7 +380,6 @@ class ImageSpaceService
     }
     catch(e)
     {
-//      e.printStackTrace()
       logger.error(e.toString(), e)
       result = []
     }

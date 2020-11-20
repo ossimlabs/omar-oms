@@ -21,7 +21,7 @@ import joms.oms.ossimMemoryImageSource
 import omar.core.DateUtil
 import org.ossim.oms.image.omsRenderedImage
 import org.ossim.oms.image.omsImageSource
-import java.awt.image.SampleModel
+
 
 /**
  * Created by sbortman on 1/15/16.
@@ -44,7 +44,6 @@ class ChipperUtil
 
         if(stylesObj?.bands)
         {
-          //opts.three_band_out = false
           opts.bands = stylesObj.bands.join(",")
         }
         if(stylesObj?.histOp)
