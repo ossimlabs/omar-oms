@@ -12,7 +12,7 @@ class ChipperService
 
     def getTile(ChipperCommand cmd)
     {
-        println "Running getTile with ChipperCommand"
+        log.trace "Running getTile with ChipperCommand"
 
         log.info
 
