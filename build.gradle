@@ -31,7 +31,7 @@ subprojects { project ->
      buildVersionTag = gitBranch == "master" ? "RELEASE" : "SNAPSHOT"
     }
 
-    project.version "${buildVersion}-${buildVersionTag}"
+    project.version "${project.buildVersion}-${buildVersionTag}"
     project.group groupName
 
     apply plugin:"eclipse"
