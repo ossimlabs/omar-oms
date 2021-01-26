@@ -149,7 +149,7 @@ podTemplate(
       container('docker') {
         withDockerRegistry(credentialsId: 'dockerCredentials', url: "https://${DOCKER_REGISTRY_DOWNLOAD_URL}") {  //TODO
             sh """
-                docker build --build-arg BASE_IMAGE=${DOCKER_REGISTRY_DOWNLOAD_URL}/ossim-alpine-runtime:jdk11-1611583830077 --network=host -t "${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}"/omar-oms:"${VERSION}" ./docker
+                docker build --build-arg BASE_IMAGE=${DOCKER_REGISTRY_DOWNLOAD_URL}/ossim-alpine-jdk11-runtime:1.0 --network=host -t "${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}"/omar-oms:"${VERSION}" ./docker
             """
         }
       }
