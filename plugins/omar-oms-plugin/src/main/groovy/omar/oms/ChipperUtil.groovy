@@ -21,7 +21,7 @@ import joms.oms.ossimMemoryImageSource
 import omar.core.DateUtil
 import org.ossim.oms.image.omsRenderedImage
 import org.ossim.oms.image.omsImageSource
-import java.awt.image.SampleModel
+
 
 /**
  * Created by sbortman on 1/15/16.
@@ -44,7 +44,6 @@ class ChipperUtil
 
         if(stylesObj?.bands)
         {
-          //opts.three_band_out = false
           opts.bands = stylesObj.bands.join(",")
         }
         if(stylesObj?.histOp)
@@ -94,8 +93,9 @@ class ChipperUtil
     return image
   }
 
-  static void runChipper(Map<String,String> opts, Map<String,Object> hints, byte[] buffer)
+  static void runChipper(Map<String,String> opts , Map<String,Object> hints, byte[] buffer)
   {
+
     log.trace "runChipper: Entered.................."
     def chipper = new Chipper()
 
@@ -103,12 +103,14 @@ class ChipperUtil
     if ( chipper.initialize( opts ) )
     {
       log.debug "initialize: good"
-      
     }
     else
     {
       log.error  "initialize: bad"
     }
+
+    log.trace "runChipper hints: ${hints}"
+    log.trace "runChipper buffer: ${buffer}"
 
     chipper.delete()
 
@@ -220,18 +222,18 @@ class ChipperUtil
   static def chipperResultToImage(HashMap chipperResult, HashMap hints = [:])
   {
     def image
-    Boolean keepBands = hints?.keepBands
+//    Boolean keepBands = hints?.keepBands ->not being used
 
-    if(hints.keepBands)
-    {
-      if(!hints.type.contains("tiff"))
-      {
-        // The only type we will support raw band output is TIFF.
-        // this way we can send back the raw tiff without modification
-        //
-        keepBands = false;
-      }
-    }
+//    if(hints.keepBands)
+//    {
+//      if(!hints.type.contains("tiff"))
+//      {
+//         //The only type we will support raw band output is TIFF.
+//         //this way we can send back the raw tiff without modification
+//
+//        keepBands = false; ->not being used
+//      }
+//    }
     if ( chipperResult.raster )
     {
       if ( (!hints.keepBands) && (chipperResult.raster.numBands > 3 ))
@@ -253,7 +255,7 @@ class ChipperUtil
       }
       catch ( e )
       {
-        e.printStackTrace()
+        log.error e.toString()
       }
     }
     image 

@@ -20,8 +20,14 @@ import groovy.transform.Memoized
 
 import org.springframework.util.FastByteArrayOutputStream
 
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+
 class ImageSpaceService
 {
+
+  final Logger logger = LoggerFactory.getLogger("myLogger")
+
   static transactional = false
   def chipperService
   def grailsApplication
@@ -123,7 +129,6 @@ class ImageSpaceService
 
     for ( def i = kwl.iterator; !i.end(); )
     {
-      //println "${i.key}: ${i.value}"
 
       def names = i.key.split( '\\.' )
       def prev = data
@@ -375,8 +380,7 @@ class ImageSpaceService
     }
     catch(e)
     {
-      e.printStackTrace()
-      log.error e.toString()
+      logger.error(e.toString(), e)
       result = []
     }
 

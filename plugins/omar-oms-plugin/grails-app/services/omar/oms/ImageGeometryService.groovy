@@ -42,13 +42,7 @@ class ImageGeometryService {
                 typeString = imageSpaceModel.getType()
                 projType = typeString
                 projType = projType.minus("ossim")
-                if (!surfaceInfoAvailable)
-                {
-                    result.surfaceName = "NO SURFACE INFO"
-                    result.pqeValid    = false
-                    result.pqeMessage  = "No Surface Information available"
-                }
-                else
+                if (surfaceInfoAvailable)
                 {
                     result.pqeValid    = true
                     result.surfaceName = surfaceName
@@ -62,6 +56,12 @@ class ImageGeometryService {
                     result.pqeMessage  = "SUCCESS"
 
                     //dataRecord.nELL=pqeArray[5]
+                }
+                else
+                {
+                    result.surfaceName = "NO SURFACE INFO"
+                    result.pqeValid    = false
+                    result.pqeMessage  = "No Surface Information available"
                 }
             }
         }
@@ -112,7 +112,11 @@ class ImageGeometryService {
                     if(gpt.isHgtNan())
                     {
                         ellipsHeight = geodeticEvaluator.getHeightEllipsoid(gpt)
-                        if(!ellipsHeight.naN)
+                        if(ellipsHeight.naN)
+                        {
+                            gpt.height = 0.0
+                        }
+                        else
                         {
                             gpt.height = ellipsHeight
                             if(hgtMsl.naN)
@@ -120,10 +124,7 @@ class ImageGeometryService {
                                 hgtMsl = 0.0;
                             }
                         }
-                        else
-                        {
-                            gpt.height = 0.0
-                        }
+
                     }
                     else if(hgtMsl.naN)
                     {

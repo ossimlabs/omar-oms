@@ -4,6 +4,8 @@ import grails.converters.JSON
 import omar.core.BindUtil
 import omar.core.HttpStatus
 
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 import io.swagger.annotations.*
 
@@ -17,6 +19,8 @@ import grails.async.web.AsyncController
 )
 class ImageSpaceController implements AsyncController
 {
+    final Logger logger = LoggerFactory.getLogger("myLogger")
+
   def imageSpaceService
 
   def index(/*GetTileCommand cmd*/)
@@ -31,7 +35,6 @@ class ImageSpaceController implements AsyncController
     def upAngle = imageSpaceService.computeUpIsUp( filename, entry )
     def northAngle = imageSpaceService.computeNorthIsUp( filename, entry )
 
-//    println imageInfo
 
     def initParams = [
         filename: filename,
@@ -79,20 +82,18 @@ class ImageSpaceController implements AsyncController
     def cmd = new GetTileCommand()
     BindUtil.fixParamNames( GetTileCommand, params )
     bindData( cmd, params )
-    // println cmd
     def outputStream = null
     try
     {
        response.status = HttpStatus.OK
        def result = imageSpaceService.getTile( cmd )
-      //  println result
        outputStream = response.outputStream
        if(result.status != null) response.status        = result.status
        if(result.contentType) response.contentType      = result.contentType
        if(result.buffer?.length) response.contentLength = result.buffer.length
 
         if ( result.status == 500) {
-            throw new Exception( new String(result.buffer) )
+            throw new IllegalArgumentException( new String(result.buffer) )
         }
 
        if(outputStream)
@@ -102,10 +103,11 @@ class ImageSpaceController implements AsyncController
     }
     catch ( e )
     {
-      e.printStackTrace()
+        logger.error("There was an illegal argument in ImageSpaceController line 109", e)
+
 
        response.status = HttpStatus.INTERNAL_SERVER_ERROR
-       log.debug(e.message)
+       logger.debug(e.message)
     }
     finally{
        if(outputStream!=null)
@@ -135,13 +137,11 @@ class ImageSpaceController implements AsyncController
   ])
   def getTileOverlay(/*GetTileCommand cmd*/)
   {
-//    println params
 
     def cmd = new GetTileCommand()
 
     BindUtil.fixParamNames( GetTileCommand, params )
     bindData( cmd, params )
-//    println cmd
 
     def outputStream = null
     try
@@ -179,7 +179,6 @@ class ImageSpaceController implements AsyncController
 
   def getAngles()
   {
-    //println params
 
     String filename = params.filename
     Integer entry = params.int( 'entry' )
@@ -229,7 +228,6 @@ class ImageSpaceController implements AsyncController
          if(result.status != null) response.status        = result.status
          if(result.contentType) response.contentType      = result.contentType
          if(result.buffer?.length) response.contentLength = result.buffer.length
-	      //  response.setHeader('Cache-Control', 'max-age=3600')
           response.setDateHeader('Expires', System.currentTimeMillis() + 60*60*1000)
          if(outputStream)
          {
