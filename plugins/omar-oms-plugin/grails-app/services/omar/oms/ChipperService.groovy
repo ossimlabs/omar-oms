@@ -6,96 +6,113 @@ import javax.imageio.ImageIO
 
 import org.springframework.util.FastByteArrayOutputStream
 
-@Transactional(readOnly=true)
-class ChipperService {
+@Transactional(readOnly = true)
+class ChipperService
+{
 
-    def getTile(ChipperCommand cmd) {
-      
-log.info '*' * 50
-log.info cmd as String
-log.info'*' * 50
+    def getTile(ChipperCommand cmd)
+    {
+        log.trace "Running getTile with ChipperCommand"
 
-      HashMap chipperOptions = cmd?.toChipperOptions()
-      HashMap result = [:]
-      HashMap chipperResult = [:]
-      String outputFormat = cmd.outputFormat?:"image/png"
-      def hints = [type:outputFormat]
+        log.info
 
-      if( cmd.validate() ) {
-         if ( !new File( cmd.images[ 0 ].file ).exists() ) {
-            chipperResult.status = HttpStatus.BAD_REQUEST
-            chipperResult.statusMessage = "File not found."
-            chipperResult.contentType = "text/plain"
-         }
-         else {
-            if( cmd.transparent != null ) {
-                hints.transparent = cmd.transparent
+        HashMap chipperOptions = cmd?.toChipperOptions()
+        HashMap result = [:]
+        HashMap chipperResult = [:]
+        String outputFormat = cmd.outputFormat ?: "image/png"
+        def hints = [type: outputFormat]
+
+        if (cmd.validate())
+        {
+            if (new File(cmd.images[0].file).exists())
+            {
+                chipperResult.status = HttpStatus.BAD_REQUEST
+                chipperResult.statusMessage = "File not found."
+                chipperResult.contentType = "text/plain"
             }
-            if( cmd.keepBands ) {
-                hints.keepBands = cmd.keepBands
-            }
+            else
+            {
+                if (cmd.transparent != null)
+                {
+                    hints.transparent = cmd.transparent
+                }
+                if (cmd.keepBands)
+                {
+                    hints.keepBands = cmd.keepBands
+                }
 
-            try {
-                chipperResult             = ChipperUtil.runChipper( chipperOptions )
-                chipperResult.image       = ChipperUtil.chipperResultToImage(chipperResult, hints)
+                try
+                {
+                    chipperResult = ChipperUtil.runChipper(chipperOptions)
+                    chipperResult.image = ChipperUtil.chipperResultToImage(chipperResult, hints)
 
-                chipperResult.status      = HttpStatus.OK
-                chipperResult.message     = ""
-                chipperResult.contentType = "image/${outputFormat?.split("/")[-1]}"
-                chipperResult.format      = outputFormat?.split("/")[-1]
+                    chipperResult.status = HttpStatus.OK
+                    chipperResult.message = ""
+                    chipperResult.contentType = "image/${outputFormat?.split("/")[-1]}"
+                    chipperResult.format = outputFormat?.split("/")[-1]
 
-                if(!chipperResult.image) {
-                    chipperResult.status        = HttpStatus.BAD_REQUEST
-                    chipperResult.statusMessage = "Unable to create an image."
-                    chipperResult.contentType   = "text/plain"
+                    if (chipperResult.image)
+                    {
+                        for(int i = 0; i < 1; i++)
+                        {
+                            i = 10
+                        }//do nothing
+                    }
+                    else
+                    {
+                        chipperResult.status = HttpStatus.BAD_REQUEST
+                        chipperResult.statusMessage = "Unable to create an image."
+                        chipperResult.contentType = "text/plain"
+                    }
+                }
+                catch (e)
+                {
+                    chipperResult.status = HttpStatus.BAD_REQUEST
+                    chipperResult.statusMessage = e.toString()
+                    chipperResult.contentType = "text/plain"
+                    chipperResult.image = null
                 }
             }
-            catch( e ) {
-                chipperResult.status        = HttpStatus.BAD_REQUEST
-                chipperResult.statusMessage = e.toString()
-                chipperResult.contentType   = "text/plain"
-                chipperResult.image = null
+        }
+        else
+        {
+            chipperResult.statusMessage = "Parameter values are invalid. Please check the paramter format"
+            chipperResult.status = HttpStatus.BAD_REQUEST
+            chipperResult.contentType = "text/plain"
+        }
+
+        result.status = chipperResult.status
+        result.contentType = chipperResult.contentType
+
+        if (chipperResult.status == HttpStatus.OK)
+        {
+            if (chipperResult.image)
+            {
+                int bufferSize = (chipperResult.format == 'jpeg') ? ChipperUtil.DEFAULT_JPEG_SIZE : ChipperUtil.DEFAULT_PNG_SIZE
+                def ostream = new FastByteArrayOutputStream(bufferSize)
+
+                try
+                {
+                    ImageIO.write(chipperResult.image, chipperResult.format, ostream)
+                    result.buffer = ostream.toByteArrayUnsafe()
+                }
+                catch (e)
+                {
+                    result.status = HttpStatus.INTERNAL_SERVER_ERROR
+                    result.contentType = "text/plain"
+                    result.buffer = "${e}".bytes
+                }
             }
         }
-     }
-      else {
-        chipperResult.statusMessage = "Parameter values are invalid. Please check the paramter format"
-        chipperResult.status        = HttpStatus.BAD_REQUEST
-        chipperResult.contentType   = "text/plain"
-      }
-
-      result.status      = chipperResult.status
-      result.contentType = chipperResult.contentType
-
-      if(chipperResult.status == HttpStatus.OK)
-      {
-        if(chipperResult.image)
+        else
         {
-          int bufferSize = ( chipperResult.format == 'jpeg') ? ChipperUtil.DEFAULT_JPEG_SIZE : ChipperUtil.DEFAULT_PNG_SIZE
-          def ostream = new FastByteArrayOutputStream( bufferSize )
-
-          try
-          {
-            ImageIO.write(chipperResult.image, chipperResult.format, ostream)
-            result.buffer = ostream.toByteArrayUnsafe()
-          }
-          catch(e)
-          {
-            result.status = HttpStatus.INTERNAL_SERVER_ERROR
-            result.contentType   = "text/plain"
-            result.buffer = "${e}".bytes
-          }
+            if (chipperResult.statusMessage)
+            {
+                result.buffer = chipperResult.statusMessage.bytes
+            }
         }
-      }
-      else
-      {
-        if(chipperResult.statusMessage)
-        {
-          result.buffer = chipperResult.statusMessage.bytes
-        }
-      }
 
-      result
+        result
     }
 
 }

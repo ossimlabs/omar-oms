@@ -43,7 +43,8 @@ class JaiImage
 
     modifiedImage
   }
-  static def reformatImage(def image, int tileWidth = 256, int tileHeight = 256)
+  static def reformatImage(def image )
+//  , int tileWidth = 256, int tileHeight = 256
   {
     def imageLayout = new ImageLayout( image )
 
@@ -95,7 +96,6 @@ class JaiImage
 
         image = reformatImage( image )
 
-        //println image.class.name
 
         def properties = ['width', 'height', 'tileWidth', 'tileHeight', 'numXTiles', 'numYTiles'].inject( [:] ) {
           a, b -> a."${b}" = image."${b}"; a

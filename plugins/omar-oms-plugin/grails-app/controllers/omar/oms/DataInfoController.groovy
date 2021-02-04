@@ -36,14 +36,14 @@ class DataInfoController {
          bindData(command, BindUtil.fixParamNames(DataInfoCommand, params))
       }
       String result = dataInfoService.getInfo(command)
-      if(!result)
+      if(result)
+      {
+          render contentType: "application/xml", text: result
+      }
+       else
       {
         response.status = 400
         render contentType: "text/plain", text: "Unable to get information for ${command.filename}"
-      }
-      else
-      {
-        render contentType: "application/xml", text: result
       }
 
    }
