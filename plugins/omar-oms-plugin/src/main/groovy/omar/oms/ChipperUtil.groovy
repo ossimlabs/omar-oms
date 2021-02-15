@@ -167,13 +167,19 @@ class ChipperUtil
         {
           cacheSource = new ossimMemoryImageSource();
           cacheSource?.setImage( imageData );
+          if(!cacheSource) {
+            log.debug "chipperResultToImage: no cacheSource"
+          }
           def renderedImage  = new omsRenderedImage( new omsImageSource( cacheSource ) )
           result.sampleModel = renderedImage.sampleModel
           result.colorModel  = renderedImage.colorModel
           result.raster      = renderedImage.data
           renderedImage=null
         }
-        else if(imageData.get() != null) {
+        else if(imageData == null) {
+          log.debug "chipperResultToImage: imageData == null"
+        }
+        else {
           log.debug "chipperResultToImage: imageData.get() == null"
         }
       }
