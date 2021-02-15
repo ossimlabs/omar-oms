@@ -12,7 +12,7 @@ class ChipperService
 
     def getTile(ChipperCommand cmd)
     {
-        log.trace "Running getTile with ChipperCommand"
+        log.debug "Running getTile with ChipperCommand"
 
         HashMap chipperOptions = cmd?.toChipperOptions()
         HashMap result = [:]

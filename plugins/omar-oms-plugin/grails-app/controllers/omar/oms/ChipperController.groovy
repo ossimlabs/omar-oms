@@ -497,7 +497,7 @@ class ChipperController {
             runChipperCommandOutputStream = response.getOutputStream()
             runChipperCommandOutputStream << getTileResult.buffer
         } catch(IOException e) {
-            log.error("Error writing chipper command output to the response", e)
+            log.debug("Error writing chipper command output to the response", e)
         } finally {
             runChipperCommandOutputStream?.close()
         }
