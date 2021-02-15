@@ -173,6 +173,9 @@ class ChipperUtil
           result.raster      = renderedImage.data
           renderedImage=null
         }
+        else if(imageData.get() != null) {
+          log.debug "chipperResultToImage: imageData.get() == null"
+        }
       }
       else
       {
@@ -221,6 +224,7 @@ class ChipperUtil
   **/
   static def chipperResultToImage(HashMap chipperResult, HashMap hints = [:])
   {
+    log.debug "chipperResultToImage: Entered........."
     def image
 //    Boolean keepBands = hints?.keepBands ->not being used
 
@@ -247,6 +251,12 @@ class ChipperUtil
           chipperResult.raster = modifiedImage.data
           chipperResult.colorModel = modifiedImage.colorModel
         }
+        else {
+          log.debug "chipperResultToImage: no modifiedImage"
+        }
+      }
+      else {
+        log.debug "chipperResultToImage: hints.keepBands || numBands <= 3"
       }
 
       try
@@ -255,9 +265,13 @@ class ChipperUtil
       }
       catch ( e )
       {
-        log.error e.toString()
+        log.debug "Caught error: " + e.toString()
       }
     }
+    else {
+      log.debug "chipperResultToImage: no raster"
+    }
+    log.debug "chipperResultToImage: Leaving........."
     image 
   }
 }
