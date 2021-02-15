@@ -289,7 +289,7 @@ class ChipperController {
 
     Gamma correction value.  Good values between lighter .01  to darker 2  """)
    @ApiImplicitParams([
-          @ApiImplicitParam(name = 'images[0].file', value = 'filename', defaultValue = '/data/s3/adhoc/16SEP08110842-P1BS-055998376010_01_P007.TIF', paramType = 'query', dataType = 'string', required=true),
+          @ApiImplicitParam(name = 'images[0].file', value = 'filename', defaultValue = '/data/harvey/2017-01-29/1040010027891F00/3020113.tif', paramType = 'query', dataType = 'string', required=true),
           @ApiImplicitParam(name = 'images[0].entry', value = 'Image entry in the file', defaultValue = '', paramType = 'query', dataType = 'integer', required=false),
           @ApiImplicitParam(name = 'images[0].ovr', value = 'Location of overview', defaultValue = '', paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'images[0].hist', value = 'Location of histogram', defaultValue = '', paramType = 'query', dataType = 'string', required=false),
@@ -302,7 +302,7 @@ class ChipperController {
           @ApiImplicitParam(name = 'thumbnailResolution', value = '', defaultValue = '',  paramType = 'query', dataType = 'integer', required=false),
           @ApiImplicitParam(name = 'cutWidth', value = 'Cut width in pixels', defaultValue = '556',  paramType = 'query', dataType = 'integer', required=false),
           @ApiImplicitParam(name = 'cutHeight', value = 'Cut height in pixels', defaultValue = '556',  paramType = 'query', dataType = 'integer', required=false),
-          @ApiImplicitParam(name = 'cutWmsBbox', value = 'Cut wms bbox format', defaultValue = '20351.9945,10350.8278,512,512',  paramType = 'query', dataType = 'string', required=false),
+          @ApiImplicitParam(name = 'cutWmsBbox', value = 'Cut wms bbox format', defaultValue = '-95,29.7,-94.95,29.65',  paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'histOp', value = 'Histogram Operation',defaultValue = '',allowableValues="none,linear,auto-minmax,auto-percentile,std-stretch-1,std-stretch-2,std-stretch-3", paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'histBiasFactor', value = 'bias adjustment for auto calculations (defaults to the identity = 1) range is 0..2', defaultValue="1", paramType = 'query', dataType = 'number', required=false),
           @ApiImplicitParam(name = 'histLinearClip', value = 'Histogram clip comma separated: **low**,**high** ',defaultValue = '',allowableValues="", paramType = 'query', dataType = 'string', required=false),
