@@ -49,14 +49,7 @@ class ChipperService
                     chipperResult.contentType = "image/${outputFormat?.split("/")[-1]}"
                     chipperResult.format = outputFormat?.split("/")[-1]
 
-                    if (chipperResult.image)
-                    {
-                        for(int i = 0; i < 1; i++)
-                        {
-                            i = 10
-                        }//do nothing
-                    }
-                    else
+                    if (!chipperResult.image)
                     {
                         chipperResult.status = HttpStatus.BAD_REQUEST
                         chipperResult.statusMessage = "Unable to create an image."
