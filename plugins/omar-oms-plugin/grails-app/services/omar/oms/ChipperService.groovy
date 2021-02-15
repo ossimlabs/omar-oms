@@ -14,8 +14,6 @@ class ChipperService
     {
         log.trace "Running getTile with ChipperCommand"
 
-        log.info
-
         HashMap chipperOptions = cmd?.toChipperOptions()
         HashMap result = [:]
         HashMap chipperResult = [:]
