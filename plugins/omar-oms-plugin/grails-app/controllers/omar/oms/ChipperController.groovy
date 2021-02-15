@@ -474,8 +474,6 @@ class ChipperController {
         ChipperCommand command = new ChipperCommand()
         def json = request.JSON
 
-        log.debug("Running chipper command: ${operation}")
-
         if(json)
         {
             json.operation=operation
@@ -497,7 +495,7 @@ class ChipperController {
             runChipperCommandOutputStream = response.getOutputStream()
             runChipperCommandOutputStream << getTileResult.buffer
         } catch(IOException e) {
-            log.error("Error writing chipper command output to the response", e)
+            //log.error("Error writing chipper command output to the response", e)
         } finally {
             runChipperCommandOutputStream?.close()
         }
@@ -515,7 +513,7 @@ class ChipperController {
        log.info initOps as String
        render contentType: 'text/plain', text: ChipperUtil.executeChipper(initOps)
      } else {
-       log.error 'ERROR'
+       //log.error 'ERROR'
        render contentType: 'text/plain', text: false
      }
    }

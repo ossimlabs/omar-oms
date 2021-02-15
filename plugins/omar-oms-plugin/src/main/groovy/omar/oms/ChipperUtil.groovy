@@ -53,7 +53,7 @@ class ChipperUtil
       }
       catch(e)
       {
-        log.error(e.toString())
+        //log.error(e.toString())
       }
 
     }
@@ -74,7 +74,6 @@ class ChipperUtil
 
   static RenderedImage createImage(Map<String,String> opts, Map<String,Object> hints)
   {
-    log.trace "createImage: Entered................"
     def numBands = hints.transparent ? 4 : 3
 
     def raster = Raster.createInterleavedRaster(
@@ -88,59 +87,44 @@ class ChipperUtil
     def colorModel = createColorModel(numBands, hints.transparent)
     def image = new BufferedImage(colorModel, raster, false, null)
 
-    log.trace "createImage: Leaving.............."
-
     return image
   }
 
   static void runChipper(Map<String,String> opts , Map<String,Object> hints, byte[] buffer)
   {
-
-    log.trace "runChipper: Entered.................."
     def chipper = new Chipper()
 
-    log.trace "runChipper options: ${opts}"
     if ( chipper.initialize( opts ) )
     {
-      log.debug "initialize: good"
+      //log.debug "initialize: good"
     }
     else
     {
-      log.error  "initialize: bad"
+      //log.error  "initialize: bad"
     }
 
-    log.trace "runChipper hints: ${hints}"
-    log.trace "runChipper buffer: ${buffer}"
-
     chipper.delete()
-
-    log.trace "runChipper: Leaving.................."
   }
   static Boolean executeChipper(Map<String,String> opts)
   {
     Boolean result = false
-    log.trace "runChipper: Entered.................."
     def chipper = new Chipper()
 
-    log.trace "runChipper options: ${opts}"
     if ( chipper.initialize( opts ) )
     {
       result = chipper.execute()
     }
     else
     {
-      log.error  "initialize: bad"
+      //log.error  "initialize: bad"
     }
 
     chipper.delete()
-
-    log.trace "runChipper: Leaving.................."
 
     result
   }
   static HashMap runChipper(Map<String,String> opts)
   {
-    log.trace "runChipper: Entered.................."
     HashMap result = [colorModel:null,
                      sampleModel:null,
                      raster:null
@@ -158,7 +142,6 @@ class ChipperUtil
     JsonBuilder logOutput
 
     try {
-      log.trace "runChipper options: ${opts}"
       if ( chipper.initialize( opts ) )
       {
         imageData = chipper.getChip(opts);
@@ -176,13 +159,13 @@ class ChipperUtil
       }
       else
       {
-         log.error "chipper.initialize( opts ): ${opts} was unsuccessful"
+         //log.error "chipper.initialize( opts ): ${opts} was unsuccessful"
       }
 
     }
     catch(e)
     {
-      log.error e.toString()
+      //log.error e.toString()
       httpStatus = 400
     }
     finally {
@@ -191,8 +174,6 @@ class ChipperUtil
       chipper?.delete(); chipper = null
 
     }
-
-    log.trace "runChipper: Leaving.................."
 
     endTime = new Date()
     responseTime = Math.abs(startTime.getTime() - endTime.getTime())
@@ -255,7 +236,7 @@ class ChipperUtil
       }
       catch ( e )
       {
-        log.error e.toString()
+        //log.error e.toString()
       }
     }
     image 

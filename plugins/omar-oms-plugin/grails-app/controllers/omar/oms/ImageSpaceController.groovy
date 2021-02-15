@@ -103,11 +103,11 @@ class ImageSpaceController implements AsyncController
     }
     catch ( e )
     {
-        logger.error("There was an illegal argument in ImageSpaceController line 109", e)
+        //logger.error("There was an illegal argument in ImageSpaceController line 109", e)
 
 
        response.status = HttpStatus.INTERNAL_SERVER_ERROR
-       logger.debug(e.message)
+       //logger.debug(e.message)
     }
     finally{
        if(outputStream!=null)
@@ -117,7 +117,7 @@ class ImageSpaceController implements AsyncController
           }
           catch(e)
           {
-             log.debug(e.message)
+             //log.debug(e.message)
           }
        }
     }
@@ -161,7 +161,7 @@ class ImageSpaceController implements AsyncController
     catch ( e )
     {
        response.status = HttpStatus.INTERNAL_SERVER_ERROR
-       log.debug(e.message)
+       //log.debug(e.message)
     }
     finally{
        if(outputStream!=null)
@@ -171,7 +171,7 @@ class ImageSpaceController implements AsyncController
           }
           catch(e)
           {
-             log.debug(e.message)
+             //log.debug(e.message)
           }
        }
     }
@@ -238,7 +238,7 @@ class ImageSpaceController implements AsyncController
      catch(e)
      {
        response.status = HttpStatus.INTERNAL_SERVER_ERROR
-       log.error(e.message)
+       //log.error(e.message)
      }
      finally
      {
@@ -249,7 +249,7 @@ class ImageSpaceController implements AsyncController
           }
           catch(e)
           {
-             log.debug(e.message)
+             //log.debug(e.message)
           }
        }
      }

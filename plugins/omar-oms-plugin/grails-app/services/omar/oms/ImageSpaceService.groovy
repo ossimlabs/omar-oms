@@ -380,7 +380,7 @@ class ImageSpaceService
     }
     catch(e)
     {
-      logger.error(e.toString(), e)
+      //logger.error(e.toString(), e)
       result = []
     }
 
