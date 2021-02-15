@@ -22,7 +22,7 @@ class ChipperService
 
         if (cmd.validate())
         {
-            if (new File(cmd.images[0].file).exists())
+            if (!new File(cmd.images[0].file).exists())
             {
                 chipperResult.status = HttpStatus.BAD_REQUEST
                 chipperResult.statusMessage = "File not found."
