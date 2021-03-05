@@ -92,32 +92,6 @@ node(POD_LABEL){
         DOCKER_IMAGE_PATH = "${DOCKER_REGISTRY_PRIVATE_UPLOAD_URL}/${APP_NAME}"
     }
 
-//     CYPRESS TESTS COMING SOON
-//     stage ("Run Cypress Test") {
-//         container('cypress') {
-//             try {
-//                 sh """
-//                     cypress run --headless
-//                 """
-//             }
-//             catch (err) {
-//
-//             }
-//                 sh """
-//                     npm i -g xunit-viewer
-//                     xunit-viewer -r results -o results/${APP_NAME}-test-results.html
-//                 """
-//                     junit 'results/*.xml'
-//                     archiveArtifacts "results/*.xml"
-//                     archiveArtifacts "results/*.html"
-//                     s3Upload(file:'results/${APP_NAME}-test-results.html', bucket:'ossimlabs', path:'cypressTests/')
-//                 }
-//             }
-
-//     stage('Fortify Scans') {
-//         COMING SOON
-//     }
-
     stage('SonarQube Analysis') {
         nodejs(nodeJSInstallationName: "${NODEJS_VERSION}") {
             def scannerHome = tool "${SONARQUBE_SCANNER_VERSION}"
