@@ -7,23 +7,20 @@ if ( System.getenv('O2_INLINE_BUILD') ) {
         }
     }
 }
-configurations {
-    targetConfig {
-        resolutionStrategy {
-            componentSelection {
-                all { ComponentSelection selection ->
-                    if (selection.candidate.version.contains("-SNAPSHOT")) {
-                        selection.reject("Version was rejected since it was a SNAPSHOT")
-                    }
-                }
+dependencies {
+    components {
+        all { ComponentMetadataDetails details ->
+            def version = details.id.version
+            if (version.contains("SNAPSHOT")) {
+                details.status = "milestone" // default in Gradle
+            } else if (version.contains("RELEASE")) {
+                details.status = "release"
             }
         }
     }
-}
-dependencies {
     //compile project( ":${ rootProject.name }-lib" )
     if ( ! System.getenv('O2_INLINE_BUILD') ) {
-      compile "io.ossim.omar.plugins:omar-core-plugin:+"
+      compile "io.ossim.omar.plugins:omar-core-plugin:${omarCorePluginVersion}"
     }
 
   compile "javax.media:jai_core:1.1.3"

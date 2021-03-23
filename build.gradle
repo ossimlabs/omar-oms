@@ -87,7 +87,7 @@ subprojects { project ->
                             username mavenRepoUsername
                             password mavenRepoPassword
                             }
-                            url = mavenPublishUrl.toLowerCase()
+                            url = mavenPublishUrl?.toLowerCase()
                         }
                     }                
                     jar.onlyIf {
