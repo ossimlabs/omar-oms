@@ -20,7 +20,7 @@ dependencies {
     }
     //compile project( ":${ rootProject.name }-lib" )
     if ( ! System.getenv('O2_INLINE_BUILD') ) {
-      compile "io.ossim.omar.plugins:omar-core-plugin:${omarCorePluginVersion}"
+      compile "io.ossim.omar.plugins:omar-core-plugin:latest.release"
     }
 
   compile "javax.media:jai_core:1.1.3"
