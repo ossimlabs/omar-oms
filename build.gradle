@@ -75,8 +75,8 @@ subprojects { project ->
               publishing {
                     publications {
                         "${project.name}" (MavenPublication) {
-                            group groupName
-                            groupId = groupName
+                            group "${groupName}-${buildVersionTag}"
+                            groupId = "${groupName}-${buildVersionTag}"
                             version project.version
                             from components.java
                         }
