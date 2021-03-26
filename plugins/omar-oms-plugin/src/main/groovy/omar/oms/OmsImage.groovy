@@ -69,16 +69,16 @@ class OmsImage
     {
       if ( chipper.getChip( buffer, buffer.length, hints.transparent ) > 1 )
       {
-        // log.info 'getChip: good'
+        //log.info 'getChip: good'
       }
       else
       {
-        log.error 'getChip: bad'
+        //log.error 'getChip: bad'
       }
     }
     else
     {
-      log.error 'initialize: bad'
+      //log.error 'initialize: bad'
     }
 
     def dataBuffer = new DataBufferByte( buffer, buffer.size() )

@@ -148,19 +148,19 @@ class ChipperController {
 
     Gamma correction value.  Good values between lighter .01  to darker 2  """)
    @ApiImplicitParams([
-          @ApiImplicitParam(name = 'images[0].file', value = 'filename', defaultValue = '/data/s3/adhoc/16SEP08110842-P1BS-055998376010_01_P007.TIF', paramType = 'query', dataType = 'string', required=true),
+          @ApiImplicitParam(name = 'images[0].file', value = 'filename', defaultValue = '/data/harvey/2017-01-29/1040010027891F00/3020113.tif', paramType = 'query', dataType = 'string', required=true),
           @ApiImplicitParam(name = 'images[0].entry', value = 'Image entry in the file', defaultValue = '', paramType = 'query', dataType = 'integer', required=false),
           @ApiImplicitParam(name = 'images[0].ovr', value = 'Location of overview', defaultValue = '', paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'images[0].hist', value = 'Location of histogram', defaultValue = '', paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'images[0].geom', value = 'Location of geometry', defaultValue = '', paramType = 'query', dataType = 'string', required=false),
-          @ApiImplicitParam(name = 'operation', value = '', defaultValue = 'none', allowableValues= "chip", paramType = 'query', dataType = 'string', required=false),
+          @ApiImplicitParam(name = 'operation', value = '', defaultValue = 'chip', allowableValues= "chip", paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'nullPixelFlip', value = 'Flip interior null pixels to valid', allowableValues="true,false", defaultValue="", paramType = 'query', dataType = 'boolean', required=false),
           @ApiImplicitParam(name = 'brightness', value = 'Brightness Operation',defaultValue="0.0", paramType = 'query', dataType = 'number', required=false),
           @ApiImplicitParam(name = 'contrast', value = 'Contrast Operation',defaultValue="1.0",  paramType = 'query', dataType = 'number', required=false),
           @ApiImplicitParam(name = 'sharpenMode', value = '', defaultValue = '', allowableValues="light,heavy",paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'sharpenPercent', value = 'Sharpen Percent (0..1)', defaultValue="0", paramType = 'query', dataType = 'number', required=false),
           @ApiImplicitParam(name = 'thumbnailResolution', value = '', defaultValue = '',  paramType = 'query', dataType = 'integer', required=false),
-          @ApiImplicitParam(name = 'cutBboxXywh', value = 'Cut image box separated by commas: **x**,**y**,**width**,**height**', defaultValue = '20351.9945,10350.8278,512,512',  paramType = 'query', dataType = 'string', required=false),
+          @ApiImplicitParam(name = 'cutBboxXywh', value = 'Cut image box separated by commas: **x**,**y**,**width**,**height**', defaultValue = '500,500,500,500',  paramType = 'query', dataType = 'string', required=true),
           @ApiImplicitParam(name = 'rrds', value = 'Reduced resolution', defaultValue = '0', paramType = 'query', dataType = 'integer', required=false),
           @ApiImplicitParam(name = 'histOp', value = 'Histogram Operation',defaultValue = '',allowableValues="none,linear,auto-minmax,auto-percentile,std-stretch-1,std-stretch-2,std-stretch-3", paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'histBiasFactor', value = 'bias adjustment for auto calculations (defaults to the identity = 1) range is 0..2', defaultValue="1", paramType = 'query', dataType = 'number', required=false),
@@ -168,7 +168,7 @@ class ChipperController {
           @ApiImplicitParam(name = 'histLinearNormClip', value = 'Histogram normalized clip comma separated: **low**,**high**',defaultValue = '',allowableValues="", paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'histCenterClip', value = 'Adjust center for min max clip (defaults to 0.5) range is 0..1', defaultValue="0.5", paramType = 'query', dataType = 'number', required=false),
           @ApiImplicitParam(name = 'histCenter', value = 'Histogram Center Calculation',defaultValue = '',allowableValues="true,false", paramType = 'query', dataType = 'boolean', required=false),
-          @ApiImplicitParam(name = 'outputRadiometry', value = 'Output radiometry', defaultValue = 'ossim_uint8', allowableValues="ossim_uint8,ossim_uint11,ossim_uint16,ossim_sint16,ossim_float32,ossim_float64", paramType = 'query', dataType = 'string', required=true),
+          @ApiImplicitParam(name = 'outputRadiometry', value = 'Output radiometry', defaultValue = 'ossim_uint8', allowableValues="ossim_uint8,ossim_uint11,ossim_uint16,ossim_sint16,ossim_float32,ossim_float64", paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'bands', value = 'Bands', defaultValue = '',  paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'resamplerFilter', value = 'Which resampling engine to use', defaultValue = '',  allowableValues= "nearest-neighbor, bilinear, cubic, gaussian, blackman, bspline, hanning, hamming, hermite, mitchell, quadratic, sinc, magic", paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'outputFormat', value = 'Output format', defaultValue = 'image/jpeg',  allowableValues= "image/jpeg,image/png,image/gif,image/tiff", paramType = 'query', dataType = 'string', required=false),
@@ -289,20 +289,20 @@ class ChipperController {
 
     Gamma correction value.  Good values between lighter .01  to darker 2  """)
    @ApiImplicitParams([
-          @ApiImplicitParam(name = 'images[0].file', value = 'filename', defaultValue = '/data/s3/adhoc/16SEP08110842-P1BS-055998376010_01_P007.TIF', paramType = 'query', dataType = 'string', required=true),
+          @ApiImplicitParam(name = 'images[0].file', value = 'filename', defaultValue = '/data/harvey/2017-01-29/1040010027891F00/3020113.tif', paramType = 'query', dataType = 'string', required=true),
           @ApiImplicitParam(name = 'images[0].entry', value = 'Image entry in the file', defaultValue = '', paramType = 'query', dataType = 'integer', required=false),
           @ApiImplicitParam(name = 'images[0].ovr', value = 'Location of overview', defaultValue = '', paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'images[0].hist', value = 'Location of histogram', defaultValue = '', paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'images[0].geom', value = 'Location of geometry', defaultValue = '', paramType = 'query', dataType = 'string', required=false),
-          @ApiImplicitParam(name = 'operation', value = '', defaultValue = 'none', allowableValues= "ortho", paramType = 'query', dataType = 'string', required=false),
+          @ApiImplicitParam(name = 'operation', value = '', defaultValue = 'ortho', allowableValues= "ortho", paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'nullPixelFlip', value = 'Flip interior null pixels to valid', allowableValues="true,false", defaultValue="", paramType = 'query', dataType = 'boolean', required=false),
-          @ApiImplicitParam(name = 'brightness', value = 'Brightness Operation',defaultValue="0.0", paramType = 'query', dataType = 'number', required=true),
-          @ApiImplicitParam(name = 'contrast', value = 'Contrast Operation',defaultValue="1.0",  paramType = 'query', dataType = 'number', required=true),
+          @ApiImplicitParam(name = 'brightness', value = 'Brightness Operation',defaultValue="0.0", paramType = 'query', dataType = 'number', required=false),
+          @ApiImplicitParam(name = 'contrast', value = 'Contrast Operation',defaultValue="1.0",  paramType = 'query', dataType = 'number', required=false),
           @ApiImplicitParam(name = 'sharpenMode', value = '', defaultValue = '', allowableValues="light,heavy",paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'thumbnailResolution', value = '', defaultValue = '',  paramType = 'query', dataType = 'integer', required=false),
           @ApiImplicitParam(name = 'cutWidth', value = 'Cut width in pixels', defaultValue = '556',  paramType = 'query', dataType = 'integer', required=false),
           @ApiImplicitParam(name = 'cutHeight', value = 'Cut height in pixels', defaultValue = '556',  paramType = 'query', dataType = 'integer', required=false),
-          @ApiImplicitParam(name = 'cutWmsBbox', value = 'Cut wms bbox format', defaultValue = '20351.9945,10350.8278,512,512',  paramType = 'query', dataType = 'string', required=false),
+          @ApiImplicitParam(name = 'cutWmsBbox', value = 'Cut wms bbox format', defaultValue = '-95,29.7,-94.95,29.65',  paramType = 'query', dataType = 'string', required=true),
           @ApiImplicitParam(name = 'histOp', value = 'Histogram Operation',defaultValue = '',allowableValues="none,linear,auto-minmax,auto-percentile,std-stretch-1,std-stretch-2,std-stretch-3", paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'histBiasFactor', value = 'bias adjustment for auto calculations (defaults to the identity = 1) range is 0..2', defaultValue="1", paramType = 'query', dataType = 'number', required=false),
           @ApiImplicitParam(name = 'histLinearClip', value = 'Histogram clip comma separated: **low**,**high** ',defaultValue = '',allowableValues="", paramType = 'query', dataType = 'string', required=false),
@@ -310,10 +310,10 @@ class ChipperController {
           @ApiImplicitParam(name = 'histCenterClip', value = 'Adjust center for min max clip (defaults to 0.5) range is 0..1', defaultValue="0.5", paramType = 'query', dataType = 'number', required=false),
           @ApiImplicitParam(name = 'histCenter', value = 'Histogram Center Calculation',defaultValue = '',allowableValues="true,false", paramType = 'query', dataType = 'boolean', required=false),
           @ApiImplicitParam(name = 'srs', value = 'srs', defaultValue = '',  allowableValues="EPSG:4326, EPSG:3857", paramType = 'query', dataType = 'string', required=false),
-          @ApiImplicitParam(name = 'outputRadiometry', value = 'Output radiometry', defaultValue = 'ossim_uint8', allowableValues="ossim_uint8,ossim_uint11,ossim_uint16,ossim_sint16,ossim_float32,ossim_float64", paramType = 'query', dataType = 'string', required=true),
+          @ApiImplicitParam(name = 'outputRadiometry', value = 'Output radiometry', defaultValue = 'ossim_uint8', allowableValues="ossim_uint8,ossim_uint11,ossim_uint16,ossim_sint16,ossim_float32,ossim_float64", paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'bands', value = 'Bands', defaultValue = '',  paramType = 'query', dataType = 'string', required=false),
           @ApiImplicitParam(name = 'resamplerFilter', value = 'Which resampling engine to use', defaultValue = '',  allowableValues= "nearest-neighbor, bilinear, cubic, gaussian, blackman, bspline, hanning, hamming, hermite, mitchell, quadratic, sinc, magic", paramType = 'query', dataType = 'string', required=false),
-          @ApiImplicitParam(name = 'outputFormat', value = 'Output format', defaultValue = 'image/jpeg',  allowableValues= "image/jpeg,image/png,image/gif,image/tiff", paramType = 'query', dataType = 'string', required=false),
+          @ApiImplicitParam(name = 'outputFormat', value = 'Output format', defaultValue = 'image/jpeg',  allowableValues= "image/jpeg,image/png,image/gif,image/tiff", paramType = 'query', dataType = 'string', required=true),
           @ApiImplicitParam(name = 'keepBands', value = 'Determine if we auto adjust bands or not', defaultValue = "false", paramType = 'query', dataType = 'boolean', required=false),
           @ApiImplicitParam(name = 'padThumbnail', value = 'Add padding to the output to make it square', defaultValue = "false", paramType = 'query', dataType = 'boolean', required=false),
           @ApiImplicitParam(name = 'transparent', value = 'Enable transparent if the outputFormat supports it', defaultValue = "true", paramType = 'query', dataType = 'boolean', required=false),
@@ -474,8 +474,6 @@ class ChipperController {
         ChipperCommand command = new ChipperCommand()
         def json = request.JSON
 
-        log.debug("Running chipper command: ${operation}")
-
         if(json)
         {
             json.operation=operation
@@ -497,7 +495,7 @@ class ChipperController {
             runChipperCommandOutputStream = response.getOutputStream()
             runChipperCommandOutputStream << getTileResult.buffer
         } catch(IOException e) {
-            log.error("Error writing chipper command output to the response", e)
+            //log.error("Error writing chipper command output to the response", e)
         } finally {
             runChipperCommandOutputStream?.close()
         }
@@ -515,7 +513,7 @@ class ChipperController {
        log.info initOps as String
        render contentType: 'text/plain', text: ChipperUtil.executeChipper(initOps)
      } else {
-       log.error 'ERROR'
+       //log.error 'ERROR'
        render contentType: 'text/plain', text: false
      }
    }

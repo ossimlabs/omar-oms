@@ -10,12 +10,12 @@ if ( System.getenv('O2_INLINE_BUILD') ) {
 dependencies {
     //compile project( ":${ rootProject.name }-lib" )
     if ( ! System.getenv('O2_INLINE_BUILD') ) {
-      compile "io.ossim.omar.plugins:omar-core-plugin:+"
+        compile "io.ossim.omar.plugins:omar-core-plugin:+"
     }
 
   compile "javax.media:jai_core:1.1.3"
   compile "javax.media:jai_codec:1.1.3"
   compile "javax.media:jai_imageio:1.1"
   compile "commons-pool:commons-pool:1.6"
-  compile "org.ossim:joms:1.9.0-${buildVersionTag}"    
+  compile "org.ossim:joms:1.9.0-20201210.153100-3"
 }
