@@ -26,18 +26,25 @@ class XmlParserPoolableObjectFactory implements PoolableObjectFactory
 
   void destroyObject( Object o )
   {
+    o = null;
   }
 
-  public boolean validateObject( Object obj )
+  public boolean validateObject( Object o )
   {
-    return true;
+    if(o != null)
+      return true;
+    return false;
   }
 
-  void activateObject( Object o )
+  void activateObject( Object o)
   {
+    if(o == null)
+      o;
   }
 
-  void passivateObject( Object o )
+  void passivateObject(Object o)
   {
+    if(o == null)
+      o;
   }
 }

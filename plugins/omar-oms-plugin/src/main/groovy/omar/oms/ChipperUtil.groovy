@@ -21,7 +21,7 @@ import joms.oms.ossimMemoryImageSource
 import omar.core.DateUtil
 import org.ossim.oms.image.omsRenderedImage
 import org.ossim.oms.image.omsImageSource
-import java.awt.image.SampleModel
+
 
 /**
  * Created by sbortman on 1/15/16.
@@ -44,7 +44,6 @@ class ChipperUtil
 
         if(stylesObj?.bands)
         {
-          //opts.three_band_out = false
           opts.bands = stylesObj.bands.join(",")
         }
         if(stylesObj?.histOp)
@@ -54,7 +53,7 @@ class ChipperUtil
       }
       catch(e)
       {
-        log.error(e.toString())
+        //log.error(e.toString())
       }
 
     }
@@ -75,7 +74,6 @@ class ChipperUtil
 
   static RenderedImage createImage(Map<String,String> opts, Map<String,Object> hints)
   {
-    log.trace "createImage: Entered................"
     def numBands = hints.transparent ? 4 : 3
 
     def raster = Raster.createInterleavedRaster(
@@ -89,56 +87,44 @@ class ChipperUtil
     def colorModel = createColorModel(numBands, hints.transparent)
     def image = new BufferedImage(colorModel, raster, false, null)
 
-    log.trace "createImage: Leaving.............."
-
     return image
   }
 
-  static void runChipper(Map<String,String> opts, Map<String,Object> hints, byte[] buffer)
+  static void runChipper(Map<String,String> opts , Map<String,Object> hints, byte[] buffer)
   {
-    log.trace "runChipper: Entered.................."
     def chipper = new Chipper()
 
-    log.trace "runChipper options: ${opts}"
     if ( chipper.initialize( opts ) )
     {
-      log.debug "initialize: good"
-      
+      //log.debug "initialize: good"
     }
     else
     {
-      log.error  "initialize: bad"
+      //log.error  "initialize: bad"
     }
 
     chipper.delete()
-
-    log.trace "runChipper: Leaving.................."
   }
   static Boolean executeChipper(Map<String,String> opts)
   {
     Boolean result = false
-    log.trace "runChipper: Entered.................."
     def chipper = new Chipper()
 
-    log.trace "runChipper options: ${opts}"
     if ( chipper.initialize( opts ) )
     {
       result = chipper.execute()
     }
     else
     {
-      log.error  "initialize: bad"
+      //log.error  "initialize: bad"
     }
 
     chipper.delete()
-
-    log.trace "runChipper: Leaving.................."
 
     result
   }
   static HashMap runChipper(Map<String,String> opts)
   {
-    log.trace "runChipper: Entered.................."
     HashMap result = [colorModel:null,
                      sampleModel:null,
                      raster:null
@@ -156,7 +142,6 @@ class ChipperUtil
     JsonBuilder logOutput
 
     try {
-      log.trace "runChipper options: ${opts}"
       if ( chipper.initialize( opts ) )
       {
         imageData = chipper.getChip(opts);
@@ -174,13 +159,13 @@ class ChipperUtil
       }
       else
       {
-         log.error "chipper.initialize( opts ): ${opts} was unsuccessful"
+         //log.error "chipper.initialize( opts ): ${opts} was unsuccessful"
       }
 
     }
     catch(e)
     {
-      log.error e.toString()
+      //log.error e.toString()
       httpStatus = 400
     }
     finally {
@@ -189,8 +174,6 @@ class ChipperUtil
       chipper?.delete(); chipper = null
 
     }
-
-    log.trace "runChipper: Leaving.................."
 
     endTime = new Date()
     responseTime = Math.abs(startTime.getTime() - endTime.getTime())
@@ -220,18 +203,18 @@ class ChipperUtil
   static def chipperResultToImage(HashMap chipperResult, HashMap hints = [:])
   {
     def image
-    Boolean keepBands = hints?.keepBands
+//    Boolean keepBands = hints?.keepBands ->not being used
 
-    if(hints.keepBands)
-    {
-      if(!hints.type.contains("tiff"))
-      {
-        // The only type we will support raw band output is TIFF.
-        // this way we can send back the raw tiff without modification
-        //
-        keepBands = false;
-      }
-    }
+//    if(hints.keepBands)
+//    {
+//      if(!hints.type.contains("tiff"))
+//      {
+//         //The only type we will support raw band output is TIFF.
+//         //this way we can send back the raw tiff without modification
+//
+//        keepBands = false; ->not being used
+//      }
+//    }
     if ( chipperResult.raster )
     {
       if ( (!hints.keepBands) && (chipperResult.raster.numBands > 3 ))
@@ -253,7 +236,7 @@ class ChipperUtil
       }
       catch ( e )
       {
-        e.printStackTrace()
+        //log.error e.toString()
       }
     }
     image 
