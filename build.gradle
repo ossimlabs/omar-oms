@@ -28,6 +28,7 @@ subprojects { project ->
 
    project.ext {
      gitBranch = getCurrentGitBranch(project)
+       gitBranch = gitBranch == "HEAD" ? branchName : gitBranch
      buildVersionTag = gitBranch == "master" ? "RELEASE" : "SNAPSHOT"
     }
 
