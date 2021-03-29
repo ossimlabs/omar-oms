@@ -8,6 +8,6 @@ grails {
 }
 dependencies {
     if ( ! System.getenv('O2_INLINE_BUILD') ) {
-    // compile "io.ossim.omar.plugins:omar-core-plugin:+"
+    // compile "io.ossim.omar.plugins-RELEASE:omar-core-plugin:+"
     }
 }
