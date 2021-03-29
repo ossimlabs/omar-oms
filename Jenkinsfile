@@ -120,9 +120,9 @@ podTemplate(
         container('builder') {
           sh """
           ./gradlew assemble \
-              -PossimMavenProxy=${MAVEN_DOWNLOAD_URL}
+              -PossimMavenProxy=${MAVEN_DOWNLOAD_URL} -PbranchName=${BRANCH_NAME}
           ./gradlew copyJarToDockerDir \
-              -PossimMavenProxy=${MAVEN_DOWNLOAD_URL}
+              -PossimMavenProxy=${MAVEN_DOWNLOAD_URL} -PbranchName=${BRANCH_NAME}
           """
           archiveArtifacts "plugins/*/build/libs/*.jar"
           archiveArtifacts "apps/*/build/libs/*.jar"
@@ -138,7 +138,7 @@ podTemplate(
           {
             sh """
             ./gradlew publish \
-                -PossimMavenProxy=${MAVEN_DOWNLOAD_URL}
+                -PossimMavenProxy=${MAVEN_DOWNLOAD_URL} -PbranchName=${BRANCH_NAME}
             """
           }
         }
