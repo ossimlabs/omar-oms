@@ -55,12 +55,18 @@ class ImageSpaceService
     println "C"
     def font = new Font( "TimesRoman", Font.PLAIN, 18 )
     println "D"
-    if(!font)
-        println "No font"
-    def layout = new TextLayout( text, font, g2d.fontRenderContext )
-    if(!layout)
-      println "No layout"
-    def bounds = layout.getBounds()
+    def width
+    def height
+    try {
+      def bounds = new TextLayout( text, font, g2d.fontRenderContext ).bounds
+      width = bounds.width
+      height = bounds.height
+    }
+    catch (e) {
+      println "FAILED"
+      width = 50
+      height = 50
+    }
     println "F"
     String format = cmd.outputFormat
     println "G"
@@ -75,8 +81,8 @@ class ImageSpaceService
 
     // Center Text in tile
     g2d.drawString( text,
-        Math.rint( ( cmd.tileSize - bounds.@width ) / 2 ) as int,
-        Math.rint( ( cmd.tileSize - bounds.@height ) / 2 ) as int )
+        Math.rint( ( cmd.tileSize - width ) / 2 ) as int,
+        Math.rint( ( cmd.tileSize - height ) / 2 ) as int )
     println "L"
     g2d.dispose()
 
