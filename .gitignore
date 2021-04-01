@@ -17,7 +17,6 @@ package-lock.json
 node_modules/
 cypress/screenshots/
 cypress/videos/
-cypress/fixtures/
 cypress/plugins/
 cypress/support/
 results/

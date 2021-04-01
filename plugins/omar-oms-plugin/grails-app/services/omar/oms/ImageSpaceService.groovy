@@ -59,8 +59,8 @@ class ImageSpaceService
 
     // Center Text in tile
     g2d.drawString( text,
-        Math.rint( ( cmd.tileSize - bounds.@width ) / 2 ) as int,
-        Math.rint( ( cmd.tileSize - bounds.@height ) / 2 ) as int )
+        Math.rint( ( cmd.tileSize - bounds.width ) / 2 ) as int,
+        Math.rint( ( cmd.tileSize - bounds.height ) / 2 ) as int )
 
     g2d.dispose()
 
