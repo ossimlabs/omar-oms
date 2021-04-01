@@ -55,7 +55,12 @@ class ImageSpaceService
     println "C"
     def font = new Font( "TimesRoman", Font.PLAIN, 18 )
     println "D"
-    def bounds = new TextLayout( text, font, g2d.fontRenderContext ).getBounds()
+    if(!font)
+        println "No font"
+    def layout = new TextLayout( text, font, g2d.fontRenderContext )
+    if(!layout)
+      println "No layout"
+    def bounds = layout.getBounds()
     println "F"
     String format = cmd.outputFormat
     println "G"
