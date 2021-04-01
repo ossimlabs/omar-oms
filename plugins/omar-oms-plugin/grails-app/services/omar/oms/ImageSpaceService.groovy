@@ -57,16 +57,9 @@ class ImageSpaceService
     println "D"
     def width
     def height
-    try {
-      def bounds = new TextLayout( text, font, g2d.fontRenderContext ).bounds
-      width = bounds.width
-      height = bounds.height
-    }
-    catch (e) {
-      println "FAILED"
-      width = 50
-      height = 50
-    }
+    //def bounds = new TextLayout( text, font, g2d.fontRenderContext ).bounds
+    width = 50
+    height = 50
     println "F"
     String format = cmd.outputFormat
     println "G"
