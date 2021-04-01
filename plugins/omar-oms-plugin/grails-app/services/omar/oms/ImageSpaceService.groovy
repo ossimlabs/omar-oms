@@ -57,6 +57,7 @@ class ImageSpaceService
     println "D"
     def width
     def height
+    println "WHAT IS GOING ON?"
     //def bounds = new TextLayout( text, font, g2d.fontRenderContext ).bounds
     width = 50
     height = 50
