@@ -153,7 +153,7 @@ class ImageSpaceController implements AsyncController
        if(result.status != null) response.status        = result.status
        if(result.contentType) response.contentType      = result.contentType
        if(result.buffer?.length) response.contentLength = result.buffer.length
-       if(outputStream)
+       if(outputStream && result.buffer)
        {
           outputStream << result.buffer
        }
