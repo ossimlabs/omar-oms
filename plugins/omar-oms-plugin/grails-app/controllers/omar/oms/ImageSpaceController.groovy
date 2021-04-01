@@ -79,32 +79,38 @@ class ImageSpaceController implements AsyncController
   ])
   def getTile(/*GetTileCommand cmd*/)
   {
+      println "imageSpaceGetTile: Function called"
     def cmd = new GetTileCommand()
     BindUtil.fixParamNames( GetTileCommand, params )
     bindData( cmd, params )
+      println "imageSpaceGetTile: Params bound"
     def outputStream = null
     try
     {
        response.status = HttpStatus.OK
+        println "imageSpaceGetTile: about to call getTile()"
        def result = imageSpaceService.getTile( cmd )
+        println "imageSpaceGetTile: returned from getTile()"
        outputStream = response.outputStream
        if(result.status != null) response.status        = result.status
        if(result.contentType) response.contentType      = result.contentType
        if(result.buffer?.length) response.contentLength = result.buffer.length
 
         if ( result.status == 500) {
+            println "imageSpaceGetTile: result.status == 500"
             throw new IllegalArgumentException( new String(result.buffer) )
         }
 
        if(outputStream)
        {
+           println "imageSpaceGetTile: into the outputStream - ${result.buffer}"
           outputStream << result.buffer
        }
     }
     catch ( e )
     {
         //logger.error("There was an illegal argument in ImageSpaceController line 109", e)
-
+        println "imageSpaceGetTile: Been caught! ${e}"
 
        response.status = HttpStatus.INTERNAL_SERVER_ERROR
        //logger.debug(e.message)
@@ -113,10 +119,12 @@ class ImageSpaceController implements AsyncController
        if(outputStream!=null)
        {
           try{
+              println "imageSpaceGetTile: closed"
              outputStream.close()
           }
           catch(e)
           {
+              println "imageSpaceGetTile: Oh no!"
              //log.debug(e.message)
           }
        }
@@ -137,29 +145,35 @@ class ImageSpaceController implements AsyncController
   ])
   def getTileOverlay(/*GetTileCommand cmd*/)
   {
-
+      println "getTileOverlay: Function called"
     def cmd = new GetTileCommand()
 
     BindUtil.fixParamNames( GetTileCommand, params )
     bindData( cmd, params )
 
+      println "getTileOverlay: Params bound"
     def outputStream = null
     try
     {
        response.status = HttpStatus.OK
+        println "getTileOverlay: about to call getTileOverlay()"
        def result = imageSpaceService.getTileOverlay( cmd )
+        println "getTileOverlay: returned from getTileOverlay()"
        outputStream = response.outputStream
 
        if(result.status != null) response.status        = result.status
        if(result.contentType) response.contentType      = result.contentType
        if(result.buffer?.length) response.contentLength = result.buffer.length
+        println "getTileOverlay: status: ${result.status}"
        if(outputStream && result.buffer)
        {
+           println "getTileOverlay: into the outputStream - ${result.buffer}"
           outputStream << result.buffer
        }
     }
     catch ( e )
     {
+        println "getTileOverlay: been caught! ${e}"
        response.status = HttpStatus.INTERNAL_SERVER_ERROR
        //log.debug(e.message)
     }
@@ -167,10 +181,12 @@ class ImageSpaceController implements AsyncController
        if(outputStream!=null)
        {
           try{
+              println "getTileOverlay: closed"
              outputStream.close()
           }
           catch(e)
           {
+              println "getTileOverlay: Oh no!"
              //log.debug(e.message)
           }
        }
