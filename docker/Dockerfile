@@ -8,5 +8,5 @@ EXPOSE 8080
 COPY *.jar $HOME
 CMD $HOME/run.sh
 USER root
-CMD apk add --no-cache fontconfig ttf-dejavu
+RUN apk add --no-cache fontconfig ttf-dejavu
 USER nobody
