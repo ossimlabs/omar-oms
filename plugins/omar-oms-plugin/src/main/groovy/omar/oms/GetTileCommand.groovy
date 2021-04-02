@@ -50,13 +50,20 @@ class GetTileCommand implements Validateable
         })
         outputFormat(nullable: false, blank: false, validator: { val, obj ->
             String result
-            if (val != "png" && val != "jpeg" && val != "gif" && val != "tiff")
+            if (val != "image/png" && val != "image/jpeg" && val != "image/gif" && val != "image/tiff")
             {
                 result = "outputFormat must be png, jpeg, gif, or tiff"
             }
             result
         })
         transparent(nullable: true, blank: true)
+
+        filename(nullable: true, blank: true)
+        geom(nullable: true, blank: true)
+        gamma(nullable: true, blank: true)
+        hist(nullable: true, blank: true)
+        bands(nullable: true, blank: true)
+        ovr(nullable: true, blank: true)
     }
 
   void setOutputFormat(String format)
