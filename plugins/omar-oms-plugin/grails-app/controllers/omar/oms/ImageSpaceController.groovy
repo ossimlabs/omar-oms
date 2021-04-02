@@ -145,35 +145,34 @@ class ImageSpaceController implements AsyncController
   ])
   def getTileOverlay(/*GetTileCommand cmd*/)
   {
-      println "getTileOverlay: Function called"
     def cmd = new GetTileCommand()
 
     BindUtil.fixParamNames( GetTileCommand, params )
     bindData( cmd, params )
 
-      println "getTileOverlay: Params bound"
     def outputStream = null
     try
     {
-       response.status = HttpStatus.OK
-        println "getTileOverlay: about to call getTileOverlay()"
-       def result = imageSpaceService.getTileOverlay( cmd )
-        println "getTileOverlay: returned from getTileOverlay()"
-       outputStream = response.outputStream
+        outputStream = response.outputStream
 
-       if(result.status != null) response.status        = result.status
-       if(result.contentType) response.contentType      = result.contentType
-       if(result.buffer?.length) response.contentLength = result.buffer.length
-        println "getTileOverlay: status: ${result.status}"
-       if(outputStream && result.buffer)
-       {
-           println "getTileOverlay: into the outputStream - ${result.buffer}"
-          outputStream << result.buffer
-       }
+        if(cmd.validate()) {
+            response.status = HttpStatus.OK
+            def result = imageSpaceService.getTileOverlay( cmd )
+
+            if(result.status != null) response.status        = result.status
+            if(result.contentType) response.contentType      = result.contentType
+            if(result.buffer?.length) response.contentLength = result.buffer.length
+            if(outputStream)
+            {
+                outputStream << result.buffer
+            }
+        }
+        else {
+            response.status = HttpStatus.BAD_REQUEST
+        }
     }
     catch ( e )
     {
-        println "getTileOverlay: been caught! ${e}"
        response.status = HttpStatus.INTERNAL_SERVER_ERROR
        //log.debug(e.message)
     }
@@ -181,12 +180,10 @@ class ImageSpaceController implements AsyncController
        if(outputStream!=null)
        {
           try{
-              println "getTileOverlay: closed"
              outputStream.close()
           }
           catch(e)
           {
-              println "getTileOverlay: Oh no!"
              //log.debug(e.message)
           }
        }

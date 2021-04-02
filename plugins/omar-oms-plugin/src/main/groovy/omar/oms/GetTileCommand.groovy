@@ -34,7 +34,31 @@ class GetTileCommand implements Validateable
   String ovr
   String geom
   Double gamma
- 
+
+    static constraints = {
+        x(nullable: false, blank: false)
+        y(nullable: false, blank: false)
+        z(nullable: false, blank: false)
+
+        tileSize(nullable: false, blank: false, validator: { val, obj ->
+            String result
+            if (val != 256 && val != 512)
+            {
+                result = "tileSize must be either 256 or 512"
+            }
+            result
+        })
+        outputFormat(nullable: false, blank: false, validator: { val, obj ->
+            String result
+            if (val != "png" && val != "jpeg" && val != "gif" && val != "tiff")
+            {
+                result = "outputFormat must be png, jpeg, gif, or tiff"
+            }
+            result
+        })
+        transparent(nullable: true, blank: true)
+    }
+
   void setOutputFormat(String format)
   {
       if(format.split("/").size() == 1)
