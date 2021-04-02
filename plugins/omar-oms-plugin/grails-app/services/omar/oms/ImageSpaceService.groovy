@@ -52,9 +52,12 @@ class ImageSpaceService
     FastByteArrayOutputStream ostream = new FastByteArrayOutputStream( ChipperUtil.DEFAULT_JPEG_SIZE  )
     println "B"
     def g2d = image.createGraphics()
+    if(!g2d.fontRenderContext)
+      println "No g2d.fontRenderContext"
     println "C"
-    //println "Fonts: ${GraphicsEnvironment.getAllFonts()}"
-    def font = new Font( "Courier", Font.PLAIN, 18 )
+    def font = new Font( "TimesRoman", Font.PLAIN, 18 )
+    if(!font)
+      println "No font"
     println "D"
     def bounds = new TextLayout( text, font, g2d.fontRenderContext ).bounds
     println "F"
