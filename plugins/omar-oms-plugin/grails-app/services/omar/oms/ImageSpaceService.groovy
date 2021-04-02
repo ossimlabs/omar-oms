@@ -7,7 +7,10 @@ import omar.core.HttpStatus
 import java.awt.BasicStroke
 import java.awt.Color
 import java.awt.Font
+import java.awt.Graphics2D
+import java.awt.font.FontRenderContext
 import java.awt.font.TextLayout
+import java.awt.geom.Rectangle2D
 import java.awt.image.BufferedImage
 import javax.imageio.ImageIO
 
@@ -51,16 +54,16 @@ class ImageSpaceService
     println "A"
     FastByteArrayOutputStream ostream = new FastByteArrayOutputStream( ChipperUtil.DEFAULT_JPEG_SIZE  )
     println "B"
-    def g2d = image.createGraphics()
-    if(!g2d.fontRenderContext)
-      println "No g2d.fontRenderContext"
+    Graphics2D g2d = image.createGraphics()
     println "C"
-    def font = new Font( "TimesRoman", Font.PLAIN, 18 )
+    Font font = new Font( "TimesRoman", Font.PLAIN, 18 )
+    FontRenderContext frc = g2d.getFontRenderContext()
     if(!font)
       println "No font"
     println "D"
-    def bounds = new TextLayout( text, font, g2d.fontRenderContext ).bounds
+    TextLayout layout = new TextLayout( "0/0/0", font, frc )
     println "F"
+    Rectangle2D bounds = layout.getBounds()
     String format = cmd.outputFormat
     println "G"
     if(!format) format = "image/png"
@@ -74,8 +77,8 @@ class ImageSpaceService
 
     // Center Text in tile
     g2d.drawString( text,
-        Math.rint( ( cmd.tileSize - bounds.@width ) / 2 ) as int,
-        Math.rint( ( cmd.tileSize - bounds.@height ) / 2 ) as int )
+        Math.rint( ( cmd.tileSize - bounds.width ) / 2 ) as int,
+        Math.rint( ( cmd.tileSize - bounds.height ) / 2 ) as int )
     println "L"
     g2d.dispose()
 
