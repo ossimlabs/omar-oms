@@ -38,7 +38,6 @@ class ImageSpaceService
   @Memoized
   def getTileOverlay(GetTileCommand cmd)
   {
-    println "getTileOverlay: inside getTileOverlay() from service"
     def text = "${cmd.z}/${cmd.x}/${cmd.y}"
 
     def requestType = "GET"
@@ -49,42 +48,27 @@ class ImageSpaceService
     JsonBuilder logOutput
     def buffer
 
-    println "getTileOverlay: variables set - ${text}"
     BufferedImage image = new BufferedImage( cmd.tileSize, cmd.tileSize, BufferedImage.TYPE_INT_ARGB )
-    println "A"
     FastByteArrayOutputStream ostream = new FastByteArrayOutputStream( ChipperUtil.DEFAULT_JPEG_SIZE  )
-    println "B"
+
     Graphics2D g2d = image.createGraphics()
-    println "C"
     Font font = new Font( "TimesRoman", Font.PLAIN, 18 )
     FontRenderContext frc = g2d.getFontRenderContext()
-    if(!font)
-      println "No font"
-    println "D"
-    TextLayout layout = new TextLayout( "0/0/0", font, frc )
-    println "F"
+    TextLayout layout = new TextLayout( text, font, frc )
     Rectangle2D bounds = layout.getBounds()
     String format = cmd.outputFormat
-    println "G"
     if(!format) format = "image/png"
-    println "H"
     g2d.color = Color.red
-    println "I"
     g2d.font = font
-    println "J"
     g2d.drawRect( 0, 0, cmd.tileSize, cmd.tileSize )
-    println "K"
 
     // Center Text in tile
     g2d.drawString( text,
         Math.rint( ( cmd.tileSize - bounds.width ) / 2 ) as int,
         Math.rint( ( cmd.tileSize - bounds.height ) / 2 ) as int )
-    println "L"
     g2d.dispose()
 
-    println "getTileOverlay: image made"
     ImageIO.write( image, format.split("/")[-1], ostream )
-    println "getTileOverlay: imageio.written"
     endTime = new Date()
 
     responseTime = Math.abs(startTime.getTime() - endTime.getTime())
@@ -96,7 +80,6 @@ class ImageSpaceService
 
     log.info logOutput.toString()
 
-    println "getTileOverlay: that's all"
     [contentType: format, buffer: buffer]
   }
 
