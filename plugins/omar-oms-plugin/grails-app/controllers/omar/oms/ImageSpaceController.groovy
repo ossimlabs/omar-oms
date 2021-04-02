@@ -168,6 +168,7 @@ class ImageSpaceController implements AsyncController
             }
         }
         else {
+            println "Errors: ${cmd.getErrors()}"
             response.status = HttpStatus.BAD_REQUEST
         }
     }
@@ -177,17 +178,10 @@ class ImageSpaceController implements AsyncController
        //log.debug(e.message)
     }
     finally{
-       if(outputStream!=null)
-       {
-          try{
-             outputStream.close()
-          }
-          catch(e)
-          {
-             //log.debug(e.message)
-          }
-       }
+        outputStream?.close()
     }
+
+      return outputStream
   }
 
   def getAngles()
