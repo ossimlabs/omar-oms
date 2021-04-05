@@ -50,8 +50,7 @@ class ImageSpaceController implements AsyncController
 
   @ApiOperation(value = "Get a tile from the passed in image file",
                 produces="image/jpeg,image/png,image/gif",
-                httpMethod="GET",
-                nickname="imageSpaceGetTile")
+                httpMethod="GET")
   @ApiImplicitParams([
           @ApiImplicitParam(name = 'x', value = 'Tile in x direction', defaultValue = '0', paramType = 'query', dataType = 'integer', required=true),
           @ApiImplicitParam(name = 'y', value = 'Tile in y direction', defaultValue = '0', paramType = 'query', dataType = 'integer', required=true),
