@@ -65,7 +65,7 @@ class ChipperService
         }
         else
         {
-            chipperResult.statusMessage = "Parameter values are invalid. Please check the paramter format"
+            chipperResult.statusMessage = "Parameter values are invalid. Please check the parameter format"
             chipperResult.status = HttpStatus.BAD_REQUEST
             chipperResult.contentType = "text/plain"
         }
