@@ -190,7 +190,7 @@ class ImageSpaceService
 
   def getTile(GetTileCommand cmd)
   {
-    def result = [status     : HttpStatus.CONFLICT,
+    def result = [status     : HttpStatus.NOT_FOUND,
                   contentType: "text/plain",
                   buffer     : "Unable to service tile".bytes]
 

@@ -42,7 +42,7 @@
     },
     "minImageSpaceGetTile": {
       "method": "get",
-      "endpoint": "/imageSpace/imageSpaceGetTile",
+      "endpoint": "/imageSpace/getTile",
       "in": "query",
       "expected": "good",
       "parameters": {
@@ -54,7 +54,7 @@
     },
     "maxImageSpaceGetTile": {
       "method": "get",
-      "endpoint": "/imageSpace/imageSpaceGetTile",
+      "endpoint": "/imageSpace/getTile",
       "in": "query",
       "expected": "good",
       "parameters": {
