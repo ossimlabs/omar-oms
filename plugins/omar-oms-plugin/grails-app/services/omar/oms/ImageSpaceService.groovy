@@ -190,7 +190,6 @@ class ImageSpaceService
 
   def getTile(GetTileCommand cmd)
   {
-    println "getTile: inside function"
     def result = [status     : HttpStatus.NOT_FOUND,
                   contentType: "text/plain",
                   buffer     : "Unable to service tile".bytes]
@@ -204,10 +203,8 @@ class ImageSpaceService
     JsonBuilder logOutput
     def indexOffset = findIndexOffset(cmd)
     Boolean canChip = cmd.z <= cmd.numResLevels
-    println "getTile: variables set"
     if (canChip)
     {
-      println "getTile: canChip"
       HashMap chipperFileOptions = [file: cmd.filename, entry: cmd.entry]
       Integer rrds = indexOffset - cmd.z
       ChipperCommand chipperCommand = new ChipperCommand()
@@ -239,14 +236,11 @@ class ImageSpaceService
       if ( cmd.histCenterTile ) {
         chipperCommand.histCenter = cmd.histCenterTile
       }
-      println "getTile: chipper variables set"
       try{
         result = chipperService.getTile(chipperCommand)
-        println "getTile: chipperService succeeded"
       }
       catch(e)
       {
-        println "getTile: chipperService failed! ${e}"
         result = [status     : HttpStatus.INTERNAL_SERVER_ERROR,
                   contentType: "text/plain",
                   buffer     : "${e}".bytes
@@ -264,7 +258,6 @@ class ImageSpaceService
     }
     else
     {
-      println "getTile: not enough resolution levels"
         result = [status     : HttpStatus.INTERNAL_SERVER_ERROR,
                   contentType: "text/plain",
                   buffer     : "Not Enough resolution levels to satisfy request".bytes
@@ -282,7 +275,6 @@ class ImageSpaceService
 
     log.info logOutput.toString()
 
-    println "getTile: that's all"
     result
   }
 
