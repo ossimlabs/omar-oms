@@ -7,7 +7,10 @@ import omar.core.HttpStatus
 import java.awt.BasicStroke
 import java.awt.Color
 import java.awt.Font
+import java.awt.Graphics2D
+import java.awt.font.FontRenderContext
 import java.awt.font.TextLayout
+import java.awt.geom.Rectangle2D
 import java.awt.image.BufferedImage
 import javax.imageio.ImageIO
 
@@ -48,9 +51,11 @@ class ImageSpaceService
     BufferedImage image = new BufferedImage( cmd.tileSize, cmd.tileSize, BufferedImage.TYPE_INT_ARGB )
     FastByteArrayOutputStream ostream = new FastByteArrayOutputStream( ChipperUtil.DEFAULT_JPEG_SIZE  )
 
-    def g2d = image.createGraphics()
-    def font = new Font( "TimesRoman", Font.PLAIN, 18 )
-    def bounds = new TextLayout( text, font, g2d.fontRenderContext ).bounds
+    Graphics2D g2d = image.createGraphics()
+    Font font = new Font( "TimesRoman", Font.PLAIN, 18 )
+    FontRenderContext frc = g2d.getFontRenderContext()
+    TextLayout layout = new TextLayout( text, font, frc )
+    Rectangle2D bounds = layout.getBounds()
     String format = cmd.outputFormat
     if(!format) format = "image/png"
     g2d.color = Color.red
@@ -59,14 +64,11 @@ class ImageSpaceService
 
     // Center Text in tile
     g2d.drawString( text,
-        Math.rint( ( cmd.tileSize - bounds.@width ) / 2 ) as int,
-        Math.rint( ( cmd.tileSize - bounds.@height ) / 2 ) as int )
-
+        Math.rint( ( cmd.tileSize - bounds.width ) / 2 ) as int,
+        Math.rint( ( cmd.tileSize - bounds.height ) / 2 ) as int )
     g2d.dispose()
 
-
     ImageIO.write( image, format.split("/")[-1], ostream )
-
     endTime = new Date()
 
     responseTime = Math.abs(startTime.getTime() - endTime.getTime())
@@ -188,7 +190,6 @@ class ImageSpaceService
 
   def getTile(GetTileCommand cmd)
   {
-
     def result = [status     : HttpStatus.NOT_FOUND,
                   contentType: "text/plain",
                   buffer     : "Unable to service tile".bytes]
@@ -202,7 +203,6 @@ class ImageSpaceService
     JsonBuilder logOutput
     def indexOffset = findIndexOffset(cmd)
     Boolean canChip = cmd.z <= cmd.numResLevels
-
     if (canChip)
     {
       HashMap chipperFileOptions = [file: cmd.filename, entry: cmd.entry]

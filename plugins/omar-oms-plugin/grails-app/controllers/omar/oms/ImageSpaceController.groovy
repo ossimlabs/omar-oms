@@ -50,8 +50,7 @@ class ImageSpaceController implements AsyncController
 
   @ApiOperation(value = "Get a tile from the passed in image file",
                 produces="image/jpeg,image/png,image/gif",
-                httpMethod="GET",
-                nickname="imageSpaceGetTile")
+                httpMethod="GET")
   @ApiImplicitParams([
           @ApiImplicitParam(name = 'x', value = 'Tile in x direction', defaultValue = '0', paramType = 'query', dataType = 'integer', required=true),
           @ApiImplicitParam(name = 'y', value = 'Tile in y direction', defaultValue = '0', paramType = 'query', dataType = 'integer', required=true),
@@ -105,7 +104,6 @@ class ImageSpaceController implements AsyncController
     {
         //logger.error("There was an illegal argument in ImageSpaceController line 109", e)
 
-
        response.status = HttpStatus.INTERNAL_SERVER_ERROR
        //logger.debug(e.message)
     }
@@ -137,7 +135,6 @@ class ImageSpaceController implements AsyncController
   ])
   def getTileOverlay(/*GetTileCommand cmd*/)
   {
-
     def cmd = new GetTileCommand()
 
     BindUtil.fixParamNames( GetTileCommand, params )
@@ -146,17 +143,23 @@ class ImageSpaceController implements AsyncController
     def outputStream = null
     try
     {
-       response.status = HttpStatus.OK
-       def result = imageSpaceService.getTileOverlay( cmd )
-       outputStream = response.outputStream
+        outputStream = response.outputStream
 
-       if(result.status != null) response.status        = result.status
-       if(result.contentType) response.contentType      = result.contentType
-       if(result.buffer?.length) response.contentLength = result.buffer.length
-       if(outputStream)
-       {
-          outputStream << result.buffer
-       }
+        if(cmd.validate()) {
+            response.status = HttpStatus.OK
+            def result = imageSpaceService.getTileOverlay( cmd )
+
+            if(result.status != null) response.status        = result.status
+            if(result.contentType) response.contentType      = result.contentType
+            if(result.buffer?.length) response.contentLength = result.buffer.length
+            if(outputStream)
+            {
+                outputStream << result.buffer
+            }
+        }
+        else {
+            response.status = HttpStatus.BAD_REQUEST
+        }
     }
     catch ( e )
     {
@@ -164,17 +167,10 @@ class ImageSpaceController implements AsyncController
        //log.debug(e.message)
     }
     finally{
-       if(outputStream!=null)
-       {
-          try{
-             outputStream.close()
-          }
-          catch(e)
-          {
-             //log.debug(e.message)
-          }
-       }
+        outputStream?.close()
     }
+
+      return outputStream
   }
 
   def getAngles()
