@@ -114,24 +114,6 @@ node(POD_LABEL){
                 }
             }
 
-//     stage('Fortify Scans') {
-//         COMING SOON
-//     }
-
-//     SONARQUBE SCANS COMING SOON
-//     stage('SonarQube Analysis') {
-//         nodejs(nodeJSInstallationName: "${NODEJS_VERSION}") {
-//             def scannerHome = tool "${SONARQUBE_SCANNER_VERSION}"
-//
-//                 withSonarQubeEnv('sonarqube'){
-//                     sh """
-//                         ${scannerHome}/bin/sonar-scanner \
-//                         -Dsonar.projectKey=${APP_NAME}
-//                     """
-//             }
-//         }
-//     }
-
     stage('Build') {
         container('builder') {
              withCredentials([[$class: 'UsernamePasswordMultiBinding',
