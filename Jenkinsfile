@@ -117,8 +117,7 @@ podTemplate(
               withSonarQubeEnv('sonarqube'){
                   sh """
                     ${scannerHome}/bin/sonar-scanner \
-                    -Dsonar.projectKey=omar-oms \
-                    -Dsonar.login=${SONARQUBE_TOKEN}
+                    -Dsonar.projectKey=omar-oms
                   """
               }
           }
@@ -189,7 +188,7 @@ podTemplate(
           }
           else {
                 sh """
-                    docker build --build-arg BASE_IMAGE=${DOCKER_REGISTRY_DOWNLOAD_URL}/ossim-alpine-runtime:1.4 --network=host -t "${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}"/omar-oms:"${VERSION}".a ./docker
+                    docker build --build-arg BASE_IMAGE=${JDK11_RUNTIME_BASE_IMAGE} --network=host -t "${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}"/omar-oms:"${VERSION}".a ./docker
                 """
           }
         }
