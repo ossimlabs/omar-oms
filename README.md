@@ -56,4 +56,4 @@ Only required for Jenkins pipelines or if you are running Nexus and/or Openshift
  cd omar-oms
  ./gradlew -p apps/omar-oms-app assemble
 ```
- 
+ test
