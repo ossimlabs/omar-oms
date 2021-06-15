@@ -27,7 +27,7 @@ subprojects { project ->
 	boolean isGrailsProject = isGrailsApp || isGrailsPlugin
 
    project.ext {
-     gitBranch = getCurrentGitBranch(project)
+     gitBranch = "master" //getCurrentGitBranch(project)
        //gitBranch = gitBranch == "HEAD" ? branchName : gitBranch
      buildVersionTag = gitBranch == "master" ? "RELEASE" : "SNAPSHOT"
     }
