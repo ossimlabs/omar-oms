@@ -1,27 +1,20 @@
 <configuration>
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>
-                %clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n%wex
-            </Pattern>
-        </layout>
-    </appender>
-  
-    <appender name="JSON" class="ch.qos.logback.core.ConsoleAppender">
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>
-                 %msg%n
-            </Pattern>
-        </layout>
+        <withJansi>true</withJansi>
+        <!-- encoders are assigned the type
+             ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+        <encoder>
+            <pattern>%cyan(%d{HH:mm:ss.SSS}) %gray([%thread]) %highlight(%-5level) %magenta(%logger{36}) - %msg%n</pattern>
+        </encoder>
     </appender>
 
-    <logger name="omar" level="info" additivity="false">
-        <appender-ref ref="JSON"/>
-    </logger>
-
-    <root level="error">
+    <root level="info">
         <appender-ref ref="STDOUT"/>
     </root>
+    
+    <logger name="omar" level="info" additivity="false">
+        <appender-ref ref="STDOUT"/>
+    </logger>
 
 </configuration>
