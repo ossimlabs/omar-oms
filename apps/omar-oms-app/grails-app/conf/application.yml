@@ -197,7 +197,4 @@ server:
 swagger:
   schemes:
     - HTTPS
-    - HTTP
-
-logging:
-  config: classpath:logback.groovy    
+    - HTTP  
