@@ -14,7 +14,7 @@
     </root>
     
     <logger name="omar" level="info" additivity="false">
-        <appender-ref ref="JSON"/>
+        <appender-ref ref="STDOUT"/>
     </logger>
 
 </configuration>
