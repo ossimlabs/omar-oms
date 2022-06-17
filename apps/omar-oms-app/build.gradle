@@ -1,13 +1,8 @@
-grails {
-    plugins {
-        compile project( ":${ rootProject.name }-plugin" )
-        if ( System.getenv('O2_INLINE_BUILD') ) {
-        //    compile project(":omar-core-plugin")
-        }
-    }
-}
 dependencies {
-    if ( ! System.getenv('O2_INLINE_BUILD') ) {
-    // compile "io.ossim.omar.plugins-RELEASE:omar-core-plugin:+"
-    }
+    implementation project( ":${ rootProject.name }-plugin" )
+}
+
+assets {
+    minifyJs = true
+    minifyCss = true
 }
