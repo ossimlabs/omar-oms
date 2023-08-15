@@ -1,35 +1,36 @@
+
 pluginManagement {
-	repositories {
-		mavenLocal()
-		maven { url ossimMavenProxy }
-		gradlePluginPortal()
-	}
+    repositories {
+        mavenLocal()
+        maven { url "https://repo.grails.org/grails/core/" }
+        gradlePluginPortal()
+    }
+    plugins {
+        id "org.grails.grails-web" version "6.0.0"
+        id "org.grails.grails-gsp" version "6.0.0"
+        id "com.bertramlabs.asset-pipeline" version "4.3.0"
+    }
 }
 
-rootProject.name='omar-oms'
+rootProject.name="omar-oms"
 
 [ 'lib', 'plugin', 'app' ].each { String projectType ->
-	File projectTypeDir = new File( rootDir, "${ projectType }s" )
+    File projectTypeDir = new File( rootDir, "${ projectType }s" )
 
-	if ( projectTypeDir.exists() )
-	{
-		projectTypeDir.eachDirMatch( { it.endsWith( projectType ) } ) { File subprojectDir ->
-			include subprojectDir.name
-
-			project( ":${ subprojectDir.name }" ).projectDir = subprojectDir
-		}
-	}
+    if ( projectTypeDir.exists() ) {
+        projectTypeDir.eachDirMatch( { it.endsWith( projectType ) } ) { File subprojectDir ->
+            include subprojectDir.name
+            project( ":${ subprojectDir.name }" ).projectDir = subprojectDir
+        }
+    }
 }
 
-if ( System.getenv( 'O2_INLINE_BUILD' ) )
-{
-	def modules = [ 
-           'omar-core'
-        ]
+if ( System.getenv( 'O2_INLINE_BUILD' ) ) {
+    def modules = [
+      'omar-core'
+    ]
 
-	modules.each { module ->
-		include "${ module }-plugin"
-
-		project( ":${ module }-plugin" ).projectDir = "${ rootProject.projectDir }/../${ module }/plugins/${ module }-plugin" as File
-	}
+    modules?.each { module ->
+        includeBuild  "${rootProject.projectDir.parent}/${module}"
+    }
 }

@@ -1,13 +1,29 @@
-grails {
-    plugins {
-        compile project( ":${ rootProject.name }-plugin" )
-        if ( System.getenv('O2_INLINE_BUILD') ) {
-        //    compile project(":omar-core-plugin")
-        }
-    }
+plugins {
+  id "com.github.erdi.webdriver-binaries"
+  id 'com.google.cloud.tools.jib'
 }
+
 dependencies {
-    if ( ! System.getenv('O2_INLINE_BUILD') ) {
-    // compile "io.ossim.omar.plugins-RELEASE:omar-core-plugin:+"
-    }
+  implementation project( ":${rootProject.name}-plugin" )
+  runtimeOnly "org.grails.plugins:grails-console:${grailsConsoleVersion}"
+}
+
+assets {
+  minifyJs = true
+  minifyCss = true
+}
+
+jib {
+  from {
+    image = dockerBaseImage
+  }
+  to {
+    image = "${project.name - '-app'}"
+    tags = [ 'latest' ]
+  }
+  containerizingMode = 'packaged'
+  container {
+    creationTime = 'USE_CURRENT_TIMESTAMP'
+    ports = [ '8080' ]
+  }
 }

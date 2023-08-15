@@ -1,0 +1,50 @@
+{{- if (pluck "createPVs" .Values .Values.global | first) }}
+
+  {{- range $volumeName := .Values.volumeNames }}
+  {{- $volumeDict := index $.Values.global.volumes $volumeName }}
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: "{{ $.Release.Namespace }}-{{ include "omar-oms.fullname" $ }}-{{ $volumeName }}-pv"
+spec:
+  capacity:
+    storage: {{ $volumeDict.size }}
+
+  {{- if gt (len $volumeDict.accessModes) 0 }}
+  accessModes:
+    {{- range $item := $volumeDict.accessModes }}
+    - {{ $item }}
+    {{- end }}
+  {{- end }}
+
+  {{- if eq $volumeDict.type "nfs" }}
+  nfs:
+    path: {{ $volumeDict.nfsMountPoint }}
+    server: {{ $volumeDict.nfsServer }}
+  {{- end }}
+  persistentVolumeReclaimPolicy: Retain
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: "{{ include "omar-oms.fullname" $ }}-{{ $volumeName }}-pvc"
+spec:
+
+  {{- if gt (len $volumeDict.accessModes) 0 }}
+  accessModes:
+    {{- range $item := $volumeDict.accessModes }}
+    - {{ $item }}
+    {{- end }}
+  {{- end }}
+
+  storageClassName: ""
+  resources:
+    requests:
+      storage: {{ $volumeDict.size }}
+  volumeName: "{{ $.Release.Namespace }}-{{ include "omar-oms.fullname" $ }}-{{ $volumeName }}-pv"
+
+  {{- end }}
+  {{- end }}

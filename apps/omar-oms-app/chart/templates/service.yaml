@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    {{- include "omar-oms.labels" . | nindent 4 }}
+  name: {{ include "omar-oms.fullname" . }}
+spec:
+  selector:
+    {{- include "omar-oms.selectorLabels" . | nindent 4 }}
+  ports:
+  - name: {{ .Values.internalPort }}-tcp
+    port: {{ .Values.externalPort }}
+    protocol: TCP
+    targetPort: {{ .Values.internalPort }}
+  sessionAffinity: None
+  type: ClusterIP

@@ -1,0 +1,58 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{ include "omar-oms.fullname" . }}"
+  labels:
+    {{- include "omar-oms.labels" . | nindent 4 }}
+data:
+  application.yml: |-
+    
+    omarDb:
+      name: {{ .Values.global.omarDb.name }}
+      username: {{ .Values.global.omarDb.user }}
+      password: {{ .Values.global.omarDb.password }}
+      host: {{ .Values.global.omarDb.host }}
+        
+    omar:
+      lite:
+        wms:
+          database:
+            name: {{ .Values.global.omarDb.name }}
+            username: {{ .Values.global.omarDb.user }}
+            password: {{ .Values.global.omarDb.password }}
+            host: {{ .Values.global.omarDb.host }}
+            port: {{ .Values.global.omarDb.port }}
+          styles:
+            blacksky:
+              filter: mission_id='BlackSky'
+              params:
+                bands: default
+                hist_op: auto-minmax
+                null_pixel_flip:  'false'
+            skysat-4band:
+              filter: mission_id='SkySat' and number_of_bands=4
+              params:
+                bands: 3,2,1
+                hist_op: auto-minmax
+                null_pixel_flip: 'false'
+            skysat:
+              filter: mission_id='SkySat'
+              params:
+                bands: default
+                hist_op: auto-minmax
+                null_pixel_flip:  'false'
+    micronaut:
+      config-client:
+        enabled: false
+      http:
+        client:
+          read-idle-timeout: -1
+
+    kubernetes:
+      client:
+        secure: true
+        secrets:
+          enabled: true
+        discovery:
+          enabled: false

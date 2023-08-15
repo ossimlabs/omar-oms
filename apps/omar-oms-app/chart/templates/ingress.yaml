@@ -1,0 +1,35 @@
+{{- if eq (include "omar-oms.ingress.enabled" $) "true" -}}
+{{- $annotations := merge .Values.ingress.annotations $.Values.global.ingress.annotations -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "omar-oms.fullname" . }}
+  annotations:
+    {{- range $key, $value := $annotations }}
+      {{- $key | nindent 4 }}: {{ tpl $value $ | quote }}
+    {{- end }}
+spec:
+  ingressClassName: {{ include "omar-oms.ingress.className" $ }}
+  {{- $hostnames := ternary ( list .Values.global.hostname ) .Values.hostnames ( empty .Values.hostnames ) }}
+  tls:
+  - hosts:
+    {{- range $hostname := $hostnames }}
+    - {{ $hostname }}
+    {{- end }}
+    {{- if (pluck "useTls" .Values .Values.global | first) }}
+    secretName: {{ .Values.global.sslCertSecretName }}
+    {{- end }}
+  rules:
+  {{- range $hostname := $hostnames }}
+  - host: {{ $hostname }}
+    http:
+      paths:
+      - path: {{ $.Values.ingressPath }}
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ include "omar-oms.fullname" $ }}
+            port:
+              number: {{ $.Values.internalPort }}
+  {{- end }}
+{{- end }}
