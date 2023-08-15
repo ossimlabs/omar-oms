@@ -7,7 +7,7 @@ dependencies {
   implementation "javax.media:jai_codec:${jaiCoreVersion}"
   implementation "javax.media:jai_imageio:${jaiImageIoVersion}"
   implementation "commons-pool:commons-pool:${commonsPoolVersion}"
-  implementation "org.ossim:joms:1.9.0-SNAPSHOT"
+  api "org.ossim:joms:1.9.0-SNAPSHOT"
   api "io.swagger:swagger-annotations:${swaggerVersion}"
   api 'io.ossim.omar.plugins:omar-core-plugin:+'
   implementation 'org.postgresql:postgresql'
