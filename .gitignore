@@ -14,3 +14,4 @@ out/
 .factorypath
 values-dev.yaml
 prodDb.mv.db
+bin
