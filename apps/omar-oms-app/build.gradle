@@ -18,8 +18,9 @@ jib {
     image = dockerBaseImage
   }
   to {
-    image = "${project.name - '-app'}"
-    tags = [ 'latest' ]
+//    image = "docker://${project.name - '-app'}"
+    image = "${baseDockerRepo}/${project.name - '-app'}/${project.name - '-app'}"
+    tags = [ 'latest', project.version ]
   }
   containerizingMode = 'packaged'
   container {
