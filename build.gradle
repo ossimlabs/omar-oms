@@ -2,6 +2,7 @@ plugins {
   id "com.github.erdi.webdriver-binaries" version "${ webdriverPluginVersion }" apply false
   id "com.github.ben-manes.versions" version "${ versionsPluginVersion }"
   id 'com.google.cloud.tools.jib' version "${ jibPluginVersion }" apply false
+  id 'maven-publish'
 }
 
 subprojects { project ->
@@ -12,15 +13,44 @@ subprojects { project ->
   apply plugin: 'groovy'
   apply plugin: 'idea'
   apply plugin: 'eclipse'
+  apply plugin: 'maven-publish'
 
   version projectVersion
   group = groupName
 
   repositories {
     mavenLocal()
+    if ( System.getenv( 'MAVEN_DOWNLOAD_URL' ) ) {
+      maven {
+        url System.getenv( 'MAVEN_DOWNLOAD_URL' )
+        credentials {
+          username "${ System.getenv( "MAVEN_PROXY_USERNAME" ) }"
+          password "${ System.getenv( "MAVEN_PROXY_PASSWORD" ) }"
+        }
+      }
+    }
     maven { url 'https://repo.osgeo.org/repository/release/' }
     mavenCentral()
     maven { url "https://repo.grails.org/grails/core/" }
+  }
+
+  publishing {
+    publications {
+      "${ project.name }"( MavenPublication ) {
+        from components.java
+        groupId = project.group
+        version project.version
+      }
+    }
+    repositories {
+      maven {
+        url = "${ System.getenv( 'MAVEN_PUBLISH_URL' ) }"
+        credentials {
+          username "${ System.getenv( "MAVEN_PROXY_USERNAME" ) }"
+          password "${ System.getenv( "MAVEN_PROXY_PASSWORD" ) }"
+        }
+      }
+    }
   }
 
   if ( isGrailsProject ) {
@@ -49,7 +79,7 @@ subprojects { project ->
     }
 
     dependencies {
-      developmentOnly("org.springframework.boot:spring-boot-devtools")
+      developmentOnly( "org.springframework.boot:spring-boot-devtools" )
       implementation( "org.grails:grails-core" )
       implementation( "org.grails:grails-logging" )
       implementation( "org.grails:grails-plugin-databinding" )
