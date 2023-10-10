@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ## Grails 6.0.0 Documentation
 
 - [User Guide](https://docs.grails.org/6.0.0/guide/index.html)
@@ -16,12 +15,3 @@
 
 - [Grails Asset Pipeline Core documentation](https://www.asset-pipeline.com/manual/)
 
-=======
-#omar-oms-plugin
-
-This plugin is used by the following services:
-
-* omar-mensa
-* omar-stager-core
-* omar-wcs
->>>>>>> master

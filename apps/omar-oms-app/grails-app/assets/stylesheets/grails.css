@@ -30,9 +30,7 @@ pre {
 .navbar {
     margin-bottom: 0px;
 }
-.navbar .container {
-    margin: 10px;
-}
+
 .navbar-dark a {
     color: #ffffff !important;
     font-size: 18px !important;
