@@ -1,0 +1,23 @@
+apiVersion: skaffold/v2beta7
+kind: Config
+metadata:
+  name: omar-oms
+build:
+  artifacts:
+    - image: registry.iap.maxar.com/gegd/omar/omar-oms
+      jib: 
+        project: omar-oms-app
+      context: ./apps/omar-oms-app
+  tagPolicy:
+    sha256: {}
+deploy:
+  helm:
+    releases:
+      - name: omar-oms # this is the helm release name                
+        chartPath: ./apps/omar-oms-app/chart
+        valuesFiles:
+          - ./apps/omar-oms-app/values-dev.yaml # provides values to override defaults in chart
+        namespace: omar-3pa-dev
+        setValueTemplates:
+          image.tag: latest
+          image.name: omar-oms

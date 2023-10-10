@@ -27,7 +27,14 @@
             <g:pageProperty name="page.nav"/>
         </ul>
     </div>
+</div>
 
+<<<<<<< HEAD
+<div id="spinner" class="spinner" style="display:none;">
+    <g:message code="spinner.alt" default="Loading&hellip;"/>
+</div>
+
+=======
 </nav>
 
 <g:layoutBody/>
@@ -64,6 +71,7 @@
     <g:message code="spinner.alt" default="Loading&hellip;"/>
 </div>
 
+>>>>>>> master
 <asset:javascript src="application.js"/>
 
 </body>

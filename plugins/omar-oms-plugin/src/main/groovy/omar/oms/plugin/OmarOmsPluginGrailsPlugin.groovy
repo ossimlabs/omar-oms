@@ -1,7 +1,6 @@
 package omar.oms.plugin
 
 import grails.plugins.*
-
 import omar.oms.InfoGetterPool
 import omar.oms.XmlParserPool
 

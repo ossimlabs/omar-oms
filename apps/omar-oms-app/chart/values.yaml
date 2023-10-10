@@ -1,0 +1,130 @@
+# Default values for chart.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+
+# This values file is used to support the 3pa parent chart
+# deployment. Check that chart to modify these values.
+
+fullnameOverride: "omar-oms"
+
+global:
+  extraVolumes: []
+  extraVolumeMounts: []
+
+  dockerRepository: registry.iap.maxar.com/gegd/omar
+  image:
+    pullSecrets: []
+  hostname: omar-3pa-dev.ossim.io
+
+  image:
+    registry: ""
+    pullPolicy: ""
+    pullSecrets: []
+
+  omarDb:
+    name: null
+    host: null
+    user: null
+    password: null
+    port: null
+
+  autoscaling:
+    maxReplicas: 5
+    minReplicas: 5
+
+  ingress:
+    class: nginx
+    enabled: true
+    annotations: {}
+
+  useTls: false
+  useTLSClientAuth: false
+  sslCertSecretName: null
+  authSslCertSecretName: null
+
+  autoscaling:
+    enabled: true
+
+  createPVs: true
+  useSpringConfigServer: false
+
+  deployment:
+    annotations: {}
+
+  serviceAccount:
+    enabled: false
+    annotations: {}
+    # name:
+
+  envVars: {}
+  envFrom: []
+  nodeSelector: {}
+  affinity: {}
+  tolerations: []
+
+image:
+  name: omar-oms
+  tag: null
+  pullPolicy: null
+
+envVars: {}
+
+ingress:
+  enabled:
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+  # kubernetes.io/tls-acme: "true"
+  class: # defaults to nginx if not set
+
+ingressPath: /omar-oms
+internalPort: 8080
+externalPort: 8080
+
+readinessProbe:
+  path: /actuator/health
+  port: 8080
+  failureThreshold: 15
+  initialDelaySeconds: 15
+  periodSeconds: 15
+  successThreshold: 1
+  timeoutSeconds: 3
+
+livenessProbe:
+  path: /actuator/health
+  port: 8080
+  failureThreshold: 3
+  initialDelaySeconds: 15
+  periodSeconds: 15
+  successThreshold: 1
+  timeoutSeconds: 3
+
+resources:
+  limits:
+    cpu: 4
+    memory: 4Gi
+  requests:
+    cpu: 2
+    memory: 2Gi
+
+autoscaling:
+  enabled:
+  #targetCpu: 80
+  #targetMemory: 70
+
+deployment:
+  annotations: {}
+
+envFrom: []
+nodeSelector: {}
+affinity: {}
+tolerations: []
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  enabled: null
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and enabled is true, a name is generated using the fullname template
+  # name:

@@ -1,0 +1,85 @@
+{{- $annotations := merge .Values.deployment.annotations $.Values.global.deployment.annotations -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    {{- include "omar-oms.labels" . | nindent 4 }}
+  name: {{ include "omar-oms.fullname" . }}
+  annotations:
+  {{- range $key, $value := $annotations }}
+    {{- $key | nindent 4 }}: {{ tpl $value $ | quote }}
+  {{- end }}
+spec:
+  {{- if eq (include "omar-oms.autoscaling.enabled" $) "false" }}
+  replicas: {{ .Values.replicas }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "omar-oms.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "omar-oms.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          env:
+          {{- include "omar-oms.envVars" . | indent 8 }}
+          envFrom:
+            {{- with (concat .Values.envFrom .Values.global.envFrom) }}
+            {{- tpl (toYaml .) $ | nindent 12 }}
+            {{- end }}
+          image: {{ include "omar-oms.image" . | quote }}
+          imagePullPolicy: {{ include "omar-oms.pullPolicy" . }}
+          livenessProbe:
+            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+            successThreshold: {{ .Values.livenessProbe.successThreshold }}
+            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+            httpGet:
+              path: {{ .Values.ingressPath }}{{ .Values.livenessProbe.path }}
+              port: {{ .Values.livenessProbe.port }}
+              scheme: HTTP
+          readinessProbe:
+            failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+            successThreshold: {{ .Values.readinessProbe.successThreshold }}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+            httpGet:
+              path: {{ .Values.ingressPath }}{{ .Values.readinessProbe.path }}
+              port: {{ .Values.readinessProbe.port }}
+              scheme: HTTP
+          ports:
+            - containerPort: {{ .Values.internalPort }}
+              protocol: TCP
+          resources:
+            limits:
+              cpu: {{ .Values.resources.limits.cpu }}
+              memory: {{ .Values.resources.limits.memory }}
+            requests:
+              cpu: {{ .Values.resources.requests.cpu }}
+              memory: {{ .Values.resources.requests.memory }}
+          volumeMounts:
+            {{- include "omar-oms.volumeMounts" . | nindent 12 }}
+      dnsPolicy: ClusterFirst
+      {{- include "omar-oms.imagePullSecrets" . | indent 6 }}
+      restartPolicy: Always
+      securityContext: {}
+      serviceAccountName: {{ include "omar-oms.serviceAccount.name" . }}
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
+      {{- with merge .Values.nodeSelector .Values.global.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with merge .Values.affinity .Values.global.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with concat .Values.tolerations .Values.global.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        {{- include "omar-oms.volumes" . | nindent 8 }}

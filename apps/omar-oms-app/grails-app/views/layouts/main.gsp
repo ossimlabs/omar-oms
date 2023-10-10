@@ -27,6 +27,7 @@
             <g:pageProperty name="page.nav"/>
         </ul>
     </div>
+</div>
 
 </nav>
 

@@ -1,0 +1,137 @@
+global:
+  createImagePullSecret: false
+  useTls: true
+  useTLSClientAuth: false
+  sslCertSecretName: ssl-certs
+  authSslCertSecretName: pki-ssl-certs
+
+  image:
+    registry: registry.iap.maxar.com/gegd/omar
+    pullPolicy: "IfNotPresent" # "Always" in dev/test, "IfNotPresent" in prod
+    pullSecrets:
+      - pull-secret
+
+  busybox:
+    image:
+      repository: busybox
+
+  ingress:
+    enabled: true
+    class: nginx
+    annotations: {}
+      # cert-manager.io/cluster-issuer: letsencrypt-prod
+
+  deployment:
+    annotations: {}
+
+  serviceAccount:
+    annotations: {}
+
+  envVars:
+    SPRING_CLOUD_DISCOVERY_ENABLED: false
+
+  hostname: omar-3pa-dev.ossim.io
+  domain: ossim.io
+  useSpringConfigServer: true
+
+  omarDb:
+    name: ${OMARDB_NAME}
+    host: ${OMARDB_HOST}
+    user: ${OMARDB_USER}
+    password: ${OMARDB_PASSWORD}
+    port: 5432
+
+  volumes:
+    basemap-cache:
+      type: nfs
+      nfsServer: filegateway.omar-3pa-dev.private.maxar.com
+      nfsMountPoint: /omar-3pa-dev-basemap-cache-nfs
+      accessModes:
+        - ReadWriteMany
+      size: 100Gi
+      mountPath: /mapproxy
+
+    basemap-data:
+      type: nfs
+      nfsServer: filegateway.omar-3pa-dev.private.maxar.com
+      nfsMountPoint: /omar-3pa-dev-basemap-nfs
+      accessModes:
+        - ReadOnlyMany
+      size: 75Gi
+      mountPath: /data
+
+    elevation:
+      type: nfs
+      nfsServer: filegateway.omar-3pa-dev.private.maxar.com
+      nfsMountPoint: /omar-3pa-dev-elevation
+      accessModes:
+        - ReadWriteMany
+      size: 75Gi
+      mountPath: /data
+
+    maxar-blacksky-data:
+      type: nfs
+      nfsServer: filegateway.omar-3pa-dev.private.maxar.com
+      nfsMountPoint: /omar-3pa-dev-blacksky
+      accessModes:
+        - ReadWriteMany
+      size: 500Gi
+      mountPath: /3pa-blacksky
+
+    maxar-skysat-data:
+      type: nfs
+      nfsServer: filegateway.omar-3pa-dev.private.maxar.com
+      nfsMountPoint: /omar-3pa-dev-skysat
+      accessModes:
+        - ReadWriteMany
+      size: 500Gi
+      mountPath: /3pa-skysat
+
+    maxar-comsar-data:
+      type: nfs
+      nfsServer: filegateway.omar-3pa-dev.private.maxar.com
+      nfsMountPoint: /omar-3pa-dev-comsar
+      accessModes:
+        - ReadWriteMany
+      size: 500Gi
+      mountPath: /3pa-comsar
+
+sslCertSecretName: ssl-certs
+
+autoscaling:
+  maxReplicas: 1
+  minReplicas: 1
+volumeNames:
+  - elevation
+  - maxar-blacksky-data
+  - maxar-skysat-data
+  - maxar-comsar-data
+resources:
+  limits:
+    cpu: 4
+    memory: 4G
+  requests:
+    cpu: 2
+    memory: 2G
+
+extraVolumeMounts:
+  - name: scratch
+    mountPath: /scratch
+
+extraVolumes:
+  - name: scratch
+    emptyDir: {}
+
+configmaps:
+  omar-oms:
+    file: application.yml
+    mountPath: /home/omar/config
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  enabled: true
+  # Annotations to add to the service account
+  #annotations:
+    # The name of the service account to use.
+    # If not set and enabled is true, a name is generated using the fullname template
+    # name:

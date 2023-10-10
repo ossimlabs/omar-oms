@@ -98,11 +98,11 @@ hibernate:
         use_second_level_cache: false
         use_query_cache: false
 dataSource:
-    pooled: true
-    jmxExport: true
-    driverClassName: org.h2.Driver
-    username: sa
-    password: ''
+  driverClassName: org.postgresql.Driver
+  username: ${omarDb.username}
+  password: ${omarDb.password}
+  pooled: true
+  jmxExport: true
 
 environments:
     development:
