@@ -2,7 +2,6 @@ Thumbs.db
 .DS_Store
 .gradle
 build/
-target/
 out/
 .idea
 *.iml
@@ -11,8 +10,13 @@ out/
 .project
 .settings
 .classpath
-.factorypath
-values-dev.yaml
 prodDb.mv.db
 bin
-.assetcache
+package.json
+package-lock.json
+node_modules/
+cypress/screenshots/
+cypress/videos/
+cypress/plugins/
+cypress/support/
+results/
